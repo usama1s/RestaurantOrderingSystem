@@ -15,10 +15,12 @@ export function AddItem() {
   const {updateModalStatus}=useAdminCtx()
   const inputRef=useRef()
   //Form Data
+  const [select,setSelect]=React.useState('')
   const formik = useFormik({
     initialValues: {
       title: "",
       price: 0,
+      description:''
     },
     validationSchema: validation_schema_food_items,
     onSubmit: onSubmit,
@@ -114,7 +116,29 @@ export function AddItem() {
               )}
             </div>
           </div>
-
+          <div>
+            <label
+              htmlFor=""
+              className="text-xl font-medium text-gray-900 dark:text-gray-200"
+            >
+              Description
+            </label>
+            <div className="mt-2.5">
+              <input
+                className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:text-gray-50 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-900"
+                placeholder="Description"
+                name="description"
+                onChange={formik.handleChange}
+                value={formik.values.description}
+                onBlur={formik.handleBlur}
+              ></input>
+              {formik.touched.description && formik.errors.description ? (
+                <p className="my-2">{formik.errors.description}</p>
+              ) : (
+                ""
+              )}
+            </div>
+          </div>
           <div>
             <div className="flex items-center justify-between">
               <label
