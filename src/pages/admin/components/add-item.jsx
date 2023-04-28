@@ -7,6 +7,8 @@ import { food_items_storage_path } from "../../../utils/storage-refs";
 import { COLLECTIONS } from "../../../utils/firestore-collections";
 import { db,storage } from "../../../config/@firebase";
 import { useAdminCtx } from "../../../context/AdminCtx";
+import { useCollection } from "react-firebase-hooks/firestore";
+import {formatCollectionData} from '../../../utils/formatData'
 export function AddItem() {
   const [file,setFile]=useState(null)
   const [fileUploadError,setFileUploadError]=useState(null)
@@ -14,8 +16,18 @@ export function AddItem() {
   const [status,setStatus]=useState({loading:false,error:null})
   const {updateModalStatus}=useAdminCtx()
   const inputRef=useRef()
+ 
+  const [value, loading, error] = useCollection(
+    collection(db, COLLECTIONS.categories),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
+
+  const formattedData=formatCollectionData(value)
+  const [category,setCategory]=useState(value?.[0]?.title || '')
+  console.log(category)
   //Form Data
-  const [select,setSelect]=React.useState('')
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -48,6 +60,7 @@ export function AddItem() {
     }
 
   }, [file]);
+  
     //
    
     async function onSubmit(values,actions) {
@@ -64,7 +77,7 @@ export function AddItem() {
       const foodItemStorageRef=ref(storage, food_items_storage_path(file.name))
       await uploadBytes(foodItemStorageRef, file).then((snapshot) => {
           getDownloadURL(snapshot.ref).then(async(downloadURL) => {
-            await addDoc(collection_ref,{...values,timestamp:serverTimestamp(),imageURL:downloadURL})
+            await addDoc(collection_ref,{...values,category,timestamp:serverTimestamp(),imageURL:downloadURL})
             });
         });
         // setStatus(prev=>({...prev,loading:false,error:null}))
@@ -86,10 +99,11 @@ export function AddItem() {
       setFile(null)
       setFileUploadError(null)
       setFileDataURL(null)
-      actions.resetForm({title:'',price:0})
+      actions.resetForm({title:'',price:0,description:''})
     }
   return (
-    <div>
+   <>
+   {loading ?<div><h1>Loading..</h1></div>: <div>
       <h1 className="font-bold text-3xl py-3">Add Item</h1>
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-5">
@@ -166,7 +180,22 @@ export function AddItem() {
               )}
             </div>
           </div>
-
+          <div>
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor=""
+                className="text-xl font-medium text-gray-900 dark:text-gray-200"
+              >
+               Select
+              </label>
+            </div>
+            <div className="mt-2.5">
+              <select value={category} onChange={(e)=>setCategory(e.target.value)}>
+                <option value=''></option>
+                {formattedData?.map(({title},index)=><option key={index} value={title}>{title}</option>)}
+              </select>
+            </div>
+          </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-between">
          
@@ -206,6 +235,7 @@ export function AddItem() {
         </div>
       </form>
      
-    </div>
+    </div>}
+   </>
   );
 }
