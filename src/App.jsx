@@ -4,7 +4,6 @@ import { Navbar } from "./components/reusables/navbar";
 function App() {
  
   return (<div>
-    <Navbar/>
     <Router/>
   </div>)
 }

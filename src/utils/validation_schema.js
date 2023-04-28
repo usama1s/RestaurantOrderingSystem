@@ -11,3 +11,7 @@ export const validation_schema_form  =Yup.object({
       .required("Title is required."),
     price:Yup.number("Price is required and must be a positive number.").required('Price is required and must be a positive number.').positive("Price is required and must be a positive number.")
   })
+  export const validation_schema_food_categories  =Yup.object({
+    title: Yup.string()
+      .required("Title is required."),
+  })

@@ -6,11 +6,13 @@ import { ref, uploadBytes,getDownloadURL } from "firebase/storage";
 import { food_items_storage_path } from "../../../utils/storage-refs";
 import { COLLECTIONS } from "../../../utils/firestore-collections";
 import { db,storage } from "../../../config/@firebase";
+import { useAdminCtx } from "../../../context/AdminCtx";
 export function AddItem() {
   const [file,setFile]=useState(null)
   const [fileUploadError,setFileUploadError]=useState(null)
   const [fileDataURL, setFileDataURL] = useState(null);
   const [status,setStatus]=useState({loading:false,error:null})
+  const {updateModalStatus}=useAdminCtx()
   const inputRef=useRef()
   //Form Data
   const formik = useFormik({
@@ -70,6 +72,7 @@ export function AddItem() {
       }
       finally{
         reset(actions)
+        updateModalStatus(null,false)
         setStatus(prev=>({...prev,loading:false,error:null}))
       }
     
@@ -85,19 +88,19 @@ export function AddItem() {
     }
   return (
     <div>
-      <h1>Add Item</h1>
+      <h1 className="font-bold text-3xl py-3">Add Item</h1>
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-5">
           <div>
             <label
               htmlFor=""
-              className="text-base font-medium text-gray-900 dark:text-gray-200"
+              className="text-xl font-medium text-gray-900 dark:text-gray-200"
             >
               Title
             </label>
             <div className="mt-2.5">
               <input
-                className="flex w-full h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:text-gray-50 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-900"
+                className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:text-gray-50 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-900"
                 placeholder="Title"
                 name="title"
                 onChange={formik.handleChange}
@@ -116,7 +119,7 @@ export function AddItem() {
             <div className="flex items-center justify-between">
               <label
                 htmlFor=""
-                className="text-base font-medium text-gray-900 dark:text-gray-200"
+                className="text-xl font-medium text-gray-900 dark:text-gray-200"
               >
                 Price
               </label>
@@ -145,7 +148,7 @@ export function AddItem() {
          
               <label
                 htmlFor=""
-                className="text-base font-medium text-gray-900 dark:text-gray-200"
+                className="text-xl font-medium text-gray-900 dark:text-gray-200"
               >
                 Add Image for the item.
               </label>
@@ -171,7 +174,7 @@ export function AddItem() {
             <button
               type="submit"
               disabled={status.loading}
-              className="inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
+              className="inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5  font-regular leading-7 text-white hover:bg-indigo-500 text-xl"
             >
              {status.loading ? 'Adding...' :'Add an item.'}
             </button>
