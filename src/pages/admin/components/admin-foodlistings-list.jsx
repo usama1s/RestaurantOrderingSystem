@@ -17,7 +17,8 @@ export function AdminFoodlistings(){
       if(loading) return <h1>Loading...</h1>
     return <div>
        <h1 className="text-2xl py-2">
-       {formattedData?.length>0? formattedData?.map(data=> <AdminFoodlistingsItem key={data.slug} {...data}/>) :<h1>List is empty..</h1>}
+       {formattedData?.length>0 && formattedData?.map(data=> <AdminFoodlistingsItem key={data.slug} {...data}/>)}
+       {formattedData?.length===0 &&  <h1>List is empty..</h1>}
        </h1>
        
     </div>
