@@ -9,6 +9,13 @@ export function CtxProvider({ children }) {
   const [authStatus, setAuthStatus] = useState(false);
   const [editedCategoryValue, setEditCategoryValue] = useState(null);
   const [editedItemValue, setEditedItemValue] = useState(null);
+  const [managerSidebarLinks, setManagerSidebarLinks] = useState([
+    { title: "Dashboard", active: true },
+    { title: "Order", active: false },
+    { title: "Tables", active: false },
+    { title: "Categories", active: false },
+    { title: "Menu Items", active: false },
+  ]);
   // console.log(editedItemValue);
   const updateActiveTab = (tab) => {
     setActiveTab(tab);
@@ -21,6 +28,16 @@ export function CtxProvider({ children }) {
   };
   const updateItemValue = (value) => {
     setEditedItemValue(value);
+  };
+  const updateManagerSidebarLinks = (title) => () => {
+    setManagerSidebarLinks(
+      managerSidebarLinks.map((link) =>
+        link.title === title
+          ? { ...link, active: true }
+          : { ...link, active: false }
+      )
+    );
+    updateActiveTab(title);
   };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
@@ -43,6 +60,8 @@ export function CtxProvider({ children }) {
         updateCategoryValue,
         updateItemValue,
         editedItemValue,
+        managerSidebarLinks,
+        updateManagerSidebarLinks,
       }}
     >
       {children}

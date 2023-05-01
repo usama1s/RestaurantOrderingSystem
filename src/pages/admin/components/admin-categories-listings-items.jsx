@@ -20,7 +20,7 @@ export function AdminCategoriesListingsItems({ slug, title }) {
     updateModalStatus(true, <EditCategory />);
   };
   return (
-    <div className="flex items-center bg-gray-200 w-[80%] p-2 rounded-md my-2 relative">
+    <div className="flex items-center  bg-[#FBFBFB] shadow-md w-[90%] p-2 rounded-md my-4 relative">
       <div>
         <h3 className="font-bold text-2xl">{title}</h3>
       </div>

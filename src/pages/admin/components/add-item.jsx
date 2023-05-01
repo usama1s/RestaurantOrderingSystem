@@ -84,7 +84,6 @@ export function AddItem() {
   //
 
   async function onSubmit(values, actions) {
-    console.log("Added");
     const collection_ref = collection(db, COLLECTIONS.food_items);
     setFileUploadError(null);
     setStatus((prev) => ({ ...prev, loading: true }));

@@ -112,7 +112,7 @@ export const LoginAdmin = () => {
                   type="submit"
                   className="inline-flex w-full  items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-xl font-regular leading-7 text-white hover:bg-indigo-500"
                 >
-                  {status.loading ? "Loading..." : "Login"}
+                  Login
                 </button>
               </div>
             </div>

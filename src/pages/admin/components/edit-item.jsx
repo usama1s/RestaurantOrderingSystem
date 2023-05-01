@@ -8,6 +8,7 @@ import {
   serverTimestamp,
   getDocs,
   query,
+  doc,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { food_items_storage_path } from "../../../utils/storage-refs";
@@ -27,7 +28,12 @@ export function EditItem() {
     ? [{ title: "" }, ...formatCollectionData(value)]
     : null;
   const [status, setStatus] = useState({ loading: false, error: null });
-  const { editedItemValue } = useCtx();
+  const [file, setFile] = useState(null);
+  const [fileUploadError, setFileUploadError] = useState(null);
+  const [fileDataURL, setFileDataURL] = useState(null);
+  const inputRef = useRef();
+  const [fileChanged, setFileChanged] = useState(false);
+  const { editedItemValue, updateItemValue, updateModalStatus } = useCtx();
   const formik = useFormik({
     initialValues: {
       title: editedItemValue.title,
@@ -53,9 +59,95 @@ export function EditItem() {
     };
     fetchCategories();
   }, []);
+  useEffect(() => {
+    setFileUploadError(null);
+    setFileDataURL(editedItemValue.imageURL);
+    setFileChanged(false);
+    let fileReader,
+      isCancel = false;
+    if (file) {
+      fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        const { result } = e.target;
+        if (result && !isCancel) {
+          setFileDataURL(result);
+          setFileChanged(true);
+        }
+      };
+      fileReader.readAsDataURL(file);
+    }
+    return () => {
+      isCancel = true;
+      if (fileReader && fileReader.readyState === 1) {
+        fileReader.abort();
+      }
+    };
+  }, [file]);
   console.log(formik.values.category);
   //fns
-
+  async function onSubmit(values, actions) {
+    const collection_ref = doc(
+      db,
+      COLLECTIONS.food_items,
+      editedItemValue.slug
+    );
+    setFileUploadError(null);
+    setStatus((prev) => ({ ...prev, loading: true }));
+    if (!fileChanged) {
+      await updateDoc(collection_ref, {
+        ...editedItemValue,
+        timestamp: serverTimestamp(),
+        ...values,
+      });
+      updateModalStatus(null, false);
+      updateItemValue(null);
+      reset(actions);
+      return;
+    }
+    if (!file) {
+      setStatus((prev) => ({ ...prev, loading: false }));
+      setFileUploadError(`File is required.`);
+      return;
+    }
+    try {
+      const foodItemStorageRef = ref(
+        storage,
+        food_items_storage_path(file.name)
+      );
+      await uploadBytes(foodItemStorageRef, file).then((snapshot) => {
+        getDownloadURL(snapshot.ref).then(async (downloadURL) => {
+          await updateDoc(collection_ref, {
+            ...values,
+            timestamp: serverTimestamp(),
+            imageURL: downloadURL,
+          });
+        });
+      });
+      updateModalStatus(null, false);
+      updateItemValue(null);
+      // setStatus(prev=>({...prev,loading:false,error:null}))
+    } catch (e) {
+      setStatus((prev) => ({
+        ...prev,
+        loading: false,
+        error: `Error adding the item.`,
+      }));
+      updateModalStatus(null, false);
+    } finally {
+      reset(actions);
+    }
+  }
+  const setImage = (e) => {
+    setFile(e.target.files[0]);
+  };
+  const reset = (actions) => {
+    setFile(null);
+    setFileUploadError(null);
+    setFileDataURL(null);
+    actions.resetForm({ title: "", price: 0, description: "", category: "" });
+    setCategoryError(null);
+    updateItemValue(null);
+  };
   //jsx
   const formJSX = (
     <div>
@@ -151,7 +243,7 @@ export function EditItem() {
             )}
           </div>
 
-          {/* <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between">
             <div className="flex items-center justify-between">
               <label htmlFor="" className="text-xl font-medium text-gray-900">
                 Add Image for the item.
@@ -179,8 +271,8 @@ export function EditItem() {
                 />
               </div>
             )}
-          </div> */}
-          {/* {fileUploadError && <p>{fileUploadError}</p>} */}
+          </div>
+          {fileUploadError && <p>{fileUploadError}</p>}
           {status.error && <p>{status.error}</p>}
           <div>
             <button
@@ -195,10 +287,7 @@ export function EditItem() {
       </form>
     </div>
   );
-  //
-  function onSubmit(values) {
-    console.log(values);
-  }
+
   return (
     <div>
       {" "}
