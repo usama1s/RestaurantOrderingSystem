@@ -3,29 +3,35 @@ import { useFormik } from "formik";
 import { validation_schema_food_categories } from "../../../utils/validation_schema";
 import {
   collection,
-  addDoc,
+  updateDoc,
   serverTimestamp,
   getDocs,
   query,
   where,
+  doc,
 } from "firebase/firestore";
 import { COLLECTIONS } from "../../../utils/firestore-collections";
 import { db } from "../../../config/@firebase";
 import { useCtx } from "../../../context/Ctx";
-export function AddCategories() {
-  const { updateModalStatus } = useCtx();
+export function EditCategory() {
+  const { editedCategoryValue, updateModalStatus, updateCategoryValue } =
+    useCtx();
 
   //Form Data
   const formik = useFormik({
     initialValues: {
-      title: "",
+      title: editedCategoryValue.title,
     },
     validationSchema: validation_schema_food_categories,
     onSubmit: onSubmit,
   });
   const [status, setStatus] = useState({ loading: false, error: null });
   async function onSubmit(values, actions) {
-    const collection_ref = collection(db, COLLECTIONS.categories);
+    const collection_ref = doc(
+      db,
+      COLLECTIONS.categories,
+      editedCategoryValue.slug
+    );
     setStatus((prev) => ({ ...prev, loading: true }));
 
     try {
@@ -44,7 +50,7 @@ export function AddCategories() {
         });
         return;
       } else {
-        await addDoc(collection_ref, {
+        await updateDoc(collection_ref, {
           ...values,
           timestamp: serverTimestamp(),
         });
@@ -62,6 +68,7 @@ export function AddCategories() {
   }
   const reset = (actions) => {
     actions.resetForm({ title: "" });
+    updateCategoryValue(null);
   };
   return (
     <div>
@@ -94,7 +101,7 @@ export function AddCategories() {
             disabled={status.loading}
             className="inline-flex w-full items-center justify-center rounded-md bg-indigo-600 px-3.5 py-2.5 text-base font-semibold leading-7 text-white hover:bg-indigo-500"
           >
-            {status.loading ? "Adding..." : "Add an item."}
+            {status.loading ? "Updating..." : "Update."}
           </button>
         </div>
       </form>

@@ -7,11 +7,20 @@ export function CtxProvider({ children }) {
   const [activeTab, setActiveTab] = useState("Categories");
   const [authenticatedUser, setAuthenticatedUser] = useState(null);
   const [authStatus, setAuthStatus] = useState(false);
+  const [editedCategoryValue, setEditCategoryValue] = useState(null);
+  const [editedItemValue, setEditedItemValue] = useState(null);
+  // console.log(editedItemValue);
   const updateActiveTab = (tab) => {
     setActiveTab(tab);
   };
   const updateModalStatus = (status, jsx) => {
     setModalStatus({ ...status, jsx, status });
+  };
+  const updateCategoryValue = (value) => {
+    setEditCategoryValue(value);
+  };
+  const updateItemValue = (value) => {
+    setEditedItemValue(value);
   };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
@@ -30,6 +39,10 @@ export function CtxProvider({ children }) {
         authenticatedUser,
         setAuthenticatedUser,
         authStatus,
+        editedCategoryValue,
+        updateCategoryValue,
+        updateItemValue,
+        editedItemValue,
       }}
     >
       {children}

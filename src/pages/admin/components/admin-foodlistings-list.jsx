@@ -7,17 +7,17 @@ import { COLLECTIONS } from "../../../utils/firestore-collections";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/solid";
 import { useCtx } from "../../../context/Ctx";
 import { AddItem } from "../components/add-item";
+import Loading from "../../../components/reusables/Loading";
 const { food_items } = COLLECTIONS;
 export function AdminFoodlistings() {
   const [value, loading, error] = useCollection(collection(db, food_items), {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
   const formattedData = formatCollectionData(value);
-  console.table(formattedData);
+  // console.table(formattedData);
   const { updateModalStatus } = useCtx();
   if (error) return <h1>Error fetching items..</h1>;
-  if (loading)
-    return <h1 className="text-bold text-center text-2xl">Loading...</h1>;
+  if (loading) return <Loading />;
   return (
     <div>
       <div className="flex items-center justify-between py-4">

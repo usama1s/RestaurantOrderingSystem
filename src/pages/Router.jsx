@@ -8,16 +8,11 @@ import { ROUTES } from "../utils/routes";
 import { auth } from "../config/@firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { ProtectedRoute } from "../components/reusables/protected_route";
-import { useCallback, useEffect, useState } from "react";
-import { doc, getDoc } from "firebase/firestore";
-import { COLLECTIONS } from "../utils/firestore-collections";
-import { db } from "../config/@firebase";
-import { ROLES } from "../utils/roles";
+
 import { useCtx } from "../context/Ctx";
 export function Router() {
   const [user, loading, error] = useAuthState(auth);
   const { authenticatedUser, authStatus } = useCtx();
-  console.log(authenticatedUser);
 
   return (
     <div>

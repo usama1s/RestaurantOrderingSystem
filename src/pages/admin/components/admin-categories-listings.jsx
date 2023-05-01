@@ -8,6 +8,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { collection } from "firebase/firestore";
 import { COLLECTIONS } from "../../../utils/firestore-collections";
 import { AdminCategoriesListingsItems } from "./admin-categories-listings-items";
+import Loading from "../../../components/reusables/Loading";
 const { categories } = COLLECTIONS;
 export function AdminCategoryListings() {
   const { updateModalStatus } = useCtx();
@@ -17,8 +18,7 @@ export function AdminCategoryListings() {
   const formattedData = formatCollectionData(value);
 
   if (error) return <h1>Error fetching items..</h1>;
-  if (loading)
-    return <h1 className="text-bold text-center text-2xl">Loading...</h1>;
+  if (loading) return <Loading />;
   return (
     <div>
       <div className="flex items-center justify-between py-4 ">
