@@ -13,11 +13,9 @@ import { useCtx } from "../context/Ctx";
 import { Manager } from "./manager";
 export function Router() {
   return (
-    <div>
-      <Routes>
-        <Route element={<Manager />} path={ROUTES.all} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route element={<Manager />} path={ROUTES.all} />
+    </Routes>
   );
 }
 // {authStatus && (

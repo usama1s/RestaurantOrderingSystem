@@ -1,16 +1,34 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../config/@firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import { RiDashboardFill } from "react-icons/ri";
 const Ctx = createContext();
 export function CtxProvider({ children }) {
   const [modalStatus, setModalStatus] = useState({ status: false, jsx: null });
   const [activeTab, setActiveTab] = useState("Dashboard");
+  const [managerSidebarToggle, setManagerSidebarToggle] = useState(false);
+  console.log(managerSidebarToggle);
   const [managerSidebarLinks, setManagerSidebarLinks] = useState([
-    { title: "Dashboard", active: true },
-    { title: "Orders", active: false },
-    { title: "Tables", active: false },
-    { title: "Categories", active: false },
-    { title: "Products", active: false },
+    {
+      title: "Dashboard",
+      active: true,
+    },
+    {
+      title: "Orders",
+      active: false,
+    },
+    {
+      title: "Tables",
+      active: false,
+    },
+    {
+      title: "Categories",
+      active: false,
+    },
+    {
+      title: "Products",
+      active: false,
+    },
   ]);
   const [authenticatedUser, setAuthenticatedUser] = useState(null);
   const [authStatus, setAuthStatus] = useState(false);
@@ -38,6 +56,8 @@ export function CtxProvider({ children }) {
     );
     updateActiveTab(title);
   };
+  const updateManagerSidebarToggle = (value) => () =>
+    setManagerSidebarToggle(value);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       setAuthenticatedUser(authUser);
@@ -60,6 +80,8 @@ export function CtxProvider({ children }) {
         updateItemValue,
         editedItemValue,
         managerSidebarLinks,
+        managerSidebarToggle,
+        updateManagerSidebarToggle,
         updateManagerSidebarLinks,
       }}
     >
