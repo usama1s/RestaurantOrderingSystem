@@ -8,7 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { COLLECTIONS } from "../../utils/firestore-collections";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { validation_schema_form } from "../../utils/validation_schema";
+import { useCtx } from "../../context/Ctx";
 export const LoginAdmin = () => {
+  const { setAuthenticatedUser } = useCtx();
   const { admin } = ROUTES;
   const navigate = useNavigate();
   const [status, setStatus] = React.useState({
@@ -24,6 +26,7 @@ export const LoginAdmin = () => {
     validationSchema: validation_schema_form,
     onSubmit: onSubmit,
   });
+
   async function onSubmit(values) {
     setStatus((prev) => ({ ...prev, loading: true }));
     try {
@@ -35,6 +38,7 @@ export const LoginAdmin = () => {
       const userDocument =
         user && (await getDoc(doc(db, COLLECTIONS.users, user?.user?.uid)));
       if (userDocument.data().role === ROLES.ADMIN) {
+        setAuthenticatedUser({ ...user, ...userDocument });
         setStatus((prev) => ({ ...prev, loading: false, error: null }));
         navigate(admin);
       }
@@ -54,15 +58,12 @@ export const LoginAdmin = () => {
           <form onSubmit={formik.handleSubmit}>
             <div className="space-y-5">
               <div>
-                <label
-                  htmlFor=""
-                  className="text-xl font-medium text-gray-900 dark:text-gray-200"
-                >
+                <label htmlFor="" className="text-xl font-medium text-gray-900">
                   Email address
                 </label>
                 <div className="mt-2.5">
                   <input
-                    className="flex w-full h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:text-gray-50 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-900"
+                    className="flex w-full h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm  focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                     placeholder="Email"
                     name="email"
                     onChange={formik.handleChange}
@@ -81,14 +82,14 @@ export const LoginAdmin = () => {
                 <div className="flex items-center justify-between">
                   <label
                     htmlFor=""
-                    className="text-xl font-medium text-gray-900 dark:text-gray-200"
+                    className="text-xl font-medium text-gray-900"
                   >
                     Password
                   </label>
                 </div>
                 <div className="mt-2.5">
                   <input
-                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:text-gray-50 dark:focus:ring-gray-400 dark:focus:ring-offset-gray-900"
+                    className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 "
                     //   type="password"
                     placeholder="Password"
                     name="password"

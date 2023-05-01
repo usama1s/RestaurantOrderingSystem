@@ -1,9 +1,9 @@
 import { useState, useEffect, Fragment } from "react";
-import SideBar from "./adminsidebar";
-import TopBar from "./topbar";
+import { SideBar } from "./sidebar";
+import { TopBar } from "./topbar";
 import { Transition } from "@headlessui/react";
 
-export default function Layout({ children }) {
+export function Layout({ children }) {
   const [showNav, setShowNav] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
 
