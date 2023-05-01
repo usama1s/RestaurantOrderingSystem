@@ -4,12 +4,11 @@ import { onAuthStateChanged } from "firebase/auth";
 const Ctx = createContext();
 export function CtxProvider({ children }) {
   const [modalStatus, setModalStatus] = useState({ status: false, jsx: null });
-  const [activeTab, setActiveTab] = useState("Categories");
+  const [activeTab, setActiveTab] = useState("Dashboard");
   const [authenticatedUser, setAuthenticatedUser] = useState(null);
   const [authStatus, setAuthStatus] = useState(false);
   const [editedCategoryValue, setEditCategoryValue] = useState(null);
   const [editedItemValue, setEditedItemValue] = useState(null);
-  // console.log(editedItemValue);
   const updateActiveTab = (tab) => {
     setActiveTab(tab);
   };
