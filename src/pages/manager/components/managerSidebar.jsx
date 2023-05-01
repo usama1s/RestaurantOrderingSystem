@@ -31,7 +31,7 @@ export function ManagerSidebar() {
     >
       <div className="flex items-center w-full px-3 mt-3">
         <MdRestaurantMenu size={24} />
-        <span className="ml-2 text-xs md:text-sm font-bold">Indian Gates</span>
+        <span className="ml-2 text-xs md:text-sm font-bold">India Gate</span>
       </div>
       <div className="w-full px-2">
         <div className="flex flex-col items-center w-full mt-3 border-t border-gray-300">

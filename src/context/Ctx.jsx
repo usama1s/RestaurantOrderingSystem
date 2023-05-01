@@ -18,7 +18,7 @@ export function CtxProvider({ children }) {
       active: false,
     },
     {
-      title: "Tables",
+      title: "Lobby",
       active: false,
     },
     {
