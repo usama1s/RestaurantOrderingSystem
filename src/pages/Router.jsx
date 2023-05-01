@@ -1,13 +1,9 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-//importing components
-import { Admin } from "./admin/admin";
-import { LoginAdmin } from "./admin/login-admin";
-import { FoodListings } from "./food-listings/food-listings";
+
 //utils
 import { ROUTES } from "../utils/routes";
 import { auth } from "../config/@firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { ProtectedRoute } from "../components/reusables/protected_route";
 
 import { useCtx } from "../context/Ctx";
 import { Manager } from "./manager";
