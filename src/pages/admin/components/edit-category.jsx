@@ -72,7 +72,7 @@ export function EditCategory() {
   };
   return (
     <div>
-      <h1 className="font-bold text-3xl py-4 pt-8">Add a Category</h1>
+      <h1 className="font-bold text-3xl py-4 pt-8">Update Category</h1>
       <form className="mt-16" onSubmit={formik.handleSubmit}>
         <div>
           <label htmlFor="" className="text-xl font-medium text-gray-900">

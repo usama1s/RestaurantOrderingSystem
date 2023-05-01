@@ -12,6 +12,7 @@ export function AdminFoodlistingsItem({
   price,
   slug,
   description,
+  category,
 }) {
   const { updateItemValue, updateModalStatus, modalStatus } = useCtx();
   const deleteItemHandler = async (id) => {
@@ -23,7 +24,7 @@ export function AdminFoodlistingsItem({
   };
   const updateItemHandler = async () => {
     updateModalStatus(true, <EditItem />);
-    updateItemValue({ title, slug, imageURL, description, price });
+    updateItemValue({ title, slug, imageURL, description, price, category });
   };
   return (
     <div className="flex items-center bg-gray-200 w-[80%] p-2 rounded-md my-2 relative">
