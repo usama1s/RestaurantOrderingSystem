@@ -6,9 +6,9 @@ export default {
   ],
   theme: {
     gridTemplateColumns: {
-      'fluid': 'repeat(auto-fit, minmax(5rem, 1fr))',
+      'fluid': 'repeat(auto-fit, minmax(20rem, 1fr))',
     }
   },
-  plugins: [],
+  plugins: [ require('tailwind-scrollbar'),],
 }
 

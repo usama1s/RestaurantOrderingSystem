@@ -13,21 +13,29 @@ export function ManagerSidebar() {
 
   const JSX = managerSidebarLinks.map(({ title, active }) => (
     <div
+      key={title}
       className={`flex items-center w-full h-12 px-3 mt-2 ${
         active && "bg-gray-300"
       }  rounded`}
       onClick={updateManagerSidebarLinks(title)}
     >
-      <span class="ml-0 md:ml-2 text-xs md:text-sm font-medium">{title}</span>
+      <span className="ml-0 md:ml-2 text-xs md:text-sm font-medium">
+        {title}
+      </span>
     </div>
   ));
+  // ${
+  //   isTablet && managerSidebarToggle
+  //     ? "-translate-x-[100%] w-0"
+  //     : "translate-x-0  w-48"
+  // }
   return (
     <div
-      className={`flex flex-col items-center   ${
-        isTablet && managerSidebarToggle
-          ? "-translate-x-[100%] w-0"
-          : "translate-x-0  w-48"
-      }    h-[100vh] overflow-hidden text-gray-700 bg-gray-100  rounded transition-all duration-75 ease-in`}
+      className={`flex flex-col items-center ${
+        managerSidebarToggle
+          ? "-translate-x-[-100%]  w-0"
+          : "translate-x-0 w-48"
+      } md:translate-x-0 md:w-48   min-h-[100vh] overflow-hidden text-gray-700 bg-gray-100  rounded transition-all duration-75 ease-in`}
     >
       <div className="flex items-center w-full px-3 mt-3">
         <MdRestaurantMenu size={24} />

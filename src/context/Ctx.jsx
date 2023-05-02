@@ -1,13 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../config/@firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import { RiDashboardFill } from "react-icons/ri";
 const Ctx = createContext();
 export function CtxProvider({ children }) {
   const [modalStatus, setModalStatus] = useState({ status: false, jsx: null });
   const [activeTab, setActiveTab] = useState("Dashboard");
   const [managerSidebarToggle, setManagerSidebarToggle] = useState(false);
-  console.log(managerSidebarToggle);
   const [managerSidebarLinks, setManagerSidebarLinks] = useState([
     {
       title: "Dashboard",
