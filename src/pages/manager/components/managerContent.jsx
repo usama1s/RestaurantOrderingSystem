@@ -4,8 +4,12 @@ import { useCtx } from "../../../context/Ctx";
 //components
 import { ManagerOrder } from "./orders";
 import { ManagerDashboard } from "./dashboard";
+import { ManagerCategory } from "./categories";
+import { Modal } from "../../../components/modal";
+import { ManagerItems } from "./items";
 export function ManagerContent() {
-  const { activeTab, managerSidebarLinks } = useCtx();
+  const { activeTab, managerSidebarLinks, modalStatus } = useCtx();
+
   const renderManagerContent = (slug) => {
     switch (slug) {
       case "Dashboard":
@@ -17,9 +21,9 @@ export function ManagerContent() {
       case "Orders":
         return <ManagerOrder />;
       case "Categories":
-        return <h1>Categories</h1>;
+        return <ManagerCategory />;
       case "Products":
-        return <h1>Products</h1>;
+        return <ManagerItems />;
     }
   };
 
@@ -27,6 +31,7 @@ export function ManagerContent() {
     <div className={"w-full px-4 lg:px-6 overflow-x-hidden"}>
       <ManagerHeader />
       {renderManagerContent(activeTab)}
+      {modalStatus.status && <Modal />}
     </div>
   );
 }
