@@ -8,12 +8,45 @@ import { useCtx } from "../../../../context/Ctx";
 const { categories } = COLLECTIONS;
 export function ManagerCategoriesListingsItems({ slug, title }) {
   const { updateModalStatus, updateCategoryValue } = useCtx();
-  const deleteItemHandler = async (id) => {
-    try {
-      await deleteDoc(doc(db, categories, id));
-    } catch (error) {
-      // console.log(error)
-    }
+  const [status, setStatus] = useState({ loading: false, error: null });
+  const deleteItemJSX = (slug) => {
+    return (
+      <div>
+        <h1>Confirm to delete item.</h1>
+        <div>
+          <button
+            className="bg-black text-white rounded-md py-2 px-1  mr-2"
+            onClick={async () => {
+              try {
+                setStatus({ loading: true, error: null });
+                await deleteDoc(doc(db, categories, slug));
+                updateModalStatus(false, null);
+                setStatus({
+                  loading: false,
+                  error: null,
+                });
+              } catch (e) {
+                setStatus({
+                  loading: false,
+                  error: "Error deleting the item.",
+                });
+              }
+            }}
+            disabled={status.loading}
+          >
+            Yes
+          </button>
+          <button
+            className="bg-black text-white rounded-md py-2 px-1  mr-2"
+            onClick={() => updateModalStatus(false, null)}
+            disabled={status.loading}
+          >
+            No
+          </button>
+        </div>
+        {status.error && <h1>{status.error}</h1>}
+      </div>
+    );
   };
   const updateItemHandler = async () => {
     updateCategoryValue({ slug, title });
@@ -26,7 +59,7 @@ export function ManagerCategoriesListingsItems({ slug, title }) {
       </div>
       <div className="absolute right-4 top-4 flex">
         <TrashIcon
-          onClick={async () => await deleteItemHandler(slug)}
+          onClick={async () => updateModalStatus(true, deleteItemJSX(slug))}
           className="h-6 w-6 mr-4 text-black cursor-pointer"
         />
         <PencilIcon

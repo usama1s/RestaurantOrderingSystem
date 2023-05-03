@@ -16,32 +16,49 @@ export function ManagerItemsListingItems({
   category,
 }) {
   const { updateItemValue, updateModalStatus, modalStatus } = useCtx();
-  const deleteItemHandler = async (id) => {
-    try {
-      await deleteDoc(doc(db, food_items, id));
-    } catch (error) {
-      // console.log(error)
-    }
-  };
+  const [status, setStatus] = useState({ loading: false, error: null });
+
   const updateItemHandler = async () => {
     updateModalStatus(true, <ManagerEditItem />);
     updateItemValue({ title, slug, imageURL, description, price, category });
   };
   const deleteItemJSX = (slug) => {
-    const [status, setStatus] = useState({ loading: false, error: null });
+    // const [status, setStatus] = useState({ loading: false, error: null });
     return (
       <div>
         <h1>Confirm to delete item.</h1>
         <div>
           <button
+            className="bg-black text-white rounded-md py-2 px-1  mr-2"
             onClick={async () => {
-              await deleteDoc(doc(db, food_items, id));
+              try {
+                setStatus({ loading: true, error: null });
+                await deleteDoc(doc(db, food_items, slug));
+                updateModalStatus(false, null);
+                setStatus({
+                  loading: false,
+                  error: null,
+                });
+              } catch (e) {
+                setStatus({
+                  loading: false,
+                  error: "Error deleting the item.",
+                });
+              }
             }}
+            disabled={status.loading}
           >
             Yes
           </button>
-          <button onClick={() => updateModalStatus(false, null)}>No</button>
+          <button
+            className="bg-black text-white rounded-md py-2 px-1  mr-2"
+            onClick={() => updateModalStatus(false, null)}
+            disabled={status.loading}
+          >
+            No
+          </button>
         </div>
+        {status.error && <h1>{status.error}</h1>}
       </div>
     );
   };
@@ -54,8 +71,7 @@ export function ManagerItemsListingItems({
           <div className="flex ">
             <TrashIcon
               onClick={async () => {
-                // updateModalStatus(true, deleteItemJSX(slug));
-                await deleteDoc(doc(db, food_items, slug));
+                updateModalStatus(true, deleteItemJSX(slug));
               }}
               className="h-4 w-4 mr-2 text-black cursor-pointer"
             />
