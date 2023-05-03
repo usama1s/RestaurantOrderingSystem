@@ -8,9 +8,10 @@ export function ManagerOrderSlider({ data, updateSliderCategory }) {
           key={slug}
           onClick={() => updateSliderCategory(title)}
           className={`
+          capitalize
           cursor-pointer
           ${
-            active ? "bg-[#D1D5DB]" : "bg-[#F3F4F6]"
+            active ? "bg-black text-white" : "bg-[#F3F4F6] text-black"
           } rounded-full p-2 mr-2 my-2`}
         >
           <p>{title}</p>
