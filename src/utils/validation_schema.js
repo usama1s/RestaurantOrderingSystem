@@ -17,3 +17,9 @@ export const validation_schema_food_items = Yup.object({
 export const validation_schema_food_categories = Yup.object({
   title: Yup.string().required("Title is required."),
 });
+export const validation_schema_lobbies=Yup.object({
+  title:Yup.string().required("Title is required"),
+noOfTables: Yup.number("Number of tables is required.")
+  .required("Number of tables is required.")
+  .positive("Number of table must be a positive number.")
+})

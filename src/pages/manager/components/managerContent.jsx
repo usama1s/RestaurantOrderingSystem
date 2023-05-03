@@ -7,6 +7,7 @@ import { ManagerDashboard } from "./dashboard";
 import { ManagerCategory } from "./categories";
 import { Modal } from "../../../components/modal";
 import { ManagerItems } from "./items";
+import { Lobbies } from "./lobbies";
 export function ManagerContent() {
   const { activeTab, managerSidebarLinks, modalStatus } = useCtx();
 
@@ -16,8 +17,8 @@ export function ManagerContent() {
         return <ManagerDashboard />;
       case "Items":
         return <h1>Items</h1>;
-      case "Tables":
-        return <h1>Tables</h1>;
+      case "Lobbies":
+        return <Lobbies />;
       case "Orders":
         return <ManagerOrder />;
       case "Categories":
