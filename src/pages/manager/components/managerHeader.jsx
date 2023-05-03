@@ -28,7 +28,11 @@ export function ManagerHeader() {
         />
       </svg>
       <div className={`relative justify-end`}>
-        <BsCartFill size={16} onClick={() => updateCartStatus(true)} />
+        <BsCartFill
+          className="cursor-pointer"
+          size={16}
+          onClick={() => updateCartStatus(true)}
+        />
         <span
           className={`absolute -top-3 -right-3 bg-red-500 text-xs text-white rounded-full h-4 w-4 flex items-center justify-center`}
         >

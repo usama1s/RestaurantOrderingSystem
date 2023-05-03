@@ -14,7 +14,7 @@ export function Modal({}) {
         <div className="relative my-6 p-4 mx-auto w-[80%] min-h-[80vh] bg-white rounded-md">
           <div className="  flex items-center justify-between">
             <XMarkIcon
-              className="h-6 w-6"
+              className="h-6 w-6 cursor-pointer"
               onClick={() => {
                 updateModalStatus(false, null);
                 updateCategoryValue(null);

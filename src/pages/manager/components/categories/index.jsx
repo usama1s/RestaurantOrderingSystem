@@ -15,7 +15,10 @@ export function ManagerCategory() {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
   const formattedData = formatCollectionData(value);
-  if (error) return <h1>Error fetching items..</h1>;
+  if (error)
+    return (
+      <h1 className="text-xl font-semibold">Error fetching categories..</h1>
+    );
   if (loading)
     return (
       <div className="h-[40vh]">
@@ -39,7 +42,10 @@ export function ManagerCategory() {
         {formattedData?.length === 0 && (
           <div>
             {" "}
-            <h1 className="text-2xl font-normal">List is empty..</h1>
+            <h1 className="text-2xl font-normal">
+              {" "}
+              No Categories right now. Add Categories to proceed.
+            </h1>
           </div>
         )}
       </h1>

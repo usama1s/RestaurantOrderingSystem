@@ -17,7 +17,10 @@ export function ManagerItems() {
   const formattedData = formatCollectionData(value);
   // console.table(formattedData);
   const { updateModalStatus } = useCtx();
-  if (error) return <h1>Error fetching items..</h1>;
+  if (error)
+    return (
+      <h1 className="text-xl font-semibold">Error fetching menu items..</h1>
+    );
   if (loading)
     return (
       <div className="h-[40vh]">
@@ -40,7 +43,9 @@ export function ManagerItems() {
           ))}
         {formattedData?.length === 0 && (
           <div>
-            <h1 className="text-2xl font-normal">List is empty..</h1>
+            <h1 className="text-2xl font-normal">
+              No Menu items right now. Add menu items to proceed.
+            </h1>
           </div>
         )}
       </h1>
