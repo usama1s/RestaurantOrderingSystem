@@ -22,7 +22,7 @@ export function ManagerContent() {
         return <ManagerOrder />;
       case "Categories":
         return <ManagerCategory />;
-      case "Products":
+      case "Menu Items":
         return <ManagerItems />;
     }
   };

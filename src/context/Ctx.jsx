@@ -16,7 +16,7 @@ export function CtxProvider({ children }) {
       active: false,
     },
     {
-      title: "Lobby",
+      title: "Lobbies",
       active: false,
     },
     {
@@ -24,7 +24,7 @@ export function CtxProvider({ children }) {
       active: false,
     },
     {
-      title: "Products",
+      title: "Menu Items",
       active: false,
     },
   ]);

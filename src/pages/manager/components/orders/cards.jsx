@@ -36,7 +36,7 @@ export function ManagerOrderCards({ items }) {
             >
               Add to Cart
             </button>
-            <p className="absolute top-2 left-2 bg-gray-300 text-gray-900 p-2 rounded-full font-bold">
+            <p className="absolute top-2 left-2 bg-black text-white  p-2 rounded-full font-bold">
               {category}
             </p>
           </div>

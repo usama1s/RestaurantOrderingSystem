@@ -27,6 +27,24 @@ export function ManagerItemsListingItems({
     updateModalStatus(true, <ManagerEditItem />);
     updateItemValue({ title, slug, imageURL, description, price, category });
   };
+  const deleteItemJSX = (slug) => {
+    const [status, setStatus] = useState({ loading: false, error: null });
+    return (
+      <div>
+        <h1>Confirm to delete item.</h1>
+        <div>
+          <button
+            onClick={async () => {
+              await deleteDoc(doc(db, food_items, id));
+            }}
+          >
+            Yes
+          </button>
+          <button onClick={() => updateModalStatus(false, null)}>No</button>
+        </div>
+      </div>
+    );
+  };
   return (
     <div className="flex  bg-[#FBFBFB] shadow-md w-[80%]  rounded-md my-2 relative">
       <img className="w-48 h-48 rounded-md mr-4 flex-[0.3]" src={imageURL} />
@@ -35,7 +53,10 @@ export function ManagerItemsListingItems({
           <h3 className="font-bold text-xl p-1">{title}</h3>
           <div className="flex ">
             <TrashIcon
-              onClick={async () => await deleteItemHandler(slug)}
+              onClick={async () => {
+                // updateModalStatus(true, deleteItemJSX(slug));
+                await deleteDoc(doc(db, food_items, slug));
+              }}
               className="h-4 w-4 mr-2 text-black cursor-pointer"
             />
             <PencilIcon
