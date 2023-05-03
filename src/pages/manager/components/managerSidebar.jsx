@@ -15,7 +15,7 @@ export function ManagerSidebar() {
     <div
       key={title}
       className={`flex items-center w-full h-12 px-3 mt-2 cursor-pointer ${
-        active && "bg-gray-300"
+        active && "bg-black text-white"
       }  rounded`}
       onClick={updateManagerSidebarLinks(title)}
     >
