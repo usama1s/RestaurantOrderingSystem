@@ -5,7 +5,12 @@ const Ctx = createContext();
 export function CtxProvider({ children }) {
   const [modalStatus, setModalStatus] = useState({ status: false, jsx: null });
   const [activeTab, setActiveTab] = useState("Lobbies");
+  const [activeWaiterTab, setActiveWaiterTab] = useState("Dine in");
   const [managerSidebarToggle, setManagerSidebarToggle] = useState(false);
+  const [waiterSidebarLinks, setWaiterSidebarLinks] = useState([
+    { title: "Dine in", active: true },
+    { title: "Take away", active: false },
+  ]);
   const [managerSidebarLinks, setManagerSidebarLinks] = useState([
     // {
     //   title: "Dashboard",
@@ -62,6 +67,16 @@ export function CtxProvider({ children }) {
     );
     updateActiveTab(title);
   };
+  const updateWaiterSidebarLinks = (title) => () => {
+    setWaiterSidebarLinks(
+      waiterSidebarLinks.map((link) =>
+        link.title === title
+          ? { ...link, active: true }
+          : { ...link, active: false }
+      )
+    );
+    setActiveWaiterTab(title);
+  };
   const updateManagerSidebarToggle = (value) => () =>
     setManagerSidebarToggle(value);
   useEffect(() => {
@@ -91,6 +106,9 @@ export function CtxProvider({ children }) {
         updateManagerSidebarLinks,
         updateLobbyValue,
         editedLobbyValue,
+        waiterSidebarLinks,
+        updateWaiterSidebarLinks,
+        activeWaiterTab,
       }}
     >
       {children}

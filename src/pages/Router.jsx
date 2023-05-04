@@ -6,11 +6,15 @@ import { auth } from "../config/@firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import { useCtx } from "../context/Ctx";
+//Manager
 import { Manager } from "./manager";
+//Waiter
+import { Waiter } from "./waiter";
 export function Router() {
   return (
     <Routes>
-      <Route element={<Manager />} path={ROUTES.all} />
+      {/* <Route element={<Manager />} path={ROUTES.all} /> */}
+      <Route element={<Waiter />} path={ROUTES.all} />
     </Routes>
   );
 }

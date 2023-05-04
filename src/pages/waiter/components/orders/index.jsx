@@ -9,7 +9,7 @@ import { ManagerOrderSlider } from "./slider";
 import { ManagerOrderCards } from "./cards";
 import { Loading } from "../../../../components/loading";
 
-export function ManagerOrder() {
+export function WaiterOrder() {
   const [categories, loadingStatusCategories, errorStatusCategories] =
     useCollection(collection(db, COLLECTIONS.categories), {
       snapshotListenOptions: { includeMetadataChanges: true },
@@ -85,12 +85,7 @@ export function ManagerOrder() {
     ) : (
       <h1 className="font-semibold text-xl">Error fetching categories..</h1>
     );
-  if (loadingStatusCategories)
-    return (
-      <div className="h-[60vh]">
-        <Loading />
-      </div>
-    );
+  if (loadingStatusCategories) return <Loading />;
 
   return (
     <>

@@ -2,8 +2,8 @@ import React from "react";
 import { ManagerHeader } from "./managerHeader";
 import { useCtx } from "../../../context/Ctx";
 //components
-import { ManagerOrder } from "./orders";
-import { ManagerDashboard } from "./dashboard";
+// import { ManagerOrder } from "./orders";
+// import { ManagerDashboard } from "./dashboard";
 import { ManagerCategory } from "./categories";
 import { Modal } from "../../../components/modal";
 import { ManagerItems } from "./items";

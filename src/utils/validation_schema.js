@@ -23,3 +23,9 @@ noOfTables: Yup.number("Number of tables is required.")
   .required("Number of tables is required.")
   .positive("Number of table must be a positive number.")
 })
+
+export const validation_schema_takeaway=Yup.object({
+  name:Yup.string().required("Title is required"),
+  address:Yup.string().required("Address is required"),
+  phoneNo:Yup.string().required('Phone number is required.s')
+})
