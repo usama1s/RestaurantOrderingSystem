@@ -6,13 +6,10 @@ import {
 import React from "react";
 import { useCartCtx } from "../context/CartCtx";
 export function CartModal() {
-  const [qty, setQty] = React.useState(0);
+  const [qty, setQty] = React.useState(1);
   const { updateCartModalStatus, updateCartStatus } = useCartCtx();
   const add = (value) => () => {
-    if (qty <= 0) setQty(1);
-    else {
-      setQty((prevQty) => prevQty + value);
-    }
+    setQty((prevQty) => (prevQty < 1 ? 1 : prevQty + value));
   };
   return (
     <div
@@ -39,6 +36,7 @@ export function CartModal() {
         </div>
         <button
           onClick={() => {
+            updateCartModalStatus(false);
             updateCartStatus(true);
           }}
           className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 text-base font-semibold leading-7 text-white"

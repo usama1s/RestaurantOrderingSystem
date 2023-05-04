@@ -10,7 +10,7 @@ export function ManagerOrderCards({ items }) {
       </div>
     );
   return (
-    <div className={`grid grid-cols-fluid gap-2 overflow-x-hidden mt-4`}>
+    <div className={` flex flex-wrap gap-2 overflow-x-hidden mt-4`}>
       {items.error && <h2 className="font-semibold text-xl">{items.error}</h2>}
       {items.data &&
         items.data?.map((data) => (
@@ -20,16 +20,16 @@ export function ManagerOrderCards({ items }) {
               console.log(data);
             }}
             key={data.slug}
-            className={`pb-0 my-2 relative border-[1px] border-[#F3F4F6] shadow-lg`}
+            className={`pb-0 w-[200px] my-2 relative border-[1px] border-[#F3F4F6] shadow-lg`}
           >
             <div>
               <img
                 src={data.imageURL}
                 alt={data.imageURL}
-                className="w-full h-[40vh] object-cover rounded-md"
+                className="w-full h-[30vh] object-cover rounded-md"
               />
             </div>
-            <h1 className="p-2 text-white z-10 uppercase absolute top-[80%] left-[3%]  truncate break-words text-3xl text-center font-semibold">
+            <h1 className="p-2 text-white z-10 uppercase absolute top-[80%] left-[3%]  truncate break-words text-base text-center font-semibold">
               {data.title}
             </h1>
 

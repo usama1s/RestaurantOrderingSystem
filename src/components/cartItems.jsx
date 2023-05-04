@@ -3,15 +3,6 @@ export function CartItems() {
   return (
     <div className="flex flex-col bg-[#F3F4F6] ">
       <div className="flex ">
-        <div className="flex-[0.5] h-[20vh] overflow-hidden ">
-          <img
-            className="w-full h-full object-cover"
-            src={
-              "https://images.pexels.com/photos/1309583/pexels-photo-1309583.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-            }
-          />
-        </div>
-
         <div className="p-1 pl-3 flex-[0.4] flex flex-col items-start  justify-center">
           <h2 className="truncate break-words pb-1 text-xl font-bold">Name</h2>
           <p className="truncate break-words text-base">
