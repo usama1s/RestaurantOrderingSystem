@@ -8,7 +8,7 @@ export function ManagerOrderSlider({ data, updateSliderCategory }) {
           key={slug}
           onClick={() => updateSliderCategory(title)}
           className={`
-          capitalize
+          
           cursor-pointer
           ${
             active ? "bg-black text-white" : "bg-[#F3F4F6] text-black"

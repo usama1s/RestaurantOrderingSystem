@@ -14,7 +14,6 @@ import { db } from "../../../../config/@firebase";
 import { useCtx } from "../../../../context/Ctx";
 export function ManagerAddCategories() {
   const { updateModalStatus } = useCtx();
-
   //Form Data
   const formik = useFormik({
     initialValues: {
@@ -26,7 +25,7 @@ export function ManagerAddCategories() {
   const [status, setStatus] = useState({ loading: false, error: null });
   async function onSubmit(values, actions) {
     const collection_ref = collection(db, COLLECTIONS.categories);
-    setStatus((prev) => ({ ...prev, loading: true }));
+    setStatus((prev) => ({ ...prev, loading: true, error: null }));
 
     try {
       const category_exist = await getDocs(

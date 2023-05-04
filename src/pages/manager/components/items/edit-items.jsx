@@ -8,6 +8,7 @@ import {
   serverTimestamp,
   getDocs,
   query,
+  where,
   doc,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
@@ -94,6 +95,22 @@ export function ManagerEditItem() {
     );
     setFileUploadError(null);
     setStatus((prev) => ({ ...prev, loading: true }));
+    const documents = await getDocs(collection(db, COLLECTIONS.food_items));
+    const formattedDocs = formatCollectionData(documents);
+    console.log(
+      formattedDocs
+        .filter((d) => d.title !== editedItemValue.title)
+        .map((d) => d.title)
+    );
+    const filteredFormattedDocs = formattedDocs
+      .filter((d) => d.title !== editedItemValue.title)
+      .map((d) => d.title);
+
+    if (filteredFormattedDocs.includes(values.title)) {
+      setStatus({ loading: false, error: `Item already exist.` });
+      return;
+    }
+
     if (!fileChanged) {
       await updateDoc(collection_ref, {
         ...editedItemValue,

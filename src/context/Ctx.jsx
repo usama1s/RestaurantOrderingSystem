@@ -4,16 +4,16 @@ import { onAuthStateChanged } from "firebase/auth";
 const Ctx = createContext();
 export function CtxProvider({ children }) {
   const [modalStatus, setModalStatus] = useState({ status: false, jsx: null });
-  const [activeTab, setActiveTab] = useState("Dashboard");
+  const [activeTab, setActiveTab] = useState("Lobbies");
   const [managerSidebarToggle, setManagerSidebarToggle] = useState(false);
   const [managerSidebarLinks, setManagerSidebarLinks] = useState([
+    // {
+    //   title: "Dashboard",
+    //   active: true,
+    // },
     {
-      title: "Dashboard",
+      title: "Pending Orders",
       active: true,
-    },
-    {
-      title: "Orders",
-      active: false,
     },
     {
       title: "Lobbies",
@@ -27,11 +27,16 @@ export function CtxProvider({ children }) {
       title: "Menu Items",
       active: false,
     },
+    {
+      title: "Waiters",
+      active: false,
+    },
   ]);
   const [authenticatedUser, setAuthenticatedUser] = useState(null);
   const [authStatus, setAuthStatus] = useState(false);
   const [editedCategoryValue, setEditCategoryValue] = useState(null);
   const [editedItemValue, setEditedItemValue] = useState(null);
+  const [editedLobbyValue, setEditedLobbyValue] = useState(null);
   const updateActiveTab = (tab) => {
     setActiveTab(tab);
   };
@@ -43,6 +48,9 @@ export function CtxProvider({ children }) {
   };
   const updateItemValue = (value) => {
     setEditedItemValue(value);
+  };
+  const updateLobbyValue = (value) => {
+    setEditedLobbyValue(value);
   };
   const updateManagerSidebarLinks = (title) => () => {
     setManagerSidebarLinks(
@@ -81,6 +89,8 @@ export function CtxProvider({ children }) {
         managerSidebarToggle,
         updateManagerSidebarToggle,
         updateManagerSidebarLinks,
+        updateLobbyValue,
+        editedLobbyValue,
       }}
     >
       {children}

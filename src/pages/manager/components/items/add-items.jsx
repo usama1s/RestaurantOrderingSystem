@@ -7,6 +7,7 @@ import {
   serverTimestamp,
   getDocs,
   query,
+  where,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { food_items_storage_path } from "../../../../utils/storage-refs";
@@ -48,7 +49,6 @@ export function ManagerAddItem() {
     fetchCategories();
   }, []);
   //Form Data
-  const [select, setSelect] = React.useState("");
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -86,10 +86,26 @@ export function ManagerAddItem() {
   async function onSubmit(values, actions) {
     const collection_ref = collection(db, COLLECTIONS.food_items);
     setFileUploadError(null);
-    setStatus((prev) => ({ ...prev, loading: true }));
+    setStatus((prev) => ({ ...prev, loading: true, error: null }));
+
     if (!file) {
       setStatus((prev) => ({ ...prev, loading: false }));
       setFileUploadError(`File is required.`);
+      return;
+    }
+    const item_exist = await getDocs(
+      query(
+        collection(db, COLLECTIONS.food_items),
+        where("title", "==", values.title)
+      )
+    );
+
+    if (item_exist.docs.length >= 1) {
+      setStatus({
+        ...status,
+        loading: false,
+        error: "Item already exists.",
+      });
       return;
     }
     try {
@@ -272,7 +288,7 @@ export function ManagerAddItem() {
       {loading ? (
         <h1>Loading...</h1>
       ) : !showForm ? (
-        <h1>Please enter categories to add a item</h1>
+        <h1>Enter some categories to add a item</h1>
       ) : (
         formJSX
       )}

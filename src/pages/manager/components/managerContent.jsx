@@ -13,14 +13,14 @@ export function ManagerContent() {
 
   const renderManagerContent = (slug) => {
     switch (slug) {
-      case "Dashboard":
-        return <ManagerDashboard />;
-      case "Items":
-        return <h1>Items</h1>;
+      // case "Dashboard":
+      //   return <ManagerDashboard />;
+      // case "Items":
+      //   return <h1>Items</h1>;
       case "Lobbies":
         return <Lobbies />;
-      case "Orders":
-        return <ManagerOrder />;
+      // case "Orders":
+      //   return <ManagerOrder />;
       case "Categories":
         return <ManagerCategory />;
       case "Menu Items":

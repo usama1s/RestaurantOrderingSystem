@@ -1,23 +1,25 @@
+import React from "react";
 import { useState } from "react";
 import { TrashIcon, PencilIcon } from "@heroicons/react/24/solid";
 import { db } from "../../../../config/@firebase";
 import { COLLECTIONS } from "../../../../utils/firestore-collections";
 import { doc, deleteDoc } from "firebase/firestore";
-import { ManagerEditCategory } from "./edit-categories";
+import { ManagerEditLobby } from "./edit-lobbies";
 import { useCtx } from "../../../../context/Ctx";
-const { categories } = COLLECTIONS;
-export function ManagerCategoriesListingsItems({ slug, title }) {
-  const { updateModalStatus, updateCategoryValue } = useCtx();
+const { lobbies } = COLLECTIONS;
+export function ManagerLobbiesListingsItems({ title, slug, noOfTables }) {
+  const { updateModalStatus, updateLobbyValue } = useCtx();
   const [status, setStatus] = useState({ loading: false, error: null });
 
   const updateItemHandler = async () => {
-    updateCategoryValue({ slug, title });
-    updateModalStatus(true, <ManagerEditCategory />);
+    updateLobbyValue({ slug, title, noOfTables });
+    updateModalStatus(true, <ManagerEditLobby />);
   };
   return (
     <div className="flex items-center  bg-[#FBFBFB] shadow-md w-full p-2 rounded-md my-4 relative">
       <div>
         <h3 className="font-bold text-2xl">{title}</h3>
+        <p className="font-normal text-xl">Number of Rooms: {noOfTables}</p>
       </div>
       <div className="absolute right-4 top-4 flex">
         <TrashIcon
@@ -59,7 +61,7 @@ const DeleteItemJSX = ({ slug, updateModalStatus }) => {
             onClick={async () => {
               try {
                 setStatus({ loading: true, error: null });
-                await deleteDoc(doc(db, categories, slug));
+                await deleteDoc(doc(db, lobbies, slug));
                 setStatus({
                   loading: false,
                   error: null,

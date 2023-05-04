@@ -13,10 +13,11 @@ import {
 import { COLLECTIONS } from "../../../../utils/firestore-collections";
 import { db } from "../../../../config/@firebase";
 import { useCtx } from "../../../../context/Ctx";
+import { formatCollectionData } from "../../../../utils/formatData";
 export function ManagerEditCategory() {
   const { editedCategoryValue, updateModalStatus, updateCategoryValue } =
     useCtx();
-  //Form Data
+
   const formik = useFormik({
     initialValues: {
       title: editedCategoryValue.title,
@@ -32,30 +33,29 @@ export function ManagerEditCategory() {
       editedCategoryValue.slug
     );
     setStatus((prev) => ({ ...prev, loading: true }));
+    const documents = await getDocs(collection(db, COLLECTIONS.categories));
+    const formattedDocs = formatCollectionData(documents);
+    console.log(
+      formattedDocs
+        .filter((d) => d.title !== editedCategoryValue.title)
+        .map((d) => d.title)
+    );
+    const filteredFormattedDocs = formattedDocs
+      .filter((d) => d.title !== editedCategoryValue.title)
+      .map((d) => d.title);
 
+    if (filteredFormattedDocs.includes(values.title)) {
+      setStatus({ loading: false, error: `Category already exist.` });
+      return;
+    }
     try {
-      const category_exist = await getDocs(
-        query(
-          collection(db, COLLECTIONS.categories),
-          where("title", "==", values.title)
-        )
-      );
-
-      if (category_exist.docs.length >= 1) {
-        setStatus({
-          ...status,
-          loading: false,
-          error: "Category already exists.",
-        });
-        return;
-      } else {
-        await updateDoc(collection_ref, {
-          ...values,
-          timestamp: serverTimestamp(),
-        });
-        updateModalStatus(false, null);
-      }
+      await updateDoc(collection_ref, {
+        ...values,
+        timestamp: serverTimestamp(),
+      });
+      updateModalStatus(false, null);
     } catch (e) {
+      console.log(e);
       setStatus((prev) => ({
         ...prev,
         loading: false,

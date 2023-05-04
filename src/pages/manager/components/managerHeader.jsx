@@ -27,7 +27,7 @@ export function ManagerHeader() {
           clipRule="evenodd"
         />
       </svg>
-      <div className={`relative justify-end`}>
+      {/* <div className={`relative justify-end`}>
         <BsCartFill
           className="cursor-pointer"
           size={16}
@@ -38,7 +38,7 @@ export function ManagerHeader() {
         >
           3
         </span>
-      </div>
+      </div> */}
     </div>
   );
 }

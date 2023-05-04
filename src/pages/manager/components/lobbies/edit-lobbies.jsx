@@ -1,68 +1,70 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useFormik } from "formik";
+import { formatCollectionData } from "../../../../utils/formatData";
 import { validation_schema_lobbies } from "../../../../utils/validation_schema";
 import {
   collection,
-  addDoc,
-  serverTimestamp,
+  updateDoc,
   getDocs,
   query,
   where,
+  serverTimestamp,
+  doc,
 } from "firebase/firestore";
 import { COLLECTIONS } from "../../../../utils/firestore-collections";
 import { db } from "../../../../config/@firebase";
 import { useCtx } from "../../../../context/Ctx";
-export function ManagerAddLobbies() {
-  const { updateModalStatus } = useCtx();
+export function ManagerEditLobby() {
+  const { editedLobbyValue, updateModalStatus, updateLobbyValue } = useCtx();
+
   const formik = useFormik({
     initialValues: {
-      title: "",
-      noOfTables: 0,
+      title: editedLobbyValue.title,
+      noOfTables: editedLobbyValue.noOfTables,
     },
     validationSchema: validation_schema_lobbies,
     onSubmit: onSubmit,
   });
   const [status, setStatus] = useState({ loading: false, error: null });
   async function onSubmit(values, actions) {
-    const collection_ref = collection(db, COLLECTIONS.lobbies);
-    setStatus((prev) => ({ ...prev, loading: true, error: null }));
+    const collection_ref = doc(db, COLLECTIONS.lobbies, editedLobbyValue.slug);
+    setStatus((prev) => ({ ...prev, loading: true }));
+    const documents = await getDocs(collection(db, COLLECTIONS.lobbies));
+    const formattedDocs = formatCollectionData(documents);
+    console.log(
+      formattedDocs
+        .filter((d) => d.title !== editedLobbyValue.title)
+        .map((d) => d.title)
+    );
+    const filteredFormattedDocs = formattedDocs
+      .filter((d) => d.title !== editedLobbyValue.title)
+      .map((d) => d.title);
 
+    if (filteredFormattedDocs.includes(values.title)) {
+      setStatus({ loading: false, error: `Lobby already exist.` });
+      return;
+    }
     try {
-      const category_exist = await getDocs(
-        query(
-          collection(db, COLLECTIONS.lobbies),
-          where("title", "==", values.title)
-        )
-      );
-
-      if (category_exist.docs.length >= 1) {
-        setStatus({
-          ...status,
-          loading: false,
-          error: "Lobby already exists.",
-        });
-        return;
-      } else {
-        await addDoc(collection_ref, {
-          ...values,
-          timestamp: serverTimestamp(),
-        });
-        updateModalStatus(false, null);
-      }
+      await updateDoc(collection_ref, {
+        ...values,
+        timestamp: serverTimestamp(),
+      });
+      updateModalStatus(false, null);
     } catch (e) {
+      console.log(e);
       setStatus((prev) => ({
         ...prev,
         loading: false,
-        error: `Error adding the item.`,
+        error: `Error updating the item.`,
       }));
     } finally {
       reset(actions);
     }
   }
   const reset = (actions) => {
-    actions.resetForm({ title: "", noOfTables: 0 });
+    actions.resetForm({ title: "" });
+    updateLobbyValue(null);
   };
-  //jsx
   const formJSX = (
     <div>
       <h1 className="font-bold text-3xl py-3">Add Lobbies</h1>
@@ -121,7 +123,7 @@ export function ManagerAddLobbies() {
               disabled={status.loading}
               className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 text-base font-semibold leading-7 text-white"
             >
-              {status.loading ? "Adding..." : "Add a Lobby"}
+              {status.loading ? "Editing..." : "Edit"}
             </button>
           </div>
         </div>
