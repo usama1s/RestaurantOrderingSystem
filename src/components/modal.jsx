@@ -18,7 +18,7 @@ export function Modal({}) {
             updateItemValue(null);
           }
         }}
-        className="modal-shadow flex justify-center bg-[rgba(0,0,0,0.5)] items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+        className="modal-shadow flex justify-center bg-[rgba(0,0,0,0.5)] items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-[2000] outline-none focus:outline-none"
       >
         <div className="relative my-6 p-4 mx-auto w-[80%] min-h-[20vh] bg-white rounded-md">
           <div className="  flex items-center justify-end">

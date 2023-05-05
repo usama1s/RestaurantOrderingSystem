@@ -25,7 +25,15 @@ noOfTables: Yup.number("Number of tables is required.")
 })
 
 export const validation_schema_takeaway=Yup.object({
-  name:Yup.string().required("Title is required"),
+  name:Yup.string().required("Name is required"),
   address:Yup.string().required("Address is required"),
   phoneNo:Yup.string().required('Phone number is required.s')
+})
+export const validation_schema_dinein=Yup.object({
+  name:Yup.string().required("Name is required"),
+  lobby:Yup.string().required("Lobby is required"),
+ tableNo: Yup.string("Table number is required.")
+  .required("Table number is required.")
+
+ 
 })

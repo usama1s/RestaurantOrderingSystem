@@ -6,7 +6,7 @@ import { useCartCtx } from "../../../context/CartCtx";
 export function WaiterHeader() {
   const isTablet = useMediaQuery({ query: `(max-width:786px)` });
   const { managerSidebarToggle, updateManagerSidebarToggle } = useCtx();
-  const { updateCartStatus } = useCartCtx();
+  const { updateCartStatus, cartNoOfItems } = useCartCtx();
   // React.useEffect(() => {
   //   if (!isTablet) {
   //     updateManagerSidebarToggle(true);
@@ -33,11 +33,13 @@ export function WaiterHeader() {
           size={16}
           onClick={() => updateCartStatus(true)}
         />
-        <span
-          className={`absolute -top-3 -right-3 bg-red-500 text-xs text-white rounded-full h-4 w-4 flex items-center justify-center`}
-        >
-          3
-        </span>
+        {cartNoOfItems >= 1 && (
+          <span
+            className={`absolute -top-3 -right-3 bg-red-500 text-xs text-white rounded-full h-4 w-4 flex items-center justify-center`}
+          >
+            {cartNoOfItems}
+          </span>
+        )}
       </div>
     </div>
   );

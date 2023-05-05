@@ -8,7 +8,7 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { ManagerOrderSlider } from "./slider";
 import { ManagerOrderCards } from "./cards";
 import { Loading } from "../../../../components/loading";
-
+import { useCartCtx } from "../../../../context/CartCtx";
 export function WaiterOrder() {
   const [categories, loadingStatusCategories, errorStatusCategories] =
     useCollection(collection(db, COLLECTIONS.categories), {
@@ -86,7 +86,6 @@ export function WaiterOrder() {
       <h1 className="font-semibold text-xl">Error fetching categories..</h1>
     );
   if (loadingStatusCategories) return <Loading />;
-
   return (
     <>
       <ManagerOrderSlider

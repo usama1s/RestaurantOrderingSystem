@@ -2,7 +2,7 @@ import React from "react";
 import { Loading } from "../../../../components/loading";
 import { useCartCtx } from "../../../../context/CartCtx";
 export function ManagerOrderCards({ items }) {
-  const { updateCartModalStatus } = useCartCtx();
+  const { updateCartModalStatus, itemsOfCart, onItemAdd } = useCartCtx();
   if (items.loading)
     return (
       <div className="h-[40vh] flex items-center justify-center">
@@ -16,20 +16,19 @@ export function ManagerOrderCards({ items }) {
         items.data?.map((data) => (
           <div
             onClick={() => {
-              updateCartModalStatus(true);
-              console.log(data);
+              updateCartModalStatus(true, data);
             }}
             key={data.slug}
-            className={`pb-0 w-[200px] my-2 relative border-[1px] border-[#F3F4F6] shadow-lg`}
+            className={`cursor-pointer pb-0 w-[200px] h-[200px] rounded-lg overflow-hidden my-2 relative border-[1px] border-[#F3F4F6] shadow-lg`}
           >
             <div>
               <img
                 src={data.imageURL}
                 alt={data.imageURL}
-                className="w-full h-[30vh] object-cover rounded-md"
+                className="w-full h-full object-cover rounded-md"
               />
             </div>
-            <h1 className="p-2 text-white z-10 uppercase absolute top-[80%] left-[3%]  truncate break-words text-base text-center font-semibold">
+            <h1 className="p-2 text-white z-10 uppercase absolute top-[35%] left-[20%]   truncate break-words text-base text-center font-semibold">
               {data.title}
             </h1>
 

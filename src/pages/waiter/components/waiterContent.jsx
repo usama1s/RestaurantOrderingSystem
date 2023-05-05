@@ -3,13 +3,13 @@ import { useCtx } from "../../../context/Ctx";
 import { Modal } from "../../../components/modal";
 import { WaiterHeader } from "./waiterHeader";
 import { TakeAway } from "./takeaway/index.jsx";
-
+import { Dinein } from "./dinein";
 export function WaiterContent() {
   const { activeWaiterTab, waiterSidebarLinks, modalStatus } = useCtx();
   const renderWaiterContent = (slug) => {
     switch (slug) {
       case "Dine in":
-        return <h1>dine in</h1>;
+        return <Dinein />;
       case "Take away":
         return <TakeAway />;
       default:

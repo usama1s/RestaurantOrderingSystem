@@ -42,6 +42,7 @@ export function CtxProvider({ children }) {
   const [editedCategoryValue, setEditCategoryValue] = useState(null);
   const [editedItemValue, setEditedItemValue] = useState(null);
   const [editedLobbyValue, setEditedLobbyValue] = useState(null);
+
   const updateActiveTab = (tab) => {
     setActiveTab(tab);
   };

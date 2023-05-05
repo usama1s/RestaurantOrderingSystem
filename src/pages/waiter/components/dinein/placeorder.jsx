@@ -1,27 +1,71 @@
 import { useFormik } from "formik";
-import { validation_schema_takeaway } from "../../../../utils/validation_schema";
+import { validation_schema_dinein } from "../../../../utils/validation_schema";
 import { useCartCtx } from "../../../../context/CartCtx";
 import { useCtx } from "../../../../context/Ctx";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../../config/@firebase";
 import { COLLECTIONS } from "../../../../utils/firestore-collections";
 import React from "react";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { formatCollectionData } from "../../../../utils/formatData";
+import { Loading } from "../../../../components/loading";
+import { update } from "lodash";
+export function PlaceOrderDinein() {
+  const [lobbySnap, lobbyLoading, lobbyError] = useCollection(
+    collection(db, COLLECTIONS.lobbies),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
+  const data = formatCollectionData(lobbySnap);
 
-export function PlaceOrderTakeaway() {
   const formik = useFormik({
     initialValues: {
       name: "",
-      address: "",
-      phoneNo: "",
+      tableNo: "",
+      lobby: "",
     },
-    validationSchema: validation_schema_takeaway,
+    validationSchema: validation_schema_dinein,
     onSubmit: onSubmit,
   });
-  const type = "Take Away";
+  const type = "Dine in";
   const [status, setStatus] = React.useState({ loading: false, error: null });
+  const [tables, setTables] = React.useState(null);
   const { itemsOfCart, resetCart, cartTotalPrice, updateCartStatus } =
     useCartCtx();
   const { updateModalStatus } = useCtx();
+  //t
+  React.useEffect(() => {
+    if (!formik.values.lobby) {
+      setTables("");
+      return;
+    }
+    const getTables = async () => {
+      setStatus({ ...status, error: null });
+      let t = [];
+      try {
+        const data = await getDocs(
+          query(
+            collection(db, COLLECTIONS.lobbies),
+            where("title", "==", formik.values.lobby)
+          )
+        );
+        const formattedData = formatCollectionData(data);
+        console.log(formattedData[0].noOfTables);
+        for (let loop = 1; loop <= formattedData[0].noOfTables; loop++) {
+          t.push(loop);
+        }
+        setTables(t.length >= 1 ? [...t] : null);
+        setStatus({ ...status, error: null });
+      } catch (e) {
+        console.log("Nope");
+        setTables(null);
+        setStatus({ ...status, error: "No Lobby with such name exists." });
+      }
+    };
+    getTables();
+  }, [formik.values.lobby]);
+  //t
   async function onSubmit(values) {
     if (itemsOfCart.length === 0) {
       setStatus({ loading: false, error: "Select some items to proceed." });
@@ -36,7 +80,7 @@ export function PlaceOrderTakeaway() {
     };
     setStatus({ loading: true, error: null });
     try {
-      await addDoc(collection(db, COLLECTIONS.takeaway), payload);
+      await addDoc(collection(db, COLLECTIONS.dinein), payload);
       setStatus({ loading: false, error: null });
       updateModalStatus(false, null);
       updateCartStatus(false);
@@ -71,45 +115,63 @@ export function PlaceOrderTakeaway() {
           </div>
           <div>
             <label htmlFor="" className="text-xl font-medium text-gray-900">
-              Phone number
+              Lobby
             </label>
             <div className="mt-2.5">
               <input
                 className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Phone Number"
-                name="phoneNo"
+                placeholder="Lobby"
+                name="lobby"
                 onChange={formik.handleChange}
-                value={formik.values.phoneNo}
+                value={formik.values.lobby}
               ></input>
-              {formik.touched.phoneNo && formik.errors.phoneNo ? (
-                <p className="my-2">{formik.errors.phoneNo}</p>
+              {formik.touched.lobby && formik.errors.lobby ? (
+                <p className="my-2">{formik.errors.lobby}</p>
               ) : (
                 ""
               )}
             </div>
           </div>
-          <div>
-            <div className="flex items-center justify-between">
-              <label htmlFor="" className="text-xl font-medium text-gray-900">
-                Address
-              </label>
-            </div>
-            <div className="mt-2.5">
-              <input
+          {tables?.length > 0 && (
+            <div>
+              <div className="flex items-center justify-between">
+                <label htmlFor="" className="text-xl font-medium text-gray-900">
+                  Table Number
+                </label>
+              </div>
+              <div className="mt-2.5">
+                {/* <input
                 className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 "
                 //   type="password"
-                placeholder="Address"
-                name="address"
+                type="number"
+                placeholder="Table Number"
+                name="tableNo"
                 onChange={formik.handleChange}
                 value={formik.values.address}
-              ></input>
-              {formik.touched.address && formik.errors.address ? (
-                <p className="my-2">{formik.errors.address}</p>
-              ) : (
-                ""
-              )}
+              ></input> */}
+
+                <select
+                  placeholder="Table Number"
+                  name="tableNo"
+                  onChange={formik.handleChange}
+                  value={formik.values.address}
+                  className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 "
+                >
+                  {tables.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
+                </select>
+
+                {formik.touched.tableNo && formik.errors.tableNo ? (
+                  <p className="my-2">{formik.errors.tableNo}</p>
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
-          </div>
+          )}
           {status.error && (
             <p className="text-base font-normal py-2">{status.error}</p>
           )}
@@ -126,5 +188,12 @@ export function PlaceOrderTakeaway() {
       </form>
     </div>
   );
+  if (lobbyLoading)
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
+  if (lobbyError) return <h1>Error</h1>;
   return formJSX;
 }

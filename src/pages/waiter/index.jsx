@@ -8,7 +8,7 @@ export function Waiter() {
   return (
     <WaiterLayout>
       <WaiterContent />
-      {cartModalStatus && <CartModal />}
+      {cartModalStatus.open && <CartModal />}
       {cartStatus && <Cart />}
     </WaiterLayout>
   );
