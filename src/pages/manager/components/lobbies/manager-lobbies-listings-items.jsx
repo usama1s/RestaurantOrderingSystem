@@ -18,10 +18,10 @@ export function ManagerLobbiesListingsItems({ title, slug, noOfTables }) {
   return (
     <div className="flex items-center  bg-[#FBFBFB] shadow-md w-full p-2 rounded-md my-4 relative">
       <div>
-        <h3 className="font-bold text-2xl">{title}</h3>
-        <p className="font-normal text-xl">Number of Rooms: {noOfTables}</p>
+        <h3 className="font-bold text-xl">{title}</h3>
+        <p className="font-normal text-sm">Number of Rooms: {noOfTables}</p>
       </div>
-      <div className="absolute right-4 top-4 flex">
+      <div className="absolute right-4 flex">
         <TrashIcon
           onClick={async () =>
             updateModalStatus(

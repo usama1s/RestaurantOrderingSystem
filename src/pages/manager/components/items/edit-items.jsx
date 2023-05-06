@@ -169,14 +169,14 @@ export function ManagerEditItem() {
   //jsx
   const formJSX = (
     <div>
-      <h1 className="font-bold text-3xl py-3">Update Item</h1>
-      <form onSubmit={formik.handleSubmit}>
+      <h1 className="text-2xl font-bold">Update Item</h1>
+      <form onSubmit={formik.handleSubmit} className="mt-2">
         <div className="space-y-5">
           <div>
             <label htmlFor="" className="text-xl font-medium text-gray-900">
               Title
             </label>
-            <div className="mt-2.5">
+            <div className="mt-1">
               <input
                 className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Title"
@@ -196,7 +196,7 @@ export function ManagerEditItem() {
             <label htmlFor="" className="text-xl font-medium text-gray-900">
               Description
             </label>
-            <div className="mt-2.5">
+            <div className="mt-1">
               <input
                 className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Description"
@@ -218,7 +218,7 @@ export function ManagerEditItem() {
                 Price
               </label>
             </div>
-            <div className="mt-2.5">
+            <div className="mt-1">
               <input
                 className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 "
                 //   type="password"
@@ -236,7 +236,7 @@ export function ManagerEditItem() {
               )}
             </div>
           </div>
-          <div>
+          <div className="flex justify-between">
             <div className="flex items-center justify-between">
               <label htmlFor="" className="text-xl font-medium text-gray-900">
                 Category
@@ -261,8 +261,8 @@ export function ManagerEditItem() {
             )}
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center justify-between">
+          <div className="flex justify-between">
+            <div className="md:flex items-center justify-between">
               <label htmlFor="" className="text-xl font-medium text-gray-900">
                 Add Image for the item.
               </label>
@@ -274,14 +274,12 @@ export function ManagerEditItem() {
                 onChange={setImage}
               ></input>
             </div>
-            <div className="mt-2.5"></div>
             {fileDataURL && (
               <div
-                // onClick={()=>{
-                // setFileDataURL(null)
-                // setFile(null)
-                // }}
-                className="h-[200px] w-[200px] "
+              // onClick={()=>{
+              // setFileDataURL(null)
+              // setFile(null)
+              // }}
               >
                 <img
                   className="w-full h-full object-cover"

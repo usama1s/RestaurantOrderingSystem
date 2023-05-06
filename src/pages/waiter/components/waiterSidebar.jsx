@@ -31,7 +31,7 @@ export function WaiterSidebar() {
       className={`flex flex-col items-center ${
         managerSidebarToggle
           ? "-translate-x-[-100%]  w-0"
-          : "translate-x-0 w-48"
+          : "translate-x-0 w-full"
       } md:translate-x-0 md:w-48   min-h-[100vh] overflow-hidden text-gray-700 bg-gray-100  rounded transition-all duration-75 ease-in`}
     >
       <div className="flex items-center w-full px-3 mt-3">

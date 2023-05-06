@@ -41,9 +41,7 @@ export function ManagerCategory() {
           ))}
         {formattedData?.length === 0 && (
           <div>
-            {" "}
             <h1 className="text-2xl font-normal">
-              {" "}
               No Categories right now. Add Categories to proceed.
             </h1>
           </div>

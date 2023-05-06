@@ -64,37 +64,39 @@ export function ManagerAddCategories() {
   };
   return (
     <div>
-      <h1 className="font-bold text-3xl py-4 pt-8">Add a Category</h1>
-      <form className="mt-16" onSubmit={formik.handleSubmit}>
-        <div>
-          <label htmlFor="" className="text-xl font-medium text-gray-900">
-            Title
-          </label>
-          <div className="mt-2.5">
-            <input
-              className="flex w-full h-10 mb-2 rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-              placeholder="Title"
-              name="title"
-              onChange={formik.handleChange}
-              value={formik.values.title}
-              onBlur={formik.handleBlur}
-            ></input>
-            {formik.touched.title && formik.errors.title ? (
-              <p className="my-2">{formik.errors.title}</p>
-            ) : (
-              ""
-            )}
+      <h1 className="text-2xl font-bold">Add a Category</h1>
+      <form className="mt-2 " onSubmit={formik.handleSubmit}>
+        <div className="space-y-5">
+          <div>
+            <label htmlFor="" className="text-xl font-medium text-gray-900">
+              Title
+            </label>
+            <div className="mt-1">
+              <input
+                className="flex w-full h-10 mb-2 rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="Title"
+                name="title"
+                onChange={formik.handleChange}
+                value={formik.values.title}
+                onBlur={formik.handleBlur}
+              ></input>
+              {formik.touched.title && formik.errors.title ? (
+                <p className="my-2 text-red-500">{formik.errors.title}</p>
+              ) : (
+                ""
+              )}
+            </div>
           </div>
-        </div>
-        {status.error && <p>{status.error}</p>}
-        <div>
-          <button
-            type="submit"
-            disabled={status.loading}
-            className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 text-base font-semibold leading-7 text-white"
-          >
-            {status.loading ? "Adding..." : "Add an item."}
-          </button>
+          {status.error && <p className="text-red-500">{status.error}</p>}
+          <div>
+            <button
+              type="submit"
+              disabled={status.loading}
+              className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 text-base font-semibold leading-7 text-white"
+            >
+              {status.loading ? "Adding..." : "Add an item."}
+            </button>
+          </div>
         </div>
       </form>
     </div>
