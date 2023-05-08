@@ -171,7 +171,11 @@ export function PlaceOrderDinein() {
           <div>
             <button
               type="submit"
-              disabled={status.loading || formik.values.tableNo <= 0}
+              disabled={
+                status.loading ||
+                formik.values.tableNo <= 0 ||
+                formik.values.tableNo > tables
+              }
               className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5  font-regular leading-7 text-white  text-xl"
             >
               {status.loading ? "Wait..." : "Place an order"}

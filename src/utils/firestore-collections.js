@@ -4,5 +4,6 @@ export const COLLECTIONS=Object.freeze({
     categories:'categories',
     lobbies:'lobbies',
     takeaway:'take-away',
-    dinein:'dine-in'
+    dinein:'dine-in',
+    managers:'managers'
 })

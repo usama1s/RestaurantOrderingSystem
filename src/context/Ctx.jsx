@@ -11,6 +11,11 @@ export function CtxProvider({ children }) {
     { title: "Dine in", active: true },
     { title: "Take away", active: false },
   ]);
+  const [adminSidebarLinks, setAdminSidebarLinks] = useState([
+    { title: "Managers", active: true },
+    { title: "Z", active: false },
+  ]);
+  const [activeAdminTab, setActiveAdminTab] = useState("Managers");
   const [managerSidebarLinks, setManagerSidebarLinks] = useState([
     // {
     //   title: "Dashboard",
@@ -78,6 +83,16 @@ export function CtxProvider({ children }) {
     );
     setActiveWaiterTab(title);
   };
+  const updateAdminSidebarLinks = (title) => () => {
+    setAdminSidebarLinks(
+      adminSidebarLinks.map((link) =>
+        link.title === title
+          ? { ...link, active: true }
+          : { ...link, active: false }
+      )
+    );
+    setActiveAdminTab(title);
+  };
   const updateManagerSidebarToggle = (value) => () =>
     setManagerSidebarToggle(value);
   useEffect(() => {
@@ -110,6 +125,9 @@ export function CtxProvider({ children }) {
         waiterSidebarLinks,
         updateWaiterSidebarLinks,
         activeWaiterTab,
+        adminSidebarLinks,
+        updateAdminSidebarLinks,
+        activeAdminTab,
       }}
     >
       {children}

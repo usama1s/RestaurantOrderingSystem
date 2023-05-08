@@ -34,6 +34,11 @@ export const validation_schema_dinein=Yup.object({
   lobby:Yup.string().required("Lobby is required"),
  tableNo: Yup.string("Table number is required.")
   .required("Table number is required.")
-
+})
+export const validation_schema_admin_add_managers=Yup.object({
+  branchName:Yup.string().required("Branch Name is required"),
+  managerName:Yup.string().required("Manager Name is required"),
+ email:Yup.string().email('Email is required').required("Email is required"),
+ password:Yup.string().required("Password is required"),
  
 })

@@ -1,3 +1,9 @@
+import { AdminLayout } from "./components/AdminLayout";
+import { AdminContent } from "./components/AdminContent";
 export function Admin() {
-  return <h1>Admin</h1>;
+  return (
+    <AdminLayout>
+      <AdminContent></AdminContent>
+    </AdminLayout>
+  );
 }
