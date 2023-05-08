@@ -9,7 +9,6 @@ import React from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { formatCollectionData } from "../../../../utils/formatData";
 import { Loading } from "../../../../components/loading";
-import { update } from "lodash";
 export function PlaceOrderDinein() {
   const [lobbySnap, lobbyLoading, lobbyError] = useCollection(
     collection(db, COLLECTIONS.lobbies),
@@ -22,7 +21,7 @@ export function PlaceOrderDinein() {
   const formik = useFormik({
     initialValues: {
       name: "",
-      tableNo: "",
+      tableNo: 0,
       lobby: "",
     },
     validationSchema: validation_schema_dinein,
@@ -34,6 +33,7 @@ export function PlaceOrderDinein() {
   const { itemsOfCart, resetCart, cartTotalPrice, updateCartStatus } =
     useCartCtx();
   const { updateModalStatus } = useCtx();
+  console.log(tables, formik.values.tableNo);
   //t
   React.useEffect(() => {
     if (!formik.values.lobby) {
@@ -42,7 +42,7 @@ export function PlaceOrderDinein() {
     }
     const getTables = async () => {
       setStatus({ ...status, error: null });
-      let t = [];
+
       try {
         const data = await getDocs(
           query(
@@ -51,20 +51,16 @@ export function PlaceOrderDinein() {
           )
         );
         const formattedData = formatCollectionData(data);
-        console.log(formattedData[0].noOfTables);
-        for (let loop = 1; loop <= formattedData[0].noOfTables; loop++) {
-          t.push(loop);
-        }
-        setTables(t.length >= 1 ? [...t] : null);
+        setTables(formattedData[0].noOfTables);
         setStatus({ ...status, error: null });
       } catch (e) {
-        console.log("Nope");
         setTables(null);
         setStatus({ ...status, error: "No Lobby with such name exists." });
       }
     };
     getTables();
   }, [formik.values.lobby]);
+
   //t
   async function onSubmit(values) {
     if (itemsOfCart.length === 0) {
@@ -118,13 +114,18 @@ export function PlaceOrderDinein() {
               Lobby
             </label>
             <div className="mt-2.5">
-              <input
+              <select
                 className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Lobby"
                 name="lobby"
                 onChange={formik.handleChange}
                 value={formik.values.lobby}
-              ></input>
+              >
+                {data?.length > 0 &&
+                  data?.map(({ slug, title }) => (
+                    <option key={slug}>{title}</option>
+                  ))}
+              </select>
               {formik.touched.lobby && formik.errors.lobby ? (
                 <p className="my-2">{formik.errors.lobby}</p>
               ) : (
@@ -132,7 +133,7 @@ export function PlaceOrderDinein() {
               )}
             </div>
           </div>
-          {tables?.length > 0 && (
+          {tables && (
             <div>
               <div className="flex items-center justify-between">
                 <label htmlFor="" className="text-xl font-medium text-gray-900">
@@ -140,34 +141,26 @@ export function PlaceOrderDinein() {
                 </label>
               </div>
               <div className="mt-2.5">
-                {/* <input
-                className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 "
-                //   type="password"
-                type="number"
-                placeholder="Table Number"
-                name="tableNo"
-                onChange={formik.handleChange}
-                value={formik.values.address}
-              ></input> */}
-
-                <select
+                <input
+                  className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 "
+                  //   type="password"
+                  type="number"
                   placeholder="Table Number"
                   name="tableNo"
                   onChange={formik.handleChange}
                   value={formik.values.address}
-                  className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 "
-                >
-                  {tables.map((t) => (
-                    <option key={t} value={t}>
-                      {t}
-                    </option>
-                  ))}
-                </select>
+                ></input>
 
                 {formik.touched.tableNo && formik.errors.tableNo ? (
                   <p className="my-2">{formik.errors.tableNo}</p>
                 ) : (
                   ""
+                )}
+                {formik.values.tableNo > tables && (
+                  <p className="my-2">Table doesnot exists.</p>
+                )}
+                {formik.values.tableNo <= 0 && (
+                  <p className="my-2">Table doesnot exists.</p>
                 )}
               </div>
             </div>
@@ -178,7 +171,7 @@ export function PlaceOrderDinein() {
           <div>
             <button
               type="submit"
-              disabled={status.loading}
+              disabled={status.loading || formik.values.tableNo <= 0}
               className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5  font-regular leading-7 text-white  text-xl"
             >
               {status.loading ? "Wait..." : "Place an order"}

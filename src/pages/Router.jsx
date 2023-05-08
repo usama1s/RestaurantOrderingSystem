@@ -10,10 +10,13 @@ import { useCtx } from "../context/Ctx";
 import { Manager } from "./manager";
 //Waiter
 import { Waiter } from "./waiter";
+//admin
+import { Admin } from "./admin";
 export function Router() {
   return (
     <Routes>
       {/* <Route element={<Manager />} path={ROUTES.all} /> */}
+      {/* <Route element={<Admin />} path={ROUTES.all} /> */}
       <Route element={<Waiter />} path={ROUTES.all} />
     </Routes>
   );
