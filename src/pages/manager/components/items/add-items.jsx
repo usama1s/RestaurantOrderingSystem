@@ -262,7 +262,7 @@ export function ManagerAddItem() {
                 className="h-[200px] w-[200px] "
               >
                 <img
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                   src={fileDataURL ? fileDataURL : ""}
                 />
               </div>

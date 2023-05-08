@@ -24,7 +24,7 @@ export function Cart({ title }) {
       } fixed h-full top-0 right-0 w-full flex justify-end bg-[rgba(0,0,0,0.5)]`}
     >
       <div
-        className={`bg-white flex flex-col overflow-hidden px-2 transition-all duration-75 ease-in-outs ${
+        className={`bg-white w-80 flex flex-col overflow-hidden px-2 transition-all duration-75 ease-in-outs ${
           !cartStatus ? "translate-x-full" : "translate-x-0"
         }`}
       >
@@ -35,7 +35,7 @@ export function Cart({ title }) {
             className="h-6 w-6 cursor-pointer"
           />
         </div>
-        <div className="h-[90vh] overflow-y-scroll ">
+        <div className="h-[90vh] overflow-y-scroll px-2 ">
           {itemsOfCart.length >= 1 ? (
             itemsOfCart.map((itemData) => (
               <CartItems key={itemData.slug} {...itemData} />

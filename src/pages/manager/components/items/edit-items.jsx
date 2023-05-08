@@ -282,7 +282,7 @@ export function ManagerEditItem() {
               // }}
               >
                 <img
-                  className="w-full h-full object-cover"
+                  className="w-[160px] h-full object-cover"
                   src={fileDataURL ? fileDataURL : ""}
                 />
               </div>
