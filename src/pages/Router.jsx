@@ -12,23 +12,10 @@ import { Manager } from "./manager";
 import { Waiter } from "./waiter";
 //admin
 import { Admin } from "./admin";
-import { auth } from "../config/@firebase";
-// import { getAuth } from "firebase/functions";
+
 export function Router() {
   return (
     <>
-      <button
-        onClick={async () => {
-          try {
-            // const user = await getUser(auth, "gZio7UjHi3aQge0OwVFHB2UUTpL2");
-            // console.log(user);
-          } catch (e) {
-            console.log(e);
-          }
-        }}
-      >
-        Delete
-      </button>
       <Routes>
         {/* <Route element={<Manager />} path={ROUTES.all} /> */}
         <Route element={<Admin />} path={ROUTES.all} />
