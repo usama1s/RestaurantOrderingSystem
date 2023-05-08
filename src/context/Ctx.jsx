@@ -12,10 +12,10 @@ export function CtxProvider({ children }) {
     { title: "Take away", active: false },
   ]);
   const [adminSidebarLinks, setAdminSidebarLinks] = useState([
-    { title: "Managers", active: true },
+    { title: "Branches", active: true },
     { title: "Z", active: false },
   ]);
-  const [activeAdminTab, setActiveAdminTab] = useState("Managers");
+  const [activeAdminTab, setActiveAdminTab] = useState("Branches");
   const [managerSidebarLinks, setManagerSidebarLinks] = useState([
     // {
     //   title: "Dashboard",

@@ -9,7 +9,7 @@ export function AdminContent() {
 
   const renderManagerContent = (slug) => {
     switch (slug) {
-      case "Managers":
+      case "Branches":
         return <AdminManagerSection />;
 
       case "Z":

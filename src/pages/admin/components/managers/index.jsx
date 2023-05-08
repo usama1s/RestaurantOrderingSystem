@@ -33,29 +33,20 @@ export function AdminManagerSection() {
   return (
     <div>
       <div className="flex items-center justify-between py-4">
-        <h1 className="text-2xl font-bold">Managers</h1>
+        <h1 className="text-2xl font-bold">Branches</h1>
         <PlusIcon
           onClick={() => updateModalStatus(true, <AdminAddManagers />)}
           className="h-8 w-8 text-black"
         />
       </div>
-      <h2>Manager's listings..</h2>
+      <h2>Braches listing..</h2>
       <div className="w-full">
         {formattedData?.length <= 0 && (
-          <h1 className="font-bold text-xl">No users right now.</h1>
+          <h1 className="font-bold text-xl">No Branches right now.</h1>
         )}
         {formattedData?.length > 0 &&
           formattedData.map((data) => (
             <div
-              onClick={() =>
-                updateModalStatus(
-                  true,
-                  <DeleteItemJSX
-                    updateModalStatus={updateModalStatus}
-                    slug={data.slug}
-                  />
-                )
-              }
               key={data.slug}
               className="flex bg-[#FBFBFB]  shadow-md rounded-md relative my-2 w-full"
             >
@@ -68,7 +59,15 @@ export function AdminManagerSection() {
                 </div>
                 <div className="flex mr-1">
                   <TrashIcon
-                    onClick={async () => {}}
+                    onClick={() =>
+                      updateModalStatus(
+                        true,
+                        <DeleteItemJSX
+                          updateModalStatus={updateModalStatus}
+                          slug={data.slug}
+                        />
+                      )
+                    }
                     className="h-6 w-6 mr-4 text-black cursor-pointer"
                   />
                   <PencilIcon
