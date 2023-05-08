@@ -2,8 +2,7 @@ import React from "react";
 import { ManagerHeader } from "./managerHeader";
 import { useCtx } from "../../../context/Ctx";
 //components
-// import { ManagerOrder } from "./orders";
-// import { ManagerDashboard } from "./dashboard";
+import { ManagersWaiterSection } from "./waiters";
 import { ManagerCategory } from "./categories";
 import { Modal } from "../../../components/modal";
 import { ManagerItems } from "./items";
@@ -17,6 +16,8 @@ export function ManagerContent() {
       //   return <ManagerDashboard />;
       // case "Items":
       //   return <h1>Items</h1>;
+      case "Pending Orders":
+        return <h1>Pending Orders</h1>;
       case "Lobbies":
         return <Lobbies />;
       // case "Orders":
@@ -25,6 +26,8 @@ export function ManagerContent() {
         return <ManagerCategory />;
       case "Menu Items":
         return <ManagerItems />;
+      case "Waiters":
+        return <ManagersWaiterSection />;
     }
   };
 

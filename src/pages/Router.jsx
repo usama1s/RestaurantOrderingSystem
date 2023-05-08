@@ -17,8 +17,8 @@ export function Router() {
   return (
     <>
       <Routes>
-        {/* <Route element={<Manager />} path={ROUTES.all} /> */}
-        <Route element={<Admin />} path={ROUTES.all} />
+        <Route element={<Manager />} path={ROUTES.all} />
+        {/* <Route element={<Admin />} path={ROUTES.all} /> */}
         {/* <Route element={<Waiter />} path={ROUTES.all} /> */}
       </Routes>
     </>
