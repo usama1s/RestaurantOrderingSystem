@@ -15,7 +15,6 @@ import { db, auth } from "../../../../config/@firebase";
 import { useCtx } from "../../../../context/Ctx";
 import { createUserWithEmailAndPassword } from "@firebase/auth";
 export function AdminAddManagers() {
-  const [showForm, setShowForm] = useState(true);
   const [status, setStatus] = useState({ loading: false, error: null });
   const { updateModalStatus } = useCtx();
 
@@ -36,12 +35,12 @@ export function AdminAddManagers() {
     try {
       const branchExists = await getDocs(
         query(
-          collection(db, COLLECTIONS.managers),
+          collection(db, COLLECTIONS.users),
           where("branchName", "==", values.branchName)
         )
       );
-
-      if (branchExists?.docs?.length > 0) {
+      console.log(branchExists);
+      if (branchExists.docs.length > 0) {
         setStatus({
           ...status,
           error: "Branch already exists.",
