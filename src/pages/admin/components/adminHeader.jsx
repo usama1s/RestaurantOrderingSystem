@@ -1,17 +1,30 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
-import { useCtx } from "../../../context/Ctx";
+import { LOCAL_STORAGE_BASE, useCtx } from "../../../context/Ctx";
 import { BsCartFill } from "react-icons/bs";
 import { useCartCtx } from "../../../context/CartCtx";
+import { auth } from "../../../config/@firebase";
+import { signOut } from "@firebase/auth";
+import { useNavigate } from "react-router";
+import { ROUTES } from "../../../utils/routes";
 export function AdminHeader() {
+  const navigate = useNavigate();
   const isTablet = useMediaQuery({ query: `(max-width:786px)` });
-  const { managerSidebarToggle, updateManagerSidebarToggle } = useCtx();
-  const { updateCartStatus } = useCartCtx();
-  // React.useEffect(() => {
-  //   if (!isTablet) {
-  //     updateManagerSidebarToggle(true);
-  //   }
-  // }, [isTablet]);
+  const {
+    managerSidebarToggle,
+    updateManagerSidebarToggle,
+    setAuthenticatedUser,
+  } = useCtx();
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      navigate(ROUTES.login_admin);
+      setAuthenticatedUser(null);
+      localStorage.removeItem(`${LOCAL_STORAGE_BASE}Data`);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <div className="px-2 lg:px-6 flex items-center justify-between md:justify-end min-h-[10vh] w-full">
       <svg
@@ -27,6 +40,12 @@ export function AdminHeader() {
           clipRule="evenodd"
         />
       </svg>
+      <button
+        className="bg-black text-white py-2 px-6 rounded-md font-bold"
+        onClick={logout}
+      >
+        Logout
+      </button>
       {/* <div className={`relative justify-end`}>
         <BsCartFill
           className="cursor-pointer"

@@ -1,17 +1,28 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
-import { useCtx } from "../../../context/Ctx";
-import { BsCartFill } from "react-icons/bs";
-import { useCartCtx } from "../../../context/CartCtx";
+import { useCtx, LOCAL_STORAGE_BASE } from "../../../context/Ctx";
+import { ROUTES } from "../../../utils/routes";
+import { signOut } from "@firebase/auth";
+import { auth } from "../../../config/@firebase";
+import { useNavigate } from "react-router";
 export function ManagerHeader() {
+  const navigate = useNavigate();
   const isTablet = useMediaQuery({ query: `(max-width:786px)` });
-  const { managerSidebarToggle, updateManagerSidebarToggle } = useCtx();
-  const { updateCartStatus } = useCartCtx();
-  // React.useEffect(() => {
-  //   if (!isTablet) {
-  //     updateManagerSidebarToggle(true);
-  //   }
-  // }, [isTablet]);
+  const {
+    managerSidebarToggle,
+    updateManagerSidebarToggle,
+    setAuthenticatedUser,
+  } = useCtx();
+  const logout = async () => {
+    try {
+      await signOut(auth);
+      setAuthenticatedUser(null);
+      localStorage.removeItem(`${LOCAL_STORAGE_BASE}Data`);
+      navigate(ROUTES.login_admin);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <div className="px-2 lg:px-6 flex items-center justify-between md:justify-end min-h-[10vh] w-full">
       <svg
@@ -27,18 +38,12 @@ export function ManagerHeader() {
           clipRule="evenodd"
         />
       </svg>
-      {/* <div className={`relative justify-end`}>
-        <BsCartFill
-          className="cursor-pointer"
-          size={16}
-          onClick={() => updateCartStatus(true)}
-        />
-        <span
-          className={`absolute -top-3 -right-3 bg-red-500 text-xs text-white rounded-full h-4 w-4 flex items-center justify-center`}
-        >
-          3
-        </span>
-      </div> */}
+      <button
+        className="bg-black text-white py-2 px-6 rounded-md font-bold"
+        onClick={logout}
+      >
+        Logout
+      </button>
     </div>
   );
 }

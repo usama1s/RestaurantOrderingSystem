@@ -5,22 +5,77 @@ import { ROUTES } from "../utils/routes";
 
 import { useAuthState } from "react-firebase-hooks/auth";
 
-import { useCtx } from "../context/Ctx";
+import { useCtx, LOCAL_STORAGE_BASE } from "../context/Ctx";
 //Manager
 import { Manager } from "./manager";
 //Waiter
 import { Waiter } from "./waiter";
 //admin
 import { Admin } from "./admin";
-
+import { Login } from "../components/login";
+import { RequireAuth } from "../components/protectedroute";
+import { ROLES } from "../utils/roles";
+import RolesComponent from "../components/roles";
 export function Router() {
+  const { authStatus, authenticatedUser } = useCtx();
+
   return (
     <>
-      <Routes>
-        <Route element={<Manager />} path={ROUTES.all} />
-        {/* <Route element={<Admin />} path={ROUTES.all} /> */}
-        {/* <Route element={<Waiter />} path={ROUTES.all} /> */}
-      </Routes>
+      {authStatus && (
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Navigate
+                to={
+                  !authenticatedUser && !authenticatedUser?.role
+                    ? `/select_role`
+                    : `/${authenticatedUser?.role?.toLowerCase()}`
+                }
+              />
+            }
+          />
+          <Route
+            element={
+              !authenticatedUser && !authenticatedUser?.role ? (
+                <Login url={ROUTES.admin} type={"Admin"} />
+              ) : (
+                <Navigate to={ROUTES.admin} />
+              )
+            }
+            path={ROUTES.login_admin}
+          />
+
+          <Route
+            element={
+              !authenticatedUser && !authenticatedUser?.role ? (
+                <Login url={ROUTES.manager} type={"Manager"} />
+              ) : (
+                <Navigate to={ROUTES.manager} />
+              )
+            }
+            path={ROUTES.login_manager}
+          />
+          <Route element={<h1>Unauthorized</h1>} path="/unauthorized" />
+          <Route
+            element={
+              !authenticatedUser && !authenticatedUser?.role ? (
+                <RolesComponent />
+              ) : (
+                <Navigate to={`/${authenticatedUser?.role?.toLowerCase()}`} />
+              )
+            }
+            path="/select_role"
+          />
+
+          <Route element={<RequireAuth roles={[ROLES.ADMIN]} />}>
+            <Route element={<Admin />} path={ROUTES.admin}></Route>
+          </Route>
+          <Route element={<RequireAuth roles={[ROLES.MANAGER]} />}>
+            <Route element={<Manager />} path={ROUTES.manager} />
+          </Route>
+        </Routes>
+      )}
     </>
   );
 }

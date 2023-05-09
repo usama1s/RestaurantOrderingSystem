@@ -14,6 +14,7 @@ import { COLLECTIONS } from "../../../../utils/firestore-collections";
 import { db, auth } from "../../../../config/@firebase";
 import { useCtx } from "../../../../context/Ctx";
 import { createUserWithEmailAndPassword } from "@firebase/auth";
+import { ROLES } from "../../../../utils/roles";
 export function AdminAddManagers() {
   const [status, setStatus] = useState({ loading: false, error: null });
   const { updateModalStatus } = useCtx();
@@ -56,7 +57,7 @@ export function AdminAddManagers() {
 
       await setDoc(doc(db, COLLECTIONS.users, createdUser.user.uid), {
         ...values,
-        role: "MANAGER",
+        role: ROLES.MANAGER,
         timestamp: serverTimestamp(),
       });
       setStatus({ error: null, loading: false });
