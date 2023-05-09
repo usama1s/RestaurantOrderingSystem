@@ -18,7 +18,7 @@ import { ROLES } from "../utils/roles";
 import RolesComponent from "../components/roles";
 export function Router() {
   const { authStatus, authenticatedUser } = useCtx();
-
+  console.log(ROUTES.waiter);
   return (
     <>
       {authStatus && (
@@ -56,6 +56,16 @@ export function Router() {
             }
             path={ROUTES.login_manager}
           />
+          <Route
+            element={
+              !authenticatedUser && !authenticatedUser?.role ? (
+                <Login url={ROUTES.waiter} type={"Waiter"} />
+              ) : (
+                <Navigate to={ROUTES.waiter} />
+              )
+            }
+            path={ROUTES.login_waiter}
+          />
           <Route element={<h1>Unauthorized</h1>} path="/unauthorized" />
           <Route
             element={
@@ -74,52 +84,11 @@ export function Router() {
           <Route element={<RequireAuth roles={[ROLES.MANAGER]} />}>
             <Route element={<Manager />} path={ROUTES.manager} />
           </Route>
+          <Route element={<RequireAuth roles={[ROLES.WAITER]} />}>
+            <Route element={<Waiter />} path={ROUTES.waiter} />
+          </Route>
         </Routes>
       )}
     </>
   );
 }
-// {authStatus && (
-//   <div>
-//     <Routes>
-//       <Route
-//         path={ROUTES.default}
-//         element={<Navigate to={ROUTES.foodListings} />}
-//       />
-//       <Route path={ROUTES.foodListings} element={<FoodListings />} />
-//       <Route
-//         path={ROUTES.admin}
-//         element={
-//           loading ? (
-//             <h1>Loading..</h1>
-//           ) : (
-//             <ProtectedRoute>
-//               {user?.uid ? (
-//                 <Admin />
-//               ) : (
-//                 <Navigate to={ROUTES.login_admin} />
-//               )}
-//             </ProtectedRoute>
-//           )
-//         }
-//       />
-
-//       <Route
-//         path={ROUTES.login_admin}
-//         element={
-//           <ProtectedRoute loading={loading} error={error}>
-//             {!user?.uid ? (
-//               <LoginAdmin />
-//             ) : (
-//               <Navigate to={ROUTES.admin} replace />
-//             )}
-//           </ProtectedRoute>
-//         }
-//       />
-//       <Route
-//         path={ROUTES.all}
-//         element={<Navigate to={ROUTES.foodListings} />}
-//       />
-//     </Routes>
-//   </div>
-// )}
