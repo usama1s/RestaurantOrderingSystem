@@ -5,6 +5,11 @@ export const validation_schema_form = Yup.object({
     .required("Email is required"),
   password: Yup.string().required("Password is required."),
 });
+export const validation_schema_form_b = Yup.object({
+  email: Yup.string()
+  .required("Username is required"),
+  password: Yup.string().required("Password is required."),
+});
 
 export const validation_schema_food_items = Yup.object({
   title: Yup.string().required("Title is required."),
@@ -45,6 +50,6 @@ export const validation_schema_admin_add_managers = Yup.object({
 export const validation_schema_manager_add_waiters = Yup.object({
   waiterName: Yup.string().required("Waiter Name is required"),
   subRole: Yup.string().required("Role is required"),
-  email: Yup.string().email("Email is required").required("Email is required"),
+  username: Yup.string().required("Username is required"),
   password: Yup.string().required("Password is required"),
 });

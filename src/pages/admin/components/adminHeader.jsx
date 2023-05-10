@@ -13,11 +13,13 @@ export function AdminHeader() {
   const {
     managerSidebarToggle,
     updateManagerSidebarToggle,
+    updateAdminSidebarLinks,
     setAuthenticatedUser,
   } = useCtx();
   const logout = async () => {
     try {
       await signOut(auth);
+      updateAdminSidebarLinks("Branches")();
       navigate(ROUTES.login_admin);
       setAuthenticatedUser(null);
       localStorage.removeItem(`${LOCAL_STORAGE_BASE}Data`);

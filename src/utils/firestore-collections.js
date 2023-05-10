@@ -7,4 +7,5 @@ export const COLLECTIONS = Object.freeze({
   dinein: "dine-in",
   managers: "managers",
   branches: "branches",
+  waiters: "waiters",
 });

@@ -12,10 +12,12 @@ export function ManagerHeader() {
     managerSidebarToggle,
     updateManagerSidebarToggle,
     setAuthenticatedUser,
+    updateManagerSidebarLinks,
   } = useCtx();
   const logout = async () => {
     try {
       await signOut(auth);
+      updateManagerSidebarLinks("Pending Orders")();
       setAuthenticatedUser(null);
       localStorage.removeItem(`${LOCAL_STORAGE_BASE}Data`);
       navigate(ROUTES.login_manager);

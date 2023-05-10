@@ -1,6 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useCtx } from "../../../../context/Ctx";
 import { useFormik } from "formik";
+import { db } from "../../../../config/@firebase";
+import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import { COLLECTIONS } from "../../../../utils/firestore-collections";
+import { formatCollectionData } from "../../../../utils/formatData";
 import { validation_schema_manager_add_waiters } from "../../../../utils/validation_schema";
 export function AddWaiters() {
   const [status, setStatus] = useState({ loading: false, error: null });
@@ -11,7 +15,7 @@ export function AddWaiters() {
     initialValues: {
       waiterName: "",
       subRole: "LEAD",
-      email: "",
+      username: "",
       password: "",
     },
     validationSchema: validation_schema_manager_add_waiters,
@@ -20,11 +24,32 @@ export function AddWaiters() {
   useEffect(() => {}, []);
 
   async function onSubmit(values, actions) {
-    console.log({
+    const data = {
       ...values,
       managerId: authenticatedUser.managerId,
       branchId: authenticatedUser.branchId,
-    });
+      role: "WAITER",
+    };
+    setStatus({ loading: true, error: null });
+    try {
+      const exists = await getDocs(
+        query(
+          collection(db, COLLECTIONS.waiters),
+          where("username", "==", values.username)
+        )
+      );
+      const formattedExistingUsername = formatCollectionData(exists);
+      if (formattedExistingUsername?.length === 1) {
+        setStatus({ loading: false, error: "Username already exists" });
+        return;
+      }
+      await addDoc(collection(db, COLLECTIONS.waiters), data);
+      updateModalStatus(false, null);
+      setStatus({ loading: false, error: null });
+    } catch (e) {
+      console.log(e?.message);
+      setStatus({ loading: false, error: e?.message ? e?.message : null });
+    }
   }
 
   const formJSX = (
@@ -78,19 +103,19 @@ export function AddWaiters() {
           </div>
           <div>
             <label htmlFor="" className="text-xl font-medium text-gray-900">
-              Email
+              Username
             </label>
             <div className="mt-2.5">
               <input
                 className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                placeholder="Email"
-                name="email"
+                placeholder="Username"
+                name="username"
                 onChange={formik.handleChange}
                 value={formik.values.email}
                 onBlur={formik.handleBlur}
               ></input>
-              {formik.touched.email && formik.errors.email ? (
-                <p className="my-2">{formik.errors.email}</p>
+              {formik.touched.username && formik.errors.username ? (
+                <p className="my-2">{formik.errors.username}</p>
               ) : (
                 ""
               )}
