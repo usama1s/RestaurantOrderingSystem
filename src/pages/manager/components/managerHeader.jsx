@@ -18,7 +18,7 @@ export function ManagerHeader() {
       await signOut(auth);
       setAuthenticatedUser(null);
       localStorage.removeItem(`${LOCAL_STORAGE_BASE}Data`);
-      navigate(ROUTES.login_admin);
+      navigate(ROUTES.login_manager);
     } catch (e) {
       console.log(e);
     }

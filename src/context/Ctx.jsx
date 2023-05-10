@@ -46,6 +46,7 @@ export function CtxProvider({ children }) {
     },
   ]);
   const [authenticatedUser, setAuthenticatedUser] = useState();
+  console.log(authenticatedUser);
   const [authStatus, setAuthStatus] = useState(false);
   const [editedCategoryValue, setEditCategoryValue] = useState(null);
   const [editedItemValue, setEditedItemValue] = useState(null);

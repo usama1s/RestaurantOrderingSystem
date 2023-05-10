@@ -9,7 +9,9 @@ import {
   where,
   doc,
   setDoc,
+  addDoc,
 } from "firebase/firestore";
+
 import { COLLECTIONS } from "../../../../utils/firestore-collections";
 import { db, auth } from "../../../../config/@firebase";
 import { useCtx } from "../../../../context/Ctx";
@@ -17,7 +19,7 @@ import { createUserWithEmailAndPassword } from "@firebase/auth";
 import { ROLES } from "../../../../utils/roles";
 export function AdminAddManagers() {
   const [status, setStatus] = useState({ loading: false, error: null });
-  const { updateModalStatus } = useCtx();
+  const { updateModalStatus, authenticatedUser } = useCtx();
 
   //Form Data
   const formik = useFormik({
@@ -36,11 +38,10 @@ export function AdminAddManagers() {
     try {
       const branchExists = await getDocs(
         query(
-          collection(db, COLLECTIONS.users),
+          collection(db, COLLECTIONS.branches),
           where("branchName", "==", values.branchName)
         )
       );
-      console.log(branchExists);
       if (branchExists.docs.length > 0) {
         setStatus({
           ...status,
@@ -54,12 +55,22 @@ export function AdminAddManagers() {
         values.email,
         values.password
       );
-
+      const branch = await addDoc(collection(db, COLLECTIONS.branches), {
+        ...values,
+        role: ROLES.MANAGER,
+        timestamp: serverTimestamp(),
+        managerId: createdUser.user.uid,
+        disabled: false,
+      });
       await setDoc(doc(db, COLLECTIONS.users, createdUser.user.uid), {
         ...values,
         role: ROLES.MANAGER,
         timestamp: serverTimestamp(),
+        managerId: createdUser.user.uid,
+        disabled: false,
+        branchId: branch.id,
       });
+
       setStatus({ error: null, loading: false });
       updateModalStatus(false, null);
     } catch (e) {
@@ -76,7 +87,7 @@ export function AdminAddManagers() {
   };
   const formJSX = (
     <div>
-      <h1 className="font-bold text-3xl py-3">Add Managers.</h1>
+      <h1 className="font-bold text-3xl py-3">Add Branches.</h1>
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-5">
           <div>
@@ -166,7 +177,7 @@ export function AdminAddManagers() {
               disabled={status.loading}
               className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5  font-regular leading-7 text-white  text-xl"
             >
-              {status.loading ? "Adding..." : "Add an item."}
+              {status.loading ? "Adding..." : "Add Branch."}
             </button>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useFormik } from "formik";
-import { validation_schema_form } from "../utils/validation_schema";
-import { COLLECTIONS } from "../utils/firestore-collections";
+import { validation_schema_form } from "../../../utils/validation_schema";
+import { COLLECTIONS } from "../../../utils/firestore-collections";
 import {
   where,
   getDocs,
@@ -10,13 +10,13 @@ import {
   getDoc,
   doc,
 } from "firebase/firestore";
-import { db, auth } from "../config/@firebase";
+import { db, auth } from "../../../config/@firebase";
 import { signInWithEmailAndPassword } from "@firebase/auth";
-import { useCtx, LOCAL_STORAGE_BASE } from "../context/Ctx";
-import { formatCollectionData } from "../utils/formatData";
+import { useCtx, LOCAL_STORAGE_BASE } from "../../../context/Ctx";
+import { formatCollectionData } from "../../../utils/formatData";
 import { useNavigate } from "react-router";
 const { users } = COLLECTIONS;
-export function Login({ url, type }) {
+export function ManagerLogin({ url, type }) {
   const navigate = useNavigate();
   const [status, setStatus] = useState({ loading: false, error: null });
   const { setAuthenticatedUser } = useCtx();
@@ -39,12 +39,23 @@ export function Login({ url, type }) {
         values.password
       );
       const userData = await getDoc(doc(db, COLLECTIONS.users, user.user.uid));
-      const formattedUserData = { ...userData.data(), id: userData.id };
+
+      //   const branchData = await getDocs(
+      //     query(
+      //       collection(db, COLLECTIONS.branches),
+      //       where("managerId", "==", user.user.uid)
+      //     )
+      //   );
+      //   const formattedBranchData = formatCollectionData(branchData);
+      const formattedUserData = {
+        ...userData.data(),
+        id: userData.id,
+      };
+      console.log(formattedUserData);
       if (formattedUserData?.role !== type.toUpperCase()) {
         setStatus({ error: "User doesnot exists", loading: false });
         return;
       }
-      console.log(formattedUserData);
       localStorage.setItem(
         `${LOCAL_STORAGE_BASE}Data`,
         JSON.stringify(formattedUserData)
@@ -54,7 +65,7 @@ export function Login({ url, type }) {
         loading: false,
         error: null,
       });
-      // navigate(url);
+      navigate(url);
     } catch (e) {
       console.log(e?.message);
       setStatus({

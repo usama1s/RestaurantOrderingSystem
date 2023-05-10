@@ -20,7 +20,11 @@ export function AddWaiters() {
   useEffect(() => {}, []);
 
   async function onSubmit(values, actions) {
-    console.log({ ...values, managerId: authenticatedUser.id });
+    console.log({
+      ...values,
+      managerId: authenticatedUser.managerId,
+      branchId: authenticatedUser.branchId,
+    });
   }
 
   const formJSX = (

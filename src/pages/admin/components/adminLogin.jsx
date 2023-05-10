@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useFormik } from "formik";
-import { validation_schema_form } from "../utils/validation_schema";
-import { COLLECTIONS } from "../utils/firestore-collections";
+import { validation_schema_form } from "../../../utils/validation_schema";
+import { COLLECTIONS } from "../../../utils/firestore-collections";
 import {
   where,
   getDocs,
@@ -10,13 +10,13 @@ import {
   getDoc,
   doc,
 } from "firebase/firestore";
-import { db, auth } from "../config/@firebase";
+import { db, auth } from "../../../config/@firebase";
 import { signInWithEmailAndPassword } from "@firebase/auth";
-import { useCtx, LOCAL_STORAGE_BASE } from "../context/Ctx";
-import { formatCollectionData } from "../utils/formatData";
+import { useCtx, LOCAL_STORAGE_BASE } from "../../../context/Ctx";
+import { formatCollectionData } from "../../../utils/formatData";
 import { useNavigate } from "react-router";
 const { users } = COLLECTIONS;
-export function Login({ url, type }) {
+export function AdminLogin({ url, type }) {
   const navigate = useNavigate();
   const [status, setStatus] = useState({ loading: false, error: null });
   const { setAuthenticatedUser } = useCtx();
@@ -44,7 +44,6 @@ export function Login({ url, type }) {
         setStatus({ error: "User doesnot exists", loading: false });
         return;
       }
-      console.log(formattedUserData);
       localStorage.setItem(
         `${LOCAL_STORAGE_BASE}Data`,
         JSON.stringify(formattedUserData)

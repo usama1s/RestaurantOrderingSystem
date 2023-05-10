@@ -12,13 +12,14 @@ import { Manager } from "./manager";
 import { Waiter } from "./waiter";
 //admin
 import { Admin } from "./admin";
-import { Login } from "../components/login";
 import { RequireAuth } from "../components/protectedroute";
 import { ROLES } from "../utils/roles";
 import RolesComponent from "../components/roles";
+import { AdminLogin } from "./admin/components/adminLogin";
+import { ManagerLogin } from "./manager/components/managerLogin";
 export function Router() {
   const { authStatus, authenticatedUser } = useCtx();
-  console.log(ROUTES.waiter);
+
   return (
     <>
       {authStatus && (
@@ -38,24 +39,24 @@ export function Router() {
           <Route
             element={
               !authenticatedUser && !authenticatedUser?.role ? (
-                <Login url={ROUTES.admin} type={"Admin"} />
+                <AdminLogin url={ROUTES.admin} type={"Admin"} />
               ) : (
                 <Navigate to={ROUTES.admin} />
               )
             }
             path={ROUTES.login_admin}
           />
-
           <Route
             element={
               !authenticatedUser && !authenticatedUser?.role ? (
-                <Login url={ROUTES.manager} type={"Manager"} />
+                <ManagerLogin url={ROUTES.manager} type={"Manager"} />
               ) : (
                 <Navigate to={ROUTES.manager} />
               )
             }
             path={ROUTES.login_manager}
           />
+          {/* 
           <Route
             element={
               !authenticatedUser && !authenticatedUser?.role ? (
@@ -65,7 +66,7 @@ export function Router() {
               )
             }
             path={ROUTES.login_waiter}
-          />
+          /> */}
           <Route element={<h1>Unauthorized</h1>} path="/unauthorized" />
           <Route
             element={
@@ -84,9 +85,10 @@ export function Router() {
           <Route element={<RequireAuth roles={[ROLES.MANAGER]} />}>
             <Route element={<Manager />} path={ROUTES.manager} />
           </Route>
+          {/* 
           <Route element={<RequireAuth roles={[ROLES.WAITER]} />}>
             <Route element={<Waiter />} path={ROUTES.waiter} />
-          </Route>
+          </Route> */}
         </Routes>
       )}
     </>

@@ -14,7 +14,7 @@ import { deleteUser } from "@firebase/auth";
 export function AdminManagerSection() {
   const { updateModalStatus } = useCtx();
   const [value, loading, error] = useCollection(
-    query(collection(db, COLLECTIONS.users), where("role", "==", "MANAGER")),
+    query(collection(db, COLLECTIONS.branches), where("role", "==", "MANAGER")),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
@@ -59,15 +59,15 @@ export function AdminManagerSection() {
                 </div>
                 <div className="flex mr-1">
                   <TrashIcon
-                    onClick={() =>
-                      updateModalStatus(
-                        true,
-                        <DeleteItemJSX
-                          updateModalStatus={updateModalStatus}
-                          slug={data.slug}
-                        />
-                      )
-                    }
+                    // onClick={() =>
+                    //   updateModalStatus(
+                    //     true,
+                    //     <DeleteItemJSX
+                    //       updateModalStatus={updateModalStatus}
+                    //       slug={data.slug}
+                    //     />
+                    //   )
+                    // }
                     className="h-6 w-6 mr-4 text-black cursor-pointer"
                   />
                   <PencilIcon
