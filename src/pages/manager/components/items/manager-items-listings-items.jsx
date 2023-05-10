@@ -25,9 +25,14 @@ export function ManagerItemsListingItems({
 
   return (
     <div className="flex  bg-[#FBFBFB] shadow-md w-full rounded-md my-2 relative">
-      <img className="w-48 h-48 rounded-md mr-4 flex-[0.3]" src={imageURL} />
+      <div className="w-32 h-32">
+        <img
+          className="w-full h-full object-cover rounded-md mr-4 flex-[0.3]"
+          src={imageURL}
+        />
+      </div>
       <div className="flex-1">
-        <div className="flex items-center flex-1 justify-between w-full">
+        <div className="flex items-center flex-1 justify-between w-full ">
           <h3 className="font-bold text-xl p-1 ">{title}</h3>
           <div className="flex ">
             <TrashIcon

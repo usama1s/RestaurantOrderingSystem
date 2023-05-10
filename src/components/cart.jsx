@@ -24,18 +24,18 @@ export function Cart({ title }) {
       } fixed h-full top-0 right-0 w-full flex justify-end bg-[rgba(0,0,0,0.5)]`}
     >
       <div
-        className={`bg-white w-[30vw] flex flex-col overflow-hidden px-2 transition-all duration-75 ease-in-outs ${
+        className={`bg-white w-80 flex flex-col overflow-hidden px-2 transition-all duration-75 ease-in-outs ${
           !cartStatus ? "translate-x-full" : "translate-x-0"
         }`}
       >
         <div className="flex items-center justify-between py-4">
-          <h1 className="text-xl font-bold leading-2">{title}</h1>
+          <h1 className="text-xl font-bold leading-2 ">{title}</h1>
           <XMarkIcon
             onClick={() => updateCartStatus(false)}
             className="h-6 w-6 cursor-pointer"
           />
         </div>
-        <div className="h-[90vh] overflow-y-scroll">
+        <div className="h-[90vh] overflow-y-scroll px-2 ">
           {itemsOfCart.length >= 1 ? (
             itemsOfCart.map((itemData) => (
               <CartItems key={itemData.slug} {...itemData} />
@@ -46,7 +46,7 @@ export function Cart({ title }) {
             </h1>
           )}
         </div>
-        <div className="flex items-center justify-between px-2">
+        <div className="flex items-center justify-between px-2 m-1">
           <h1 className="text-base font-regular">
             Total:
             <span className="text-black ml-1 font-bold">
@@ -65,7 +65,7 @@ export function Cart({ title }) {
               )
             }
             disabled={itemsOfCart.length <= 0}
-            className={`items-center justify-center rounded-md bg-black px-1.5 py-2.5 text-base font-semibold leading-7 text-white`}
+            className={`items-center justify-center rounded-md bg-black px-2.5 py-2 text-base font-semibold leading-7 text-white`}
           >
             Order
           </button>

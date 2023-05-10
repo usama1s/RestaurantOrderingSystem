@@ -147,14 +147,14 @@ export function ManagerAddItem() {
   };
   const formJSX = (
     <div>
-      <h1 className="font-bold text-3xl py-3">Add Item</h1>
-      <form onSubmit={formik.handleSubmit}>
+      <h1 className="text-2xl font-bold">Add Item</h1>
+      <form onSubmit={formik.handleSubmit} className="mt-2">
         <div className="space-y-5">
           <div>
             <label htmlFor="" className="text-xl font-medium text-gray-900">
               Title
             </label>
-            <div className="mt-2.5">
+            <div className="mt-1">
               <input
                 className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Title"
@@ -174,7 +174,7 @@ export function ManagerAddItem() {
             <label htmlFor="" className="text-xl font-medium text-gray-900">
               Description
             </label>
-            <div className="mt-2.5">
+            <div className="mt-1">
               <input
                 className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Description"
@@ -196,7 +196,7 @@ export function ManagerAddItem() {
                 Price
               </label>
             </div>
-            <div className="mt-2.5">
+            <div className="mt-1">
               <input
                 className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 "
                 //   type="password"
@@ -214,7 +214,7 @@ export function ManagerAddItem() {
               )}
             </div>
           </div>
-          <div>
+          <div className="flex justify-between">
             <div className="flex items-center justify-between">
               <label htmlFor="" className="text-xl font-medium text-gray-900">
                 Category
@@ -240,7 +240,7 @@ export function ManagerAddItem() {
           </div>
 
           <div className="flex items-center justify-between">
-            <div className="flex items-center justify-between">
+            <div className="md:flex items-center justify-between">
               <label htmlFor="" className="text-xl font-medium text-gray-900">
                 Add Image for the item.
               </label>
@@ -252,7 +252,7 @@ export function ManagerAddItem() {
                 onChange={setImage}
               ></input>
             </div>
-            <div className="mt-2.5"></div>
+            <div className="mt-1"></div>
             {fileDataURL && (
               <div
                 // onClick={()=>{
@@ -262,7 +262,7 @@ export function ManagerAddItem() {
                 className="h-[200px] w-[200px] "
               >
                 <img
-                  className="w-full h-full object-cover"
+                  className="h-full w-full object-cover"
                   src={fileDataURL ? fileDataURL : ""}
                 />
               </div>

@@ -2,7 +2,11 @@
 import { Router } from "./pages/Router";
 
 function App() {
-  return <Router />;
+  return (
+    <div className="min-w-[320px]">
+      <Router />
+    </div>
+  );
 }
 
 export default App;

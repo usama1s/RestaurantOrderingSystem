@@ -29,7 +29,7 @@ export function Lobbies() {
     );
   return (
     <div>
-      <div className="flex items-center justify-between py-4">
+      <div className="flex items-center justify-between py-4 ">
         <h1 className="text-2xl font-bold">Lobbies</h1>
         <PlusIcon
           className="h-8 w-8 text-black cursor-pointer"
@@ -43,9 +43,7 @@ export function Lobbies() {
           ))}
         {formattedData?.length === 0 && (
           <div>
-            {" "}
-            <h1 className="text-2xl font-normal">
-              {" "}
+            <h1 className="text-2xl font-normal ">
               No Lobbies right now. Add Lobbies to proceed.
             </h1>
           </div>

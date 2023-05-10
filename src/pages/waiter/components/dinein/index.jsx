@@ -3,7 +3,7 @@ import { WaiterOrder } from "../orders";
 export function Dinein() {
   return (
     <div>
-      <h1 className="text-xl font-bold py-2">Dine in</h1>
+      <h1 className="text-2xl font-bold">Dine in</h1>
       <WaiterOrder />
     </div>
   );

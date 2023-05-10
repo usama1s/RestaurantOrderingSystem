@@ -17,9 +17,9 @@ export function ManagerCategoriesListingsItems({ slug, title }) {
   return (
     <div className="flex items-center  bg-[#FBFBFB] shadow-md w-full p-2 rounded-md my-4 relative">
       <div>
-        <h3 className="font-bold text-2xl">{title}</h3>
+        <h3 className="font-bold text-xl">{title}</h3>
       </div>
-      <div className="absolute right-4 top-4 flex">
+      <div className="absolute right-4 flex">
         <TrashIcon
           onClick={async () =>
             updateModalStatus(
@@ -77,7 +77,7 @@ const DeleteItemJSX = ({ slug, updateModalStatus }) => {
             Yes
           </button>
           <button
-            className="bg-black text-base font-semibold text-white rounded-md py-2 px-4  mr-2"
+            className="bg-black text-base font-semibold text-white rounded-md py-2 px-4 mr-2"
             onClick={() => updateModalStatus(false, null)}
             disabled={status.loading}
           >
