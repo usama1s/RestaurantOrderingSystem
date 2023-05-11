@@ -85,14 +85,14 @@ export function ManagerEditLobby() {
   };
   const formJSX = (
     <div>
-      <h1 className="font-bold text-3xl py-3">Add Lobbies</h1>
-      <form onSubmit={formik.handleSubmit}>
+      <h1 className="text-2xl font-bold">Add Lobbies</h1>
+      <form onSubmit={formik.handleSubmit} className="mt-2">
         <div className="space-y-5">
           <div>
             <label htmlFor="" className="text-xl font-medium text-gray-900">
               Title
             </label>
-            <div className="mt-2.5">
+            <div className="mt-1">
               <input
                 className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Title"
@@ -102,7 +102,7 @@ export function ManagerEditLobby() {
                 onBlur={formik.handleBlur}
               ></input>
               {formik.touched.title && formik.errors.title ? (
-                <p className="my-2">{formik.errors.title}</p>
+                <p className="my-1 text-red-600">{formik.errors.title}</p>
               ) : (
                 ""
               )}
@@ -115,7 +115,7 @@ export function ManagerEditLobby() {
                 Number of Tables
               </label>
             </div>
-            <div className="mt-2.5">
+            <div className="mt-1">
               <input
                 className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50 "
                 //   type="password"
@@ -127,7 +127,7 @@ export function ManagerEditLobby() {
                 onBlur={formik.handleBlur}
               ></input>
               {formik.touched.noOfTables && formik.errors.noOfTables ? (
-                <p className="my-2">{formik.errors.noOfTables}</p>
+                <p className="my-2 text-red-500">{formik.errors.noOfTables}</p>
               ) : (
                 ""
               )}

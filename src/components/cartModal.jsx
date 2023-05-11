@@ -33,15 +33,17 @@ export function CartModal() {
       className="cart-modal-shadow bg-[rgba(0,0,0,0.5)] flex items-center justify-center fixed top-0 left-0 w-full h-full"
     >
       <div className="min-h-[20vh] rounded-md bg-white w-[70%] flex flex-col">
-        <div className="flex items-center justify-end py-1 pr-1 self-auto">
-          <XMarkIcon
-            className="h-8 w-8"
-            onClick={() => updateCartModalStatus(false, null)}
-          />
+        <div className="p-2">
+          <div className="w-fit float-right ml-auto">
+            <XMarkIcon
+              className="h-8 w-8"
+              onClick={() => updateCartModalStatus(false, null)}
+            />
+          </div>
+          <h2 className="text-2xl font-bold">
+            Item Selected: {cartModalStatus.value.title}
+          </h2>
         </div>
-        <h2 className="text-2xl font-bold py-2 text-center">
-          Item Selected: {cartModalStatus.value.title}
-        </h2>
         <div className="flex items-center py-2 gap-2 justify-center ">
           <MinusCircleIcon onClick={add(-1)} className="w-8 h-8" />
           <span>{qty}</span>

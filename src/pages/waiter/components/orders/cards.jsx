@@ -10,7 +10,7 @@ export function ManagerOrderCards({ items }) {
       </div>
     );
   return (
-    <div className={` flex flex-wrap gap-2 overflow-x-hidden mt-4`}>
+    <div className={`flex flex-wrap gap-2 overflow-x-hidden mt-4`}>
       {items.error && <h2 className="font-semibold text-xl">{items.error}</h2>}
       {items.data &&
         items.data?.map((data) => (
@@ -28,7 +28,7 @@ export function ManagerOrderCards({ items }) {
                 className="w-full h-full object-cover rounded-md"
               />
             </div>
-            <h1 className="p-2 text-white z-10 uppercase absolute top-[35%] left-[20%]   truncate break-words text-base text-center font-semibold">
+            <h1 className="p-2 text-white z-10 uppercase absolute top-[40%] left-[36%] truncate break-words text-base text-center font-semibold">
               {data.title}
             </h1>
 

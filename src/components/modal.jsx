@@ -21,7 +21,7 @@ export function Modal({}) {
         className="modal-shadow flex justify-center bg-[rgba(0,0,0,0.5)] items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-[2000] outline-none focus:outline-none"
       >
         <div className="relative my-6 p-4 mx-auto w-[80%] min-h-[20vh] bg-white rounded-md">
-          <div className="  flex items-center justify-end">
+          <div className="w-fit float-right">
             <XMarkIcon
               className="h-6 w-6 cursor-pointer"
               onClick={() => {
