@@ -113,11 +113,7 @@ export function ManagerEditItem() {
       )
     );
     const formattedDocs = formatCollectionData(documents);
-    console.log(
-      formattedDocs
-        .filter((d) => d.title !== editedItemValue.title)
-        .map((d) => d.title)
-    );
+
     const filteredFormattedDocs = formattedDocs
       .filter(
         (d) =>
