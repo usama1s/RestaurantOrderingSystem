@@ -9,11 +9,19 @@ import { ManagerOrderSlider } from "./slider";
 import { ManagerOrderCards } from "./cards";
 import { Loading } from "../../../../components/loading";
 import { useCartCtx } from "../../../../context/CartCtx";
+import { useCtx } from "../../../../context/Ctx";
 export function WaiterOrder() {
+  const { authenticatedUser } = useCtx();
   const [categories, loadingStatusCategories, errorStatusCategories] =
-    useCollection(collection(db, COLLECTIONS.categories), {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    });
+    useCollection(
+      query(
+        collection(db, COLLECTIONS.categories),
+        where("branchId", "==", authenticatedUser.branchId)
+      ),
+      {
+        snapshotListenOptions: { includeMetadataChanges: true },
+      }
+    );
   const [cardItems, setCardItems] = useState({
     loading: false,
     error: null,
@@ -32,7 +40,8 @@ export function WaiterOrder() {
         const data = await getDocs(
           query(
             collection(db, COLLECTIONS.food_items),
-            where("category", "==", sliderData.activeCategory)
+            where("category", "==", sliderData.activeCategory),
+            where("branchId", "==", authenticatedUser.branchId)
           )
         );
         items = data && formatCollectionData(data);

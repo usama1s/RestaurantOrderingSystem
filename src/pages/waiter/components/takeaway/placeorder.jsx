@@ -21,7 +21,7 @@ export function PlaceOrderTakeaway() {
   const [status, setStatus] = React.useState({ loading: false, error: null });
   const { itemsOfCart, resetCart, cartTotalPrice, updateCartStatus } =
     useCartCtx();
-  const { updateModalStatus } = useCtx();
+  const { updateModalStatus, authenticatedUser } = useCtx();
   async function onSubmit(values) {
     if (itemsOfCart.length === 0) {
       setStatus({ loading: false, error: "Select some items to proceed." });
@@ -33,6 +33,9 @@ export function PlaceOrderTakeaway() {
       itemsOfCart,
       price: cartTotalPrice,
       type,
+      branchId: authenticatedUser.branchId,
+      waiterId: authenticatedUser.slug,
+      managerId: authenticatedUser.managerId,
     };
     setStatus({ loading: true, error: null });
     try {
