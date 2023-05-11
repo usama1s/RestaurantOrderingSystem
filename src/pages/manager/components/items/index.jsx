@@ -1,7 +1,7 @@
 import { formatCollectionData } from "../../../../utils/formatData";
 import { db } from "../../../../config/@firebase";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { collection } from "firebase/firestore";
+import { collection, query, where } from "firebase/firestore";
 
 import { COLLECTIONS } from "../../../../utils/firestore-collections";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/solid";
@@ -11,12 +11,18 @@ import { ManagerItemsListingItems } from "./manager-items-listings-items";
 import { Loading } from "../../../../components/loading";
 const { food_items } = COLLECTIONS;
 export function ManagerItems() {
-  const [value, loading, error] = useCollection(collection(db, food_items), {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
+  const { updateModalStatus, authenticatedUser } = useCtx();
+  const [value, loading, error] = useCollection(
+    query(
+      collection(db, food_items),
+      where("branchId", "==", authenticatedUser.branchId)
+    ),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
   const formattedData = formatCollectionData(value);
   // console.table(formattedData);
-  const { updateModalStatus } = useCtx();
   if (error)
     return (
       <h1 className="text-xl font-semibold">Error fetching menu items..</h1>

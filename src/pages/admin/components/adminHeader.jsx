@@ -1,26 +1,28 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
-import { useCtx, LOCAL_STORAGE_BASE } from "../../../context/Ctx";
-import { ROUTES } from "../../../utils/routes";
-import { signOut } from "@firebase/auth";
+import { LOCAL_STORAGE_BASE, useCtx } from "../../../context/Ctx";
+import { BsCartFill } from "react-icons/bs";
+import { useCartCtx } from "../../../context/CartCtx";
 import { auth } from "../../../config/@firebase";
+import { signOut } from "@firebase/auth";
 import { useNavigate } from "react-router";
-export function ManagerHeader() {
+import { ROUTES } from "../../../utils/routes";
+export function AdminHeader() {
   const navigate = useNavigate();
   const isTablet = useMediaQuery({ query: `(max-width:786px)` });
   const {
     managerSidebarToggle,
     updateManagerSidebarToggle,
+    updateAdminSidebarLinks,
     setAuthenticatedUser,
-    updateManagerSidebarLinks,
   } = useCtx();
   const logout = async () => {
     try {
       await signOut(auth);
-      updateManagerSidebarLinks("Pending Orders")();
+      updateAdminSidebarLinks("Branches")();
+      navigate(ROUTES.login_admin);
       setAuthenticatedUser(null);
       localStorage.removeItem(`${LOCAL_STORAGE_BASE}Data`);
-      navigate(ROUTES.login_manager);
     } catch (e) {
       console.log(e);
     }
@@ -46,6 +48,18 @@ export function ManagerHeader() {
       >
         Logout
       </button>
+      {/* <div className={`relative justify-end`}>
+        <BsCartFill
+          className="cursor-pointer"
+          size={16}
+          onClick={() => updateCartStatus(true)}
+        />
+        <span
+          className={`absolute -top-3 -right-3 bg-red-500 text-xs text-white rounded-full h-4 w-4 flex items-center justify-center`}
+        >
+          3
+        </span>
+      </div> */}
     </div>
   );
 }

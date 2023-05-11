@@ -4,16 +4,22 @@ import { ManagerAddCategories } from "./add-categories";
 import { ManagerCategoriesListingsItems } from "./manager-categories-listings-items";
 import { COLLECTIONS } from "../../../../utils/firestore-collections";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { collection } from "firebase/firestore";
+import { collection, query, where } from "firebase/firestore";
 import { db } from "../../../../config/@firebase";
 import { formatCollectionData } from "../../../../utils/formatData";
 import { Loading } from "../../../../components/loading";
 const { categories } = COLLECTIONS;
 export function ManagerCategory() {
-  const { updateModalStatus } = useCtx();
-  const [value, loading, error] = useCollection(collection(db, categories), {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
+  const { updateModalStatus, authenticatedUser } = useCtx();
+  const [value, loading, error] = useCollection(
+    query(
+      collection(db, categories),
+      where("branchId", "==", authenticatedUser.branchId)
+    ),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
   const formattedData = formatCollectionData(value);
   if (error)
     return (

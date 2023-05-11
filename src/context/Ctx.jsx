@@ -1,9 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../config/@firebase";
 import { onAuthStateChanged } from "firebase/auth";
+export const LOCAL_STORAGE_BASE = "INDIA_GATES_";
 const Ctx = createContext();
 export function CtxProvider({ children }) {
   const [modalStatus, setModalStatus] = useState({ status: false, jsx: null });
+  // const user = localStorage.getItem(`${LOCAL_STORAGE_BASE}Data`);
+
   const [activeTab, setActiveTab] = useState("Lobbies");
   const [activeWaiterTab, setActiveWaiterTab] = useState("Dine in");
   const [managerSidebarToggle, setManagerSidebarToggle] = useState(false);
@@ -11,6 +14,11 @@ export function CtxProvider({ children }) {
     { title: "Dine in", active: true },
     { title: "Take away", active: false },
   ]);
+  const [adminSidebarLinks, setAdminSidebarLinks] = useState([
+    { title: "Branches", active: true },
+    { title: "Z", active: false },
+  ]);
+  const [activeAdminTab, setActiveAdminTab] = useState("Branches");
   const [managerSidebarLinks, setManagerSidebarLinks] = useState([
     // {
     //   title: "Dashboard",
@@ -37,7 +45,8 @@ export function CtxProvider({ children }) {
       active: false,
     },
   ]);
-  const [authenticatedUser, setAuthenticatedUser] = useState(null);
+  const [authenticatedUser, setAuthenticatedUser] = useState();
+  console.log(authenticatedUser);
   const [authStatus, setAuthStatus] = useState(false);
   const [editedCategoryValue, setEditCategoryValue] = useState(null);
   const [editedItemValue, setEditedItemValue] = useState(null);
@@ -78,14 +87,23 @@ export function CtxProvider({ children }) {
     );
     setActiveWaiterTab(title);
   };
+  const updateAdminSidebarLinks = (title) => () => {
+    setAdminSidebarLinks(
+      adminSidebarLinks.map((link) =>
+        link.title === title
+          ? { ...link, active: true }
+          : { ...link, active: false }
+      )
+    );
+    setActiveAdminTab(title);
+  };
   const updateManagerSidebarToggle = (value) => () =>
     setManagerSidebarToggle(value);
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-      setAuthenticatedUser(authUser);
-      setAuthStatus(true);
-      unsubscribe();
-    });
+    setAuthenticatedUser(
+      JSON.parse(localStorage.getItem(`${LOCAL_STORAGE_BASE}Data`))
+    );
+    setAuthStatus(true);
   }, []);
   return (
     <Ctx.Provider
@@ -110,6 +128,10 @@ export function CtxProvider({ children }) {
         waiterSidebarLinks,
         updateWaiterSidebarLinks,
         activeWaiterTab,
+        adminSidebarLinks,
+        updateAdminSidebarLinks,
+        activeAdminTab,
+        setAuthenticatedUser,
       }}
     >
       {children}

@@ -13,7 +13,7 @@ import { COLLECTIONS } from "../../../../utils/firestore-collections";
 import { db } from "../../../../config/@firebase";
 import { useCtx } from "../../../../context/Ctx";
 export function ManagerAddLobbies() {
-  const { updateModalStatus } = useCtx();
+  const { updateModalStatus, authenticatedUser } = useCtx();
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -31,7 +31,8 @@ export function ManagerAddLobbies() {
       const category_exist = await getDocs(
         query(
           collection(db, COLLECTIONS.lobbies),
-          where("title", "==", values.title)
+          where("title", "==", values.title),
+          where("branchId", "==", authenticatedUser.branchId)
         )
       );
 
@@ -45,6 +46,7 @@ export function ManagerAddLobbies() {
       } else {
         await addDoc(collection_ref, {
           ...values,
+          branchId: authenticatedUser.branchId,
           timestamp: serverTimestamp(),
         });
         updateModalStatus(false, null);

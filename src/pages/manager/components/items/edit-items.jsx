@@ -20,8 +20,17 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { formatCollectionData } from "../../../../utils/formatData";
 import { Loading } from "../../../../components/loading";
 export function ManagerEditItem() {
+  const {
+    editedItemValue,
+    updateItemValue,
+    updateModalStatus,
+    authenticatedUser,
+  } = useCtx();
   const [value, loading, error] = useCollection(
-    collection(db, COLLECTIONS.categories),
+    query(
+      collection(db, COLLECTIONS.categories),
+      where("branchId", "==", authenticatedUser.branchId)
+    ),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
@@ -35,7 +44,6 @@ export function ManagerEditItem() {
   const [fileDataURL, setFileDataURL] = useState(null);
   const inputRef = useRef();
   const [fileChanged, setFileChanged] = useState(false);
-  const { editedItemValue, updateItemValue, updateModalStatus } = useCtx();
   const formik = useFormik({
     initialValues: {
       title: editedItemValue.title,
@@ -50,7 +58,10 @@ export function ManagerEditItem() {
   React.useEffect(() => {
     const fetchCategories = async () => {
       const category_exist = await getDocs(
-        query(collection(db, COLLECTIONS.categories))
+        query(
+          collection(db, COLLECTIONS.categories),
+          where("branchId", "==", authenticatedUser.branchId)
+        )
       );
 
       if (category_exist.docs.length >= 1) {
@@ -95,15 +106,20 @@ export function ManagerEditItem() {
     );
     setFileUploadError(null);
     setStatus((prev) => ({ ...prev, loading: true }));
-    const documents = await getDocs(collection(db, COLLECTIONS.food_items));
-    const formattedDocs = formatCollectionData(documents);
-    console.log(
-      formattedDocs
-        .filter((d) => d.title !== editedItemValue.title)
-        .map((d) => d.title)
+    const documents = await getDocs(
+      query(
+        collection(db, COLLECTIONS.food_items)
+        // where("branchId", "==", authenticatedUser.branchId)
+      )
     );
+    const formattedDocs = formatCollectionData(documents);
+
     const filteredFormattedDocs = formattedDocs
-      .filter((d) => d.title !== editedItemValue.title)
+      .filter(
+        (d) =>
+          d.title !== editedItemValue.title &&
+          d.branchId === authenticatedUser.branchId
+      )
       .map((d) => d.title);
 
     if (filteredFormattedDocs.includes(values.title)) {
@@ -113,9 +129,9 @@ export function ManagerEditItem() {
 
     if (!fileChanged) {
       await updateDoc(collection_ref, {
-        ...editedItemValue,
-        timestamp: serverTimestamp(),
+        // ...editedItemValue,
         ...values,
+        timestamp: serverTimestamp(),
       });
       updateModalStatus(null, false);
       updateItemValue(null);

@@ -15,7 +15,12 @@ import { COLLECTIONS } from "../../../../utils/firestore-collections";
 import { db } from "../../../../config/@firebase";
 import { useCtx } from "../../../../context/Ctx";
 export function ManagerEditLobby() {
-  const { editedLobbyValue, updateModalStatus, updateLobbyValue } = useCtx();
+  const {
+    editedLobbyValue,
+    updateModalStatus,
+    updateLobbyValue,
+    authenticatedUser,
+  } = useCtx();
 
   const formik = useFormik({
     initialValues: {
@@ -29,15 +34,28 @@ export function ManagerEditLobby() {
   async function onSubmit(values, actions) {
     const collection_ref = doc(db, COLLECTIONS.lobbies, editedLobbyValue.slug);
     setStatus((prev) => ({ ...prev, loading: true }));
-    const documents = await getDocs(collection(db, COLLECTIONS.lobbies));
-    const formattedDocs = formatCollectionData(documents);
-    console.log(
-      formattedDocs
-        .filter((d) => d.title !== editedLobbyValue.title)
-        .map((d) => d.title)
+    const documents = await getDocs(
+      query(
+        collection(db, COLLECTIONS.lobbies)
+        // where("branchId", "==", authenticatedUser.branchId)
+      )
     );
+    const formattedDocs = formatCollectionData(documents);
+    // console.log(
+    //   formattedDocs
+    //     .filter(
+    //       (d) =>
+    //         d.title !== editedLobbyValue.title &&
+    //         d.branchId === authenticatedUser.branchId
+    //     )
+    //     .map((d) => d.title)
+    // );
     const filteredFormattedDocs = formattedDocs
-      .filter((d) => d.title !== editedLobbyValue.title)
+      .filter(
+        (d) =>
+          d.title !== editedLobbyValue.title &&
+          d.branchId === authenticatedUser.branchId
+      )
       .map((d) => d.title);
 
     if (filteredFormattedDocs.includes(values.title)) {

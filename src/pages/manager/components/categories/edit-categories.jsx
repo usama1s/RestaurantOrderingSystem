@@ -15,8 +15,12 @@ import { db } from "../../../../config/@firebase";
 import { useCtx } from "../../../../context/Ctx";
 import { formatCollectionData } from "../../../../utils/formatData";
 export function ManagerEditCategory() {
-  const { editedCategoryValue, updateModalStatus, updateCategoryValue } =
-    useCtx();
+  const {
+    editedCategoryValue,
+    updateModalStatus,
+    updateCategoryValue,
+    authenticatedUser,
+  } = useCtx();
 
   const formik = useFormik({
     initialValues: {
@@ -41,7 +45,11 @@ export function ManagerEditCategory() {
         .map((d) => d.title)
     );
     const filteredFormattedDocs = formattedDocs
-      .filter((d) => d.title !== editedCategoryValue.title)
+      .filter(
+        (d) =>
+          d.title !== editedCategoryValue.title &&
+          d.branchId === authenticatedUser.branchId
+      )
       .map((d) => d.title);
 
     if (filteredFormattedDocs.includes(values.title)) {

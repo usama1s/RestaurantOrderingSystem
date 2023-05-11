@@ -4,17 +4,23 @@ import { ManagerAddLobbies } from "./add-lobbies";
 import { ManagerLobbiesListingsItems } from "./manager-lobbies-listings-items";
 import { COLLECTIONS } from "../../../../utils/firestore-collections";
 import { useCollection } from "react-firebase-hooks/firestore";
-import { collection } from "firebase/firestore";
+import { collection, query, where } from "firebase/firestore";
 import { db } from "../../../../config/@firebase";
 import { formatCollectionData } from "../../../../utils/formatData";
 import { Loading } from "../../../../components/loading";
 const { lobbies } = COLLECTIONS;
 
 export function Lobbies() {
-  const { updateModalStatus } = useCtx();
-  const [value, loading, error] = useCollection(collection(db, lobbies), {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
+  const { updateModalStatus, authenticatedUser } = useCtx();
+  const [value, loading, error] = useCollection(
+    query(
+      collection(db, lobbies),
+      where("branchId", "==", authenticatedUser.branchId)
+    ),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
   const formattedData = formatCollectionData(value);
 
   if (error)
