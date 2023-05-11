@@ -43,7 +43,9 @@ export function ManagersWaiterSection() {
       <div className="w-full">
         {" "}
         {formattedData?.length <= 0 && (
-          <h1 className="font-bold text-xl">No Branches right now.</h1>
+          <h1 className="font-bold text-xl">
+            No Waiters right now. Add waiters to proceed.
+          </h1>
         )}
         {formattedData?.length > 0 &&
           formattedData.map((data) => (

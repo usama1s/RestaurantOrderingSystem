@@ -36,6 +36,7 @@ export function AddWaiters() {
         query(
           collection(db, COLLECTIONS.waiters),
           where("username", "==", values.username)
+          // where('')
         )
       );
       const formattedExistingUsername = formatCollectionData(exists);

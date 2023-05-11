@@ -17,8 +17,12 @@ import { useCtx } from "../../../../context/Ctx";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { formatCollectionData } from "../../../../utils/formatData";
 export function ManagerAddItem() {
+  const { updateModalStatus, authenticatedUser } = useCtx();
   const [value, loading, error] = useCollection(
-    collection(db, COLLECTIONS.categories),
+    query(
+      collection(db, COLLECTIONS.categories),
+      where("branchId", "==", authenticatedUser.branchId)
+    ),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
@@ -32,12 +36,14 @@ export function ManagerAddItem() {
   const [fileUploadError, setFileUploadError] = useState(null);
   const [fileDataURL, setFileDataURL] = useState(null);
   const [status, setStatus] = useState({ loading: false, error: null });
-  const { updateModalStatus } = useCtx();
   const inputRef = useRef();
   React.useEffect(() => {
     const fetchCategories = async () => {
       const category_exist = await getDocs(
-        query(collection(db, COLLECTIONS.categories))
+        query(
+          collection(db, COLLECTIONS.categories),
+          where("branchId", "==", authenticatedUser.branchId)
+        )
       );
 
       if (category_exist.docs.length >= 1) {
@@ -96,7 +102,8 @@ export function ManagerAddItem() {
     const item_exist = await getDocs(
       query(
         collection(db, COLLECTIONS.food_items),
-        where("title", "==", values.title)
+        where("title", "==", values.title),
+        where("branchId", "==", authenticatedUser.branchId)
       )
     );
 
@@ -117,6 +124,7 @@ export function ManagerAddItem() {
         getDownloadURL(snapshot.ref).then(async (downloadURL) => {
           await addDoc(collection_ref, {
             ...values,
+            branchId: authenticatedUser.branchId,
             timestamp: serverTimestamp(),
             imageURL: downloadURL,
           });
