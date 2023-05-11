@@ -12,14 +12,20 @@ import {
 } from "firebase/firestore";
 import { db, auth } from "../../../config/@firebase";
 import { signInWithEmailAndPassword } from "@firebase/auth";
-import { useCtx, LOCAL_STORAGE_BASE } from "../../../context/Ctx";
+import {
+  useCtx,
+  LOCAL_STORAGE_BASE,
+  WAITER_CHEF,
+  WAITER_NORMAL,
+} from "../../../context/Ctx";
 import { formatCollectionData } from "../../../utils/formatData";
 import { useNavigate } from "react-router";
 const { users } = COLLECTIONS;
 export function WaiterLogin({ url, type }) {
   const navigate = useNavigate();
   const [status, setStatus] = useState({ loading: false, error: null });
-  const { setAuthenticatedUser } = useCtx();
+  const { setAuthenticatedUser, setWaiterSidebarLinks, setActiveWaiterTab } =
+    useCtx();
   //Forms Data
   const formik = useFormik({
     initialValues: {
@@ -48,6 +54,14 @@ export function WaiterLogin({ url, type }) {
         formattedData.length === 1 &&
         formattedData[0].password === values.password
       ) {
+        if (formattedData[0].subRole === "CHEF") {
+          setWaiterSidebarLinks(WAITER_CHEF);
+          setActiveWaiterTab("Pending Orders");
+        }
+        if (formattedData[0].subRole === "NORMAL") {
+          setWaiterSidebarLinks(WAITER_NORMAL);
+          setActiveWaiterTab("Dine in");
+        }
         setStatus({ loading: false, error: null });
         localStorage.setItem(
           `${LOCAL_STORAGE_BASE}Data`,

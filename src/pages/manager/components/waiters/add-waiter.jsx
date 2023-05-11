@@ -92,7 +92,7 @@ export function AddWaiters() {
                 onBlur={formik.handleBlur}
               >
                 <option value="LEAD">Head Waiter</option>
-                <option value="ChEF">CHEF</option>
+                <option value="CHEF">CHEF</option>
                 <option value="NORMAL">Regular Waiter</option>
               </select>
               {formik.touched.subRole && formik.errors.subRole ? (

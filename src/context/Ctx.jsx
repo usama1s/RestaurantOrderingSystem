@@ -3,17 +3,19 @@ import { auth } from "../config/@firebase";
 import { onAuthStateChanged } from "firebase/auth";
 export const LOCAL_STORAGE_BASE = "INDIA_GATES_";
 const Ctx = createContext();
+export const WAITER_NORMAL = [
+  { title: "Dine in", active: true },
+  { title: "Take away", active: false },
+];
+export const WAITER_CHEF = [{ title: "Pending Orders", active: true }];
 export function CtxProvider({ children }) {
   const [modalStatus, setModalStatus] = useState({ status: false, jsx: null });
   // const user = localStorage.getItem(`${LOCAL_STORAGE_BASE}Data`);
 
   const [activeTab, setActiveTab] = useState("Lobbies");
-  const [activeWaiterTab, setActiveWaiterTab] = useState("Dine in");
+  const [activeWaiterTab, setActiveWaiterTab] = useState();
   const [managerSidebarToggle, setManagerSidebarToggle] = useState(false);
-  const [waiterSidebarLinks, setWaiterSidebarLinks] = useState([
-    { title: "Dine in", active: true },
-    { title: "Take away", active: false },
-  ]);
+  const [waiterSidebarLinks, setWaiterSidebarLinks] = useState();
   const [adminSidebarLinks, setAdminSidebarLinks] = useState([
     { title: "Branches", active: true },
     { title: "Z", active: false },
@@ -46,7 +48,6 @@ export function CtxProvider({ children }) {
     },
   ]);
   const [authenticatedUser, setAuthenticatedUser] = useState();
-  console.log(authenticatedUser);
   const [authStatus, setAuthStatus] = useState(false);
   const [editedCategoryValue, setEditCategoryValue] = useState(null);
   const [editedItemValue, setEditedItemValue] = useState(null);
@@ -132,6 +133,8 @@ export function CtxProvider({ children }) {
         updateAdminSidebarLinks,
         activeAdminTab,
         setAuthenticatedUser,
+        setWaiterSidebarLinks,
+        setActiveWaiterTab,
       }}
     >
       {children}
