@@ -10,14 +10,6 @@ import { useCollection } from "react-firebase-hooks/firestore";
 import { formatCollectionData } from "../../../../utils/formatData";
 import { Loading } from "../../../../components/loading";
 export function PlaceOrderDinein() {
-  const [lobbySnap, lobbyLoading, lobbyError] = useCollection(
-    collection(db, COLLECTIONS.lobbies),
-    {
-      snapshotListenOptions: { includeMetadataChanges: true },
-    }
-  );
-  const data = formatCollectionData(lobbySnap);
-
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -32,8 +24,17 @@ export function PlaceOrderDinein() {
   const [tables, setTables] = React.useState(null);
   const { itemsOfCart, resetCart, cartTotalPrice, updateCartStatus } =
     useCartCtx();
-  const { updateModalStatus } = useCtx();
-  console.log(tables, formik.values.tableNo);
+  const { updateModalStatus, authenticatedUser } = useCtx();
+  const [lobbySnap, lobbyLoading, lobbyError] = useCollection(
+    query(
+      collection(db, COLLECTIONS.lobbies),
+      where("branchId", "==", authenticatedUser.branchId)
+    ),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
+  const data = formatCollectionData(lobbySnap);
   //t
   React.useEffect(() => {
     if (!formik.values.lobby) {
@@ -47,7 +48,8 @@ export function PlaceOrderDinein() {
         const data = await getDocs(
           query(
             collection(db, COLLECTIONS.lobbies),
-            where("title", "==", formik.values.lobby)
+            where("title", "==", formik.values.lobby),
+            where("branchId", "==", authenticatedUser.branchId)
           )
         );
         const formattedData = formatCollectionData(data);
@@ -73,6 +75,9 @@ export function PlaceOrderDinein() {
       itemsOfCart,
       price: cartTotalPrice,
       type,
+      branchId: authenticatedUser.branchId,
+      waiterId: authenticatedUser.slug,
+      managerId: authenticatedUser.managerId,
     };
     setStatus({ loading: true, error: null });
     try {

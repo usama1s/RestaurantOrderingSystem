@@ -5,8 +5,13 @@ import { WaiterHeader } from "./waiterHeader";
 import { TakeAway } from "./takeaway/index.jsx";
 import { Dinein } from "./dinein";
 export function WaiterContent() {
-  const { activeWaiterTab, waiterSidebarLinks, modalStatus } = useCtx();
-  const renderWaiterContent = (slug) => {
+  const {
+    activeWaiterTab,
+    waiterSidebarLinks,
+    modalStatus,
+    authenticatedUser,
+  } = useCtx();
+  const renderWaiterContentNormal = (slug) => {
     switch (slug) {
       case "Dine in":
         return <Dinein />;
@@ -16,10 +21,22 @@ export function WaiterContent() {
         <h1>Abc</h1>;
     }
   };
+  const renderWaiterContentChef = (slug) => {
+    switch (slug) {
+      case "Pending Orders":
+        return <h1>Pending Orders for Chef</h1>;
+      default:
+        <h1>Abc</h1>;
+    }
+  };
   return (
     <div className={"w-full px-4 lg:px-6 overflow-x-hidden"}>
       <WaiterHeader />
-      {renderWaiterContent(activeWaiterTab)}
+      {authenticatedUser.subRole === "NORMAL"
+        ? renderWaiterContentNormal(activeWaiterTab)
+        : authenticatedUser.subRole === "CHEF"
+        ? renderWaiterContentChef(activeWaiterTab)
+        : ""}
       {modalStatus.status && <Modal />}
     </div>
   );
