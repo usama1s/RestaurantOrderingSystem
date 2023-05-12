@@ -2,13 +2,23 @@ import { useFormik } from "formik";
 import { validation_schema_dinein } from "../../../../utils/validation_schema";
 import { useCartCtx } from "../../../../context/CartCtx";
 import { useCtx } from "../../../../context/Ctx";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
 import { db } from "../../../../config/@firebase";
 import { COLLECTIONS } from "../../../../utils/firestore-collections";
 import React from "react";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { formatCollectionData } from "../../../../utils/formatData";
 import { Loading } from "../../../../components/loading";
+import { useDocument } from "react-firebase-hooks/firestore";
 export function PlaceOrderDinein() {
   const formik = useFormik({
     initialValues: {
@@ -30,6 +40,12 @@ export function PlaceOrderDinein() {
       collection(db, COLLECTIONS.lobbies),
       where("branchId", "==", authenticatedUser.branchId)
     ),
+    {
+      snapshotListenOptions: { includeMetadataChanges: true },
+    }
+  );
+  const [value, loading, error] = useDocument(
+    doc(db, "branches", authenticatedUser.branchId),
     {
       snapshotListenOptions: { includeMetadataChanges: true },
     }
@@ -77,16 +93,36 @@ export function PlaceOrderDinein() {
       type,
       branchId: authenticatedUser.branchId,
       waiterId: authenticatedUser.slug,
-      managerId: authenticatedUser.managerId,
+      orderId: crypto.randomUUID(),
     };
+
+    console.log(payload);
     setStatus({ loading: true, error: null });
     try {
-      await addDoc(collection(db, COLLECTIONS.dinein), payload);
+      const documents = await getDoc(
+        doc(
+          db,
+          `orders`,
+          `${authenticatedUser.branchId}-${value?.data()?.clockInDate}`
+        )
+      );
+
+      await setDoc(
+        doc(
+          db,
+          `orders`,
+          `${authenticatedUser.branchId}-${value?.data()?.clockInDate}`
+        ),
+        {
+          orders: [...documents?.data()?.orders, payload],
+        }
+      );
       setStatus({ loading: false, error: null });
       updateModalStatus(false, null);
       updateCartStatus(false);
       resetCart();
     } catch (e) {
+      console.log(e);
       setStatus({ loading: false, error: "Error placing order." });
     }
   }
@@ -127,7 +163,7 @@ export function PlaceOrderDinein() {
                 value={formik.values.lobby}
               >
                 {data?.length > 0 &&
-                  data?.map(({ slug, title }) => (
+                  [{ title: "", slug: "" }, ...data]?.map(({ slug, title }) => (
                     <option key={slug}>{title}</option>
                   ))}
               </select>

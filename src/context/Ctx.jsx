@@ -28,10 +28,6 @@ export function CtxProvider({ children }) {
   ]);
   const [activeAdminTab, setActiveAdminTab] = useState("Branches");
   const [managerSidebarLinks, setManagerSidebarLinks] = useState([
-    // {
-    //   title: "Dashboard",
-    //   active: true,
-    // },
     {
       title: "Pending Orders",
       active: true,
@@ -50,6 +46,10 @@ export function CtxProvider({ children }) {
     },
     {
       title: "Waiters",
+      active: false,
+    },
+    {
+      title: "Payment Methods",
       active: false,
     },
     {
