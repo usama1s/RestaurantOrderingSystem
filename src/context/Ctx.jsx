@@ -15,7 +15,7 @@ export function CtxProvider({ children }) {
   const [modalStatus, setModalStatus] = useState({ status: false, jsx: null });
   // const user = localStorage.getItem(`${LOCAL_STORAGE_BASE}Data`);
 
-  const [activeTab, setActiveTab] = useState("Lobbies");
+  const [activeTab, setActiveTab] = useState("Pending Orders");
   const [activeWaiterTab, setActiveWaiterTab] = useState("Dine in");
   const [managerSidebarToggle, setManagerSidebarToggle] = useState(false);
   const [waiterSidebarLinks, setWaiterSidebarLinks] = useState([
@@ -50,6 +50,10 @@ export function CtxProvider({ children }) {
     },
     {
       title: "Waiters",
+      active: false,
+    },
+    {
+      title: "Clocking System",
       active: false,
     },
   ]);

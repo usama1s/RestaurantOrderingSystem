@@ -213,14 +213,14 @@ export function ManagerEditItem() {
               Description
             </label>
             <div className="mt-1">
-              <input
-                className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+              <textarea
+                className="flex  h-16 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Description"
                 name="description"
                 onChange={formik.handleChange}
                 value={formik.values.description}
                 onBlur={formik.handleBlur}
-              ></input>
+              ></textarea>
               {formik.touched.description && formik.errors.description ? (
                 <p className="my-2">{formik.errors.description}</p>
               ) : (
