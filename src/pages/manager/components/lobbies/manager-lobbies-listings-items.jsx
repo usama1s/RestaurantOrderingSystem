@@ -16,10 +16,15 @@ export function ManagerLobbiesListingsItems({ title, slug, noOfTables }) {
     updateModalStatus(true, <ManagerEditLobby />);
   };
   return (
-    <div className="flex items-center  bg-[#FBFBFB] shadow-md w-full p-2 rounded-md my-4 relative">
-      <div>
+    <div className="flex items-center  bg-[#FBFBFB] shadow-md w-full p-4 rounded-md my-4 relative">
+      <div className="flex flex-col gap-2">
         <h3 className="font-bold text-xl">{title}</h3>
-        <p className="font-normal text-sm">Number of Rooms: {noOfTables}</p>
+        <p className="text-base font-normal">
+          <span className="font-bold">Number of Rooms:</span>{" "}
+          <span className="bg-green-500 py-1 px-2 text-xs rounded-md text-white">
+            {noOfTables}
+          </span>
+        </p>
       </div>
       <div className="absolute right-4 flex">
         <TrashIcon
@@ -32,11 +37,11 @@ export function ManagerLobbiesListingsItems({ title, slug, noOfTables }) {
               />
             )
           }
-          className="h-6 w-6 mr-4 text-black cursor-pointer"
+          className="h-6 w-6 mr-4 text-gray-900 cursor-pointer hover:scale-110 duration-200"
         />
         <PencilIcon
           onClick={updateItemHandler}
-          className="h-6 w-6 mr-4 text-black cursor-pointer"
+          className="h-6 w-6 mr-4 text-gray-900 cursor-pointer hover:scale-110 duration-200"
         />
       </div>
     </div>

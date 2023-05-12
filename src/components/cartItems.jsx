@@ -7,11 +7,27 @@ export function CartItems({ title, slug, price, qty }) {
   return (
     <div className="flex flex-col bg-[#F3F4F6] my-2 ">
       <div className="flex flex-col">
-        <div className="p-1 pl-3 flex-[0.4] flex flex-col w-full">
-          <div className="flex items-center justify-between">
+        <div className="p-1 pl-3 flex justify-between items-center w-full">
+          <div className="flex items-center justify-between gap-2">
             <h2 className="truncate break-words pb-1 text-xl font-bold">
               {title}
             </h2>
+            <p className="truncate break-words text-base">
+              TRY.{price} x {qty} ={price * qty}
+            </p>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="flex space-x-2  py-2">
+              <MinusCircleIcon
+                onClick={() => onCartItemRemove({ slug })}
+                className="h-6 w-6 cursor-pointer"
+              />
+              <span className="text-sm font-normal">{qty}</span>
+              <PlusCircleIcon
+                onClick={() => onCartItemAdd({ slug })}
+                className="h-6 w-6 cursor-pointer"
+              />
+            </div>
             <svg
               // onClick={onItemDelete(slug)}
               onClick={() =>
@@ -35,21 +51,6 @@ export function CartItems({ title, slug, price, qty }) {
                 clipRule="evenodd"
               />
             </svg>
-          </div>
-          <p className="truncate break-words text-base">
-            <span className="font-bold">Price: </span>TRY.{price} x {qty} =
-            {price * qty}
-          </p>
-          <div className="flex space-x-2  py-2">
-            <MinusCircleIcon
-              onClick={() => onCartItemRemove({ slug })}
-              className="h-6 w-6 cursor-pointer"
-            />
-            <span className="text-sm font-normal">{qty}</span>
-            <PlusCircleIcon
-              onClick={() => onCartItemAdd({ slug })}
-              className="h-6 w-6 cursor-pointer"
-            />
           </div>
         </div>
       </div>

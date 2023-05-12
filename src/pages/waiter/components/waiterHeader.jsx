@@ -28,7 +28,7 @@ export function WaiterHeader() {
   };
 
   return (
-    <div className="px-2 lg:px-6 flex items-center justify-between md:justify-end min-h-[10vh] w-full">
+    <div className="flex items-center justify-between md:justify-end min-h-[10vh] w-full">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -42,10 +42,10 @@ export function WaiterHeader() {
           clipRule="evenodd"
         />
       </svg>
-      <div className={`relative justify-end flex space-x-2 items-center`}>
-        <div>
+      <div className={`relative justify-end flex space-x-4 items-center`}>
+        <div className="relative">
           <BsCartFill
-            className="cursor-pointer w-6 h-6"
+            className="cursor-pointer w-6 h-6 text-gray-900 hover:scale-110 duration-200"
             size={16}
             onClick={() => updateCartStatus(true)}
           />
@@ -57,12 +57,12 @@ export function WaiterHeader() {
             </span>
           )}
         </div>
-        <button
-          className="bg-black text-white py-2 px-6 rounded-md font-bold"
-          onClick={logout}
-        >
-          Logout
-        </button>
+        <div className="rounded relative inline-flex group items-center justify-center px-3.5 py-2 m-1 cursor-pointer border-b-4 border-l-2 active:border-gray-800 active:shadow-none shadow-lg bg-gradient-to-tr from-gray-900 to-gray-800 border-gray-800 text-white">
+          <span className="absolute w-0 h-0 transition-all duration-300 ease-out bg-white rounded-full group-hover:w-36 group-hover:h-20 opacity-10"></span>
+          <button className="relative" onClick={logout}>
+            Logout
+          </button>
+        </div>
       </div>
     </div>
   );

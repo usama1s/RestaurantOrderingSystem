@@ -71,7 +71,7 @@ export function ManagerAddLobbies() {
       <form onSubmit={formik.handleSubmit} className="mt-2">
         <div className="space-y-5">
           <div>
-            <label htmlFor="" className="text-xl font-medium text-gray-900">
+            <label htmlFor="" className="text-lg font-medium text-gray-900">
               Title
             </label>
             <div className="mt-1">
@@ -93,7 +93,7 @@ export function ManagerAddLobbies() {
 
           <div>
             <div className="flex items-center justify-between">
-              <label htmlFor="" className="text-xl font-medium text-gray-900">
+              <label htmlFor="" className="text-lg font-medium text-gray-900">
                 Number of Tables
               </label>
             </div>
@@ -120,7 +120,7 @@ export function ManagerAddLobbies() {
             <button
               type="submit"
               disabled={status.loading}
-              className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 text-base font-semibold leading-7 text-white"
+              className="inline-flex w-full items-center justify-center rounded-md bg-gray-900/100 px-3.5 py-2.5 text-base font-semibold leading-7 text-white"
             >
               {status.loading ? "Adding..." : "Add a Lobby"}
             </button>

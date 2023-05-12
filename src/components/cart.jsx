@@ -24,7 +24,7 @@ export function Cart({ title }) {
       } fixed h-full top-0 right-0 w-full flex justify-end bg-[rgba(0,0,0,0.5)]`}
     >
       <div
-        className={`bg-white w-80 flex flex-col overflow-hidden px-2 transition-all duration-75 ease-in-outs ${
+        className={`bg-white w-[30rem] flex flex-col overflow-hidden px-2 transition-all duration-75 ease-in-outs ${
           !cartStatus ? "translate-x-full" : "translate-x-0"
         }`}
       >
@@ -35,13 +35,13 @@ export function Cart({ title }) {
             className="h-6 w-6 cursor-pointer"
           />
         </div>
-        <div className="h-[90vh] overflow-y-scroll px-2 ">
+        <div className="h-[90vh] overflow-y-scroll pr-2 ">
           {itemsOfCart.length >= 1 ? (
             itemsOfCart.map((itemData) => (
               <CartItems key={itemData.slug} {...itemData} />
             ))
           ) : (
-            <h1 className="font-bold text-black text-xl">
+            <h1 className="font-bold text-gray-900 text-xl">
               No items in the cart right now.
             </h1>
           )}
@@ -49,7 +49,7 @@ export function Cart({ title }) {
         <div className="flex items-center justify-between px-2 m-1">
           <h1 className="text-base font-regular">
             Total:
-            <span className="text-black ml-1 font-bold">
+            <span className="text-gray-900 ml-1 font-bold">
               TRY {cartTotalPrice}
             </span>
           </h1>

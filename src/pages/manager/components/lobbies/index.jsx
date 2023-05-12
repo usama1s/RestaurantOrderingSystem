@@ -38,11 +38,11 @@ export function Lobbies() {
       <div className="flex items-center justify-between py-4 ">
         <h1 className="text-2xl font-bold">Lobbies</h1>
         <PlusIcon
-          className="h-8 w-8 text-black cursor-pointer"
+          className="h-8 w-8 text-gray-900 cursor-pointer"
           onClick={() => updateModalStatus(true, <ManagerAddLobbies />)}
         />
       </div>
-      <h1 className="text-2xl py-2">
+      <div className="text-2xl">
         {formattedData?.length > 0 &&
           formattedData?.map((data) => (
             <ManagerLobbiesListingsItems key={data.slug} {...data} />
@@ -54,7 +54,7 @@ export function Lobbies() {
             </h1>
           </div>
         )}
-      </h1>
+      </div>
     </div>
   );
 }

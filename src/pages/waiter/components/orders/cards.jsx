@@ -21,14 +21,14 @@ export function ManagerOrderCards({ items }) {
             key={data.slug}
             className={`cursor-pointer pb-0 w-[200px] h-[200px] rounded-lg overflow-hidden my-2 relative border-[1px] border-[#F3F4F6] shadow-lg`}
           >
-            <div>
+            <div className="w-full h-full">
               <img
                 src={data.imageURL}
                 alt={data.imageURL}
                 className="w-full h-full object-cover rounded-md"
               />
             </div>
-            <h1 className="p-2 text-white z-10 uppercase absolute top-[40%] left-[36%] truncate break-words text-base text-center font-semibold">
+            <h1 className="p-2 text-white z-10 uppercase absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 truncate break-words text-base text-center font-semibold">
               {data.title}
             </h1>
 

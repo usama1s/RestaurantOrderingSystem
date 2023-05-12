@@ -16,6 +16,7 @@ import { db, storage } from "../../../../config/@firebase";
 import { useCtx } from "../../../../context/Ctx";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { formatCollectionData } from "../../../../utils/formatData";
+import { FaCloudUploadAlt } from "react-icons/fa";
 export function ManagerAddItem() {
   const { updateModalStatus, authenticatedUser } = useCtx();
   const [value, loading, error] = useCollection(
@@ -159,12 +160,12 @@ export function ManagerAddItem() {
       <form onSubmit={formik.handleSubmit} className="mt-2">
         <div className="space-y-5">
           <div>
-            <label htmlFor="" className="text-xl font-medium text-gray-900">
+            <label htmlFor="" className="text-lg font-medium text-gray-900">
               Title
             </label>
             <div className="mt-1">
               <input
-                className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Title"
                 name="title"
                 onChange={formik.handleChange}
@@ -179,7 +180,7 @@ export function ManagerAddItem() {
             </div>
           </div>
           <div>
-            <label htmlFor="" className="text-xl font-medium text-gray-900">
+            <label htmlFor="" className="text-lg font-medium text-gray-900">
               Description
             </label>
             <div className="mt-1">
@@ -200,7 +201,7 @@ export function ManagerAddItem() {
           </div>
           <div>
             <div className="flex items-center justify-between">
-              <label htmlFor="" className="text-xl font-medium text-gray-900">
+              <label htmlFor="" className="text-lg font-medium text-gray-900">
                 Price
               </label>
             </div>
@@ -224,7 +225,7 @@ export function ManagerAddItem() {
           </div>
           <div className="flex justify-between">
             <div className="flex items-center justify-between">
-              <label htmlFor="" className="text-xl font-medium text-gray-900">
+              <label htmlFor="" className="text-lg font-medium text-gray-900">
                 Category
               </label>
             </div>
@@ -247,9 +248,9 @@ export function ManagerAddItem() {
             )}
           </div>
 
-          <div className="flex items-center justify-between">
+          {/* <div className="flex items-center justify-between">
             <div className="md:flex items-center justify-between">
-              <label htmlFor="" className="text-xl font-medium text-gray-900">
+              <label htmlFor="" className="text-lg font-medium text-gray-900">
                 Add Image for the item.
               </label>
               <input
@@ -275,6 +276,18 @@ export function ManagerAddItem() {
                 />
               </div>
             )}
+          </div> */}
+          <div className="flex flex-col">
+            <div
+              //   // onClick={()=>{
+              //   // setFileDataURL(null)
+              //   // setFile(null)
+              //   // }}
+              className="flex justify-center items-center gap-4"
+            >
+              <span>Upload Image</span>
+              <FaCloudUploadAlt className="w-8 h-8 text-gray-900 hover:scale-110 duration-200 cursor-pointer" />
+            </div>
           </div>
           {fileUploadError && <p>{fileUploadError}</p>}
           {status.error && <p>{status.error}</p>}
@@ -282,7 +295,7 @@ export function ManagerAddItem() {
             <button
               type="submit"
               disabled={status.loading}
-              className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5  font-regular leading-7 text-white  text-xl"
+              className="inline-flex w-full items-center justify-center rounded-md bg-gray-900/100 px-3.5 py-2.5  font-regular leading-7 text-white  text-xl"
             >
               {status.loading ? "Adding..." : "Add an item."}
             </button>

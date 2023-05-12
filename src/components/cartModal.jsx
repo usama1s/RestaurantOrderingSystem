@@ -32,26 +32,30 @@ export function CartModal() {
       }}
       className="cart-modal-shadow bg-[rgba(0,0,0,0.5)] flex items-center justify-center fixed top-0 left-0 w-full h-full"
     >
-      <div className="min-h-[20vh] rounded-md bg-white w-[70%] flex flex-col">
+      <div className="rounded-md bg-white w-80 flex flex-col p-1">
         <div className="p-2">
           <div className="w-fit float-right ml-auto">
             <XMarkIcon
-              className="h-8 w-8"
+              className="h-8 w-8 cursor-pointer"
               onClick={() => updateCartModalStatus(false, null)}
             />
           </div>
-          <h2 className="text-2xl font-bold">
-            Item Selected: {cartModalStatus.value.title}
-          </h2>
+          <h2 className="text-lg font-bold">{cartModalStatus.value.title}</h2>
         </div>
-        <div className="flex items-center py-2 gap-2 justify-center ">
-          <MinusCircleIcon onClick={add(-1)} className="w-8 h-8" />
+        <div className="flex items-center py-2 gap-2 justify-center">
+          <MinusCircleIcon
+            onClick={add(-1)}
+            className="w-8 h-8 text-gray-900/100 cursor-pointer"
+          />
           <span>{qty}</span>
-          <PlusCircleIcon onClick={add(+1)} className="w-8 h-8" />
+          <PlusCircleIcon
+            onClick={add(+1)}
+            className="w-8 h-8 text-gray-900/100 cursor-pointer"
+          />
         </div>
         <button
           onClick={addItemToCart}
-          className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 text-base font-semibold leading-7 text-white"
+          className="inline-flex w-full items-center justify-center rounded-md bg-gray-900/100 px-3.5 py-2.5 text-base font-semibold leading-7 text-white"
         >
           Ok
         </button>

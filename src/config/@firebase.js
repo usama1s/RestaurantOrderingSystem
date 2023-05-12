@@ -8,7 +8,7 @@ const firebaseConfig = {
   projectId: "foodorderingapp-b360f",
   storageBucket: "foodorderingapp-b360f.appspot.com",
   messagingSenderId: "662608382412",
-  appId: "1:662608382412:web:859cd0d1618089c8d8f569"
+  appId: "1:662608382412:web:859cd0d1618089c8d8f569",
 };
 // const firebaseConfig = {
 //   apiKey: "AIzaSyBrr-cfPJfun9szNvHp8K_6Z5VXcoUhLTM",
