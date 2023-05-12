@@ -1,5 +1,5 @@
 import { WaiterContent } from "./components/waiterContent";
-import { WaiterLayout } from "./components/WaiterLayout";
+import { WaiterLayout } from "./components/waiterLayout";
 import { CartModal } from "../../components/cartModal";
 import { useCartCtx } from "../../context/CartCtx";
 import { Cart } from "../../components/cart";
