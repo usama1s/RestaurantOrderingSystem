@@ -25,14 +25,14 @@ export function ManagerItemsListingItems({
 
   return (
     <div className="flex  bg-[#FBFBFB] shadow-md w-full rounded-md my-2 relative">
-      <div className="w-32 h-32">
+      <div className=" w-40 h-40">
         <img
-          className="w-full h-full object-cover rounded-md mr-4 flex-[0.3]"
+          className="w-full h-full object-cover rounded-md mr-4"
           src={imageURL}
         />
       </div>
-      <div className="flex-1">
-        <div className="flex items-center flex-1 justify-between w-full ">
+      <div className="flex-1 p-4">
+        <div className="flex items-center justify-between w-full ">
           <h3 className="font-bold text-xl p-1 ">{title}</h3>
           <div className="flex ">
             <TrashIcon
@@ -45,24 +45,27 @@ export function ManagerItemsListingItems({
                   />
                 );
               }}
-              className="h-6 w-6 mr-4 text-black cursor-pointer"
+              className="h-6 w-6 mr-4 text-gray-900 cursor-pointer hover:scale-110 duration-200"
             />
             <PencilIcon
               onClick={updateItemHandler}
-              className="h-6 w-6 mr-2 text-black cursor-pointer"
+              className="h-6 w-6 mr-2 text-gray-900 cursor-pointer hover:scale-110 duration-200"
             />
           </div>
         </div>
-        <p className="p-1 text-sm">
-          <span className="font-bold text-base mr-1"> Price:</span>${price}
+        <p className="pt-2 text-sm truncate break-words">
+          <span className="font-semibold text-base mr-1"> Category:</span>
+          {category}
         </p>
-        <p className="p-1 text-sm truncate break-words">
-          <span className="font-bold text-base mr-1"> Description:</span>
+        <p className="text-sm truncate break-words">
+          <span className="font-semibold text-base mr-1"> Description:</span>
           {description}
         </p>
-        <p className="p-1 text-sm truncate break-words">
-          <span className="font-bold text-base mr-1"> Category:</span>
-          {category}
+        <p className="pt-2 text-sm">
+          <span className="font-semibold text-base mr-1"> Price:</span>{" "}
+          <span className="py-1 bg-green-500 rounded-md text-white px-2 font-semibold">
+            ${price}
+          </span>
         </p>
       </div>
     </div>

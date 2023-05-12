@@ -19,6 +19,7 @@ import { useCtx } from "../../../../context/Ctx";
 import { useCollection } from "react-firebase-hooks/firestore";
 import { formatCollectionData } from "../../../../utils/formatData";
 import { Loading } from "../../../../components/loading";
+import { FaCloudUploadAlt } from "react-icons/fa";
 export function ManagerEditItem() {
   const {
     editedItemValue,
@@ -263,9 +264,10 @@ export function ManagerEditItem() {
               onChange={formik.handleChange}
               value={formik.values.category}
               onBlur={formik.handleBlur}
+              className="px-2 outline-none cursor-pointer"
             >
               {formattedData?.map(({ title }) => (
-                <option key={title} value={title}>
+                <option className="cursor-pointer" key={title} value={title}>
                   {title}
                 </option>
               ))}
@@ -277,30 +279,40 @@ export function ManagerEditItem() {
             )}
           </div>
 
-          <div className="flex justify-between">
-            <div className="md:flex items-center justify-between">
-              <label htmlFor="" className="text-xl font-medium text-gray-900">
-                Add Image for the item.
-              </label>
-              <input
-                ref={inputRef}
-                accept="image/*"
-                type="file"
-                className=""
-                onChange={setImage}
-              ></input>
-            </div>
-            {fileDataURL && (
-              <div
-              // onClick={()=>{
-              // setFileDataURL(null)
-              // setFile(null)
-              // }}
+          <div className="flex flex-col">
+            <div>
+              <label
+                htmlFor="imageInput"
+                className="w-[80px] flex items-center text-xl font-medium text-gray-900 cursor-pointer"
               >
-                <img
-                  className="w-[160px] h-full object-cover"
-                  src={fileDataURL ? fileDataURL : ""}
+                <input
+                  id="imageInput"
+                  ref={inputRef}
+                  accept="image/*"
+                  type="file"
+                  onChange={setImage}
+                  className="hidden"
                 />
+                <div className="relative">
+                  <FaCloudUploadAlt className="w-8 h-8 text-gray-900 absolute top-2/4 left-2/4 -translate-x-2/4 -translate-y-2/4 hover:scale-110 duration-200" />
+
+                  <img
+                    className="w-[80px] h-full object-cover"
+                    src={fileDataURL ? fileDataURL : ""}
+                  />
+                </div>
+              </label>
+            </div>
+            {!fileDataURL && (
+              <div
+                //   // onClick={()=>{
+                //   // setFileDataURL(null)
+                //   // setFile(null)
+                //   // }}
+                className="flex justify-center items-center gap-4"
+              >
+                <span>No Image Uploaded</span>
+                <FaCloudUploadAlt className="w-8 h-8 text-gray-900 hover:scale-110 duration-200 cursor-pointer" />
               </div>
             )}
           </div>
@@ -310,7 +322,7 @@ export function ManagerEditItem() {
             <button
               type="submit"
               disabled={status.loading}
-              className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5  font-regular leading-7 text-white text-xl"
+              className="inline-flex w-full items-center justify-center rounded-md bg-gray-900/100 px-3.5 py-2.5  font-regular leading-7 text-white text-xl"
             >
               {status.loading ? "Updating..." : "Update item."}
             </button>

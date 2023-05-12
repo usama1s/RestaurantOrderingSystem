@@ -87,14 +87,14 @@ export function AdminAddManagers() {
   };
   const formJSX = (
     <div>
-      <h1 className="font-bold text-3xl py-3">Add Branches.</h1>
+      <h1 className="font-bold text-2xl py-3">Add Branches.</h1>
       <form onSubmit={formik.handleSubmit}>
         <div className="space-y-5">
           <div>
-            <label htmlFor="" className="text-xl font-medium text-gray-900">
+            <label htmlFor="" className="text-lg font-medium text-gray-900">
               Branch Name
             </label>
-            <div className="mt-2.5">
+            <div className="mt-1">
               <input
                 className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Branch Name"
@@ -111,12 +111,12 @@ export function AdminAddManagers() {
             </div>
           </div>
           <div>
-            <label htmlFor="" className="text-xl font-medium text-gray-900">
+            <label htmlFor="" className="text-lg font-medium text-gray-900">
               Manager's Name
             </label>
-            <div className="mt-2.5">
+            <div className="mt-1">
               <input
-                className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Manager Name"
                 name="managerName"
                 onChange={formik.handleChange}
@@ -131,10 +131,10 @@ export function AdminAddManagers() {
             </div>
           </div>
           <div>
-            <label htmlFor="" className="text-xl font-medium text-gray-900">
+            <label htmlFor="" className="text-lg font-medium text-gray-900">
               Email
             </label>
-            <div className="mt-2.5">
+            <div className="mt-1">
               <input
                 className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Email"
@@ -151,10 +151,10 @@ export function AdminAddManagers() {
             </div>
           </div>
           <div>
-            <label htmlFor="" className="text-xl font-medium text-gray-900">
+            <label htmlFor="" className="text-lg font-medium text-gray-900">
               Password
             </label>
-            <div className="mt-2.5">
+            <div className="mt-1">
               <input
                 className="flex  h-10 w-full rounded-md border border-gray-300 bg-transparent py-2 px-3 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
                 placeholder="Password"
@@ -171,11 +171,12 @@ export function AdminAddManagers() {
             </div>
           </div>
           {status.error && <h2>{status.error}</h2>}
-          <div>
+          <div className="rounded relative inline-flex group items-center justify-center px-3.5 py-2 m-1 cursor-pointer border-b-4 border-l-2 active:border-gray-800 active:shadow-none shadow-lg bg-gradient-to-tr from-gray-900 to-gray-800 border-gray-800 text-white">
+            <span className="absolute w-0 h-0 transition-all duration-300 ease-out bg-white rounded-full group-hover:w-36 group-hover:h-20 opacity-10"></span>
             <button
+              className="relative"
               type="submit"
               disabled={status.loading}
-              className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5  font-regular leading-7 text-white  text-xl"
             >
               {status.loading ? "Adding..." : "Add Branch."}
             </button>

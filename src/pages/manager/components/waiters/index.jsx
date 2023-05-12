@@ -36,11 +36,11 @@ export function ManagersWaiterSection() {
       <div className="flex items-center justify-between py-4">
         <h1 className="text-2xl font-bold">Waiter</h1>
         <PlusIcon
-          className="h-8 w-8 text-black cursor-pointer"
+          className="h-8 w-8 text-gray-900 cursor-pointer"
           onClick={() => updateModalStatus(true, <AddWaiters />)}
         />
       </div>
-      <div className="w-full">
+      <div className="w-full flex flex-col gap-5">
         {" "}
         {formattedData?.length <= 0 && (
           <h1 className="font-bold text-xl">
@@ -51,17 +51,18 @@ export function ManagersWaiterSection() {
           formattedData.map((data) => (
             <div
               key={data.slug}
-              className="flex bg-[#FBFBFB]  shadow-md rounded-md relative my-2 w-full"
+              className="flex bg-[#FBFBFB] shadow-md rounded-md relative p-4 w-full"
             >
               <div className="flex w-full items-center justify-between">
                 <div className="flex-1">
                   <h2 className="text-xl font-bold">
-                    Username:{data.username}
+                    Username:{" "}
+                    <span className="font-semibold">{data.username}</span>
                   </h2>
-                  <p className="text-base font-normal">
+                  <p className="text-sm font-normal">
                     <span className="font-bold">Name:</span> {data.waiterName}
                   </p>
-                  <p className="text-base font-normal">
+                  <p className="text-sm font-normal">
                     <span className="font-bold">Role:</span> {data.subRole}
                   </p>
                 </div>
@@ -76,11 +77,11 @@ export function ManagersWaiterSection() {
                     //     />
                     //   )
                     // }
-                    className="h-6 w-6 mr-4 text-black cursor-pointer"
+                    className="h-6 w-6 mr-4 text-gray-900 cursor-pointer hover:scale-110 duration-200"
                   />
                   <PencilIcon
                     onClick={() => {}}
-                    className="h-6 w-6 mr-2 text-black cursor-pointer"
+                    className="h-6 w-6 mr-2 text-gray-900 cursor-pointer hover:scale-110 duration-200"
                   />
                 </div>
               </div>

@@ -36,10 +36,9 @@ export function AdminManagerSection() {
         <h1 className="text-2xl font-bold">Branches</h1>
         <PlusIcon
           onClick={() => updateModalStatus(true, <AdminAddManagers />)}
-          className="h-8 w-8 text-black"
+          className="h-8 w-8 text-gray-900"
         />
       </div>
-      <h2>Braches listing..</h2>
       <div className="w-full">
         {formattedData?.length <= 0 && (
           <h1 className="font-bold text-xl">No Branches right now.</h1>
@@ -48,13 +47,16 @@ export function AdminManagerSection() {
           formattedData.map((data) => (
             <div
               key={data.slug}
-              className="flex bg-[#FBFBFB]  shadow-md rounded-md relative my-2 w-full"
+              className="flex bg-[#FBFBFB]  shadow-xl rounded-md relative my-2 w-full"
             >
-              <div className="flex w-full items-center justify-between">
-                <div className="flex-1">
+              <div className="flex w-full items-center justify-between p-4">
+                <div className="flex flex-col gap-2">
                   <h2 className="text-xl font-bold">{data.email}</h2>
                   <p className="text-base font-normal">
-                    <span className="font-bold">Branch:</span> {data.branchName}
+                    <span className="font-bold">Branch:</span>{" "}
+                    <span className="bg-green-500 p-1 text-xs rounded-sm text-white">
+                      {data.branchName}
+                    </span>
                   </p>
                 </div>
                 <div className="flex mr-1">
@@ -68,11 +70,11 @@ export function AdminManagerSection() {
                     //     />
                     //   )
                     // }
-                    className="h-6 w-6 mr-4 text-black cursor-pointer"
+                    className="h-6 w-6 mr-4 text-gray-900 cursor-pointer hover:scale-110 duration-200"
                   />
                   <PencilIcon
                     onClick={() => {}}
-                    className="h-6 w-6 mr-2 text-black cursor-pointer"
+                    className="h-6 w-6 mr-2 text-gray-900 cursor-pointer hover:scale-110 duration-200"
                   />
                 </div>
               </div>

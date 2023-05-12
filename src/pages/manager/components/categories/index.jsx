@@ -37,10 +37,10 @@ export function ManagerCategory() {
         <h1 className="font-bold text-2xl">Categories</h1>
         <PlusIcon
           onClick={() => updateModalStatus(true, <ManagerAddCategories />)}
-          className="h-8 w-8 font-bold text-black"
+          className="h-8 w-8 font-bold text-gray-900"
         />
       </div>
-      <h1 className="text-2xl py-2">
+      <div className="text-2xl">
         {formattedData?.length > 0 &&
           formattedData?.map((data) => (
             <ManagerCategoriesListingsItems key={data.slug} {...data} />
@@ -52,7 +52,7 @@ export function ManagerCategory() {
             </h1>
           </div>
         )}
-      </h1>
+      </div>
     </div>
   );
 }

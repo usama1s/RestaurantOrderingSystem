@@ -39,10 +39,10 @@ export function ManagerItems() {
         <h1 className="text-2xl font-bold">Menu Items</h1>
         <PlusIcon
           onClick={() => updateModalStatus(true, <ManagerAddItem />)}
-          className="h-8 w-8 text-black"
+          className="h-8 w-8 text-gray-900 cursor-pointer"
         />
       </div>
-      <h1 className="text-2xl py-2">
+      <div className="text-2xl flex flex-col gap-2">
         {formattedData?.length > 0 &&
           formattedData?.map((data) => (
             <ManagerItemsListingItems key={data.slug} {...data} />
@@ -54,7 +54,7 @@ export function ManagerItems() {
             </h1>
           </div>
         )}
-      </h1>
+      </div>
     </div>
   );
 }

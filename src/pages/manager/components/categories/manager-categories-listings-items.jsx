@@ -15,7 +15,7 @@ export function ManagerCategoriesListingsItems({ slug, title }) {
     updateModalStatus(true, <ManagerEditCategory />);
   };
   return (
-    <div className="flex items-center  bg-[#FBFBFB] shadow-md w-full p-2 rounded-md my-4 relative">
+    <div className="flex items-center  bg-[#FBFBFB] shadow-md w-full p-4 rounded-md my-4 relative">
       <div>
         <h3 className="font-bold text-xl">{title}</h3>
       </div>
@@ -30,11 +30,11 @@ export function ManagerCategoriesListingsItems({ slug, title }) {
               />
             )
           }
-          className="h-6 w-6 mr-4 text-black cursor-pointer"
+          className="h-6 w-6 mr-4 text-gray-900 cursor-pointer hover:scale-110 duration-200"
         />
         <PencilIcon
           onClick={updateItemHandler}
-          className="h-6 w-6 mr-4 text-black cursor-pointer"
+          className="h-6 w-6 mr-4 text-gray-900 cursor-pointer hover:scale-110 duration-200"
         />
       </div>
     </div>
