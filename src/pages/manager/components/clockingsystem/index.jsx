@@ -12,9 +12,12 @@ import {
 import { useCtx } from "../../../../context/Ctx";
 import { useDocument } from "react-firebase-hooks/firestore";
 import React from "react";
+import { ClockIn } from "./components/clockin";
+import { ClockOut } from "./components/clockout";
+import { Loading } from "../../../../components/loading";
 // import
 export function ClockingSystem() {
-  const { authenticatedUser } = useCtx();
+  const { authenticatedUser, updateModalStatus } = useCtx();
   const [value, loading, error] = useDocument(
     doc(db, "branches", authenticatedUser.branchId),
     {
@@ -32,8 +35,7 @@ export function ClockingSystem() {
         clockInDate: date,
       });
       await setDoc(doc(db, "orders", `${authenticatedUser.branchId}-${date}`), {
-        dineInOrders: [],
-        takeAwayOrders: [],
+        orders: [],
       });
       setStatus({ loading: false, error: null });
     } catch (e) {
@@ -62,25 +64,59 @@ export function ClockingSystem() {
       setStatus({ loading: false, error: "Error updating the status." });
     }
   };
-  if (loading) return <h1>Loading....</h1>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-[20vh]">
+        {" "}
+        <Loading />
+      </div>
+    );
   if (error)
     return <h1>{error?.message ? error?.message : "Error right now.."}</h1>;
+
   return (
-    <div>
-      <button
-        className="disabled:bg-slate-500 bg-black text-white"
-        disabled={status.loading || value?.data()?.clockInTime}
-        onClick={clockIn}
-      >
-        Clock in
-      </button>
-      <button
-        className="disabled:bg-slate-500"
-        disabled={status.loading || !value?.data()?.clockInTime}
-        onClick={clockOut}
-      >
-        Clock Out
-      </button>
-    </div>
+    <>
+      <div>
+        {!value?.data()?.clockInTime ? (
+          <div className="flex items-center justify-between">
+            <h1>Clock in</h1>
+            <button
+              className="bg-black text-white"
+              onClick={() => {
+                updateModalStatus(
+                  true,
+                  <ClockIn
+                    clockIn={clockIn}
+                    disabled={status.loading || value?.data()?.clockInTime}
+                    loading={status.loading}
+                  />
+                );
+              }}
+            >
+              Clock in
+            </button>
+          </div>
+        ) : (
+          <div className="flex items-center justify-between">
+            <h1>Clock out</h1>
+            <button
+              className="bg-black text-white"
+              onClick={() => {
+                updateModalStatus(
+                  true,
+                  <ClockOut
+                    clockOut={clockOut}
+                    disabled={status.loading || !value?.data()?.clockInTime}
+                    loading={status.loading}
+                  />
+                );
+              }}
+            >
+              Clock Out
+            </button>
+          </div>
+        )}
+      </div>
+    </>
   );
 }

@@ -254,14 +254,7 @@ export function ManagerAddItem() {
               <label htmlFor="" className="text-lg font-medium text-gray-900">
                 Add Image for the item.
               </label>
-              <input
-                ref={inputRef}
-                accept="image/*"
-                type="file"
-                className=""
-                onChange={setImage}
-              ></input>
-            </div>
+             
             <div className="mt-1"></div>
             {fileDataURL && (
               <div
@@ -287,7 +280,17 @@ export function ManagerAddItem() {
               className="flex justify-center items-center gap-4"
             >
               <span>Upload Image</span>
-              <FaCloudUploadAlt className="w-8 h-8 text-gray-900 hover:scale-110 duration-200 cursor-pointer" />
+              <div className="w-8 h-8 relative overflow-hidden">
+                <input
+                  ref={inputRef}
+                  accept="image/*"
+                  type="file"
+                  className="absolute top-0 left-0 opacity-0"
+                  onChange={setImage}
+                ></input>
+
+                <FaCloudUploadAlt className="pointer-events-none w-full h-full text-gray-900 hover:scale-110 duration-200 cursor-pointer" />
+              </div>
             </div>
           </div>
           {fileUploadError && <p>{fileUploadError}</p>}
