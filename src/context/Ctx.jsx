@@ -2,12 +2,20 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../config/@firebase";
 import { onAuthStateChanged } from "firebase/auth";
 export const LOCAL_STORAGE_BASE = "INDIA_GATES_";
+export const WAITER_SIDERBARLINKS_CHEF = [
+  { title: "Pending Orders", active: true },
+];
+export const WAITER_SIDERBARLINKS_NORMAL = [
+  { title: "Dine in", active: true },
+  { title: "Take away", active: false },
+];
+export const WAITER_SIDERBARLINKS_LEAD = [{}];
 const Ctx = createContext();
 export function CtxProvider({ children }) {
   const [modalStatus, setModalStatus] = useState({ status: false, jsx: null });
   // const user = localStorage.getItem(`${LOCAL_STORAGE_BASE}Data`);
 
-  const [activeTab, setActiveTab] = useState("Lobbies");
+  const [activeTab, setActiveTab] = useState("Pending Orders");
   const [activeWaiterTab, setActiveWaiterTab] = useState("Dine in");
   const [managerSidebarToggle, setManagerSidebarToggle] = useState(false);
   const [waiterSidebarLinks, setWaiterSidebarLinks] = useState([
@@ -42,6 +50,10 @@ export function CtxProvider({ children }) {
     },
     {
       title: "Waiters",
+      active: false,
+    },
+    {
+      title: "Clocking System",
       active: false,
     },
   ]);
@@ -132,6 +144,8 @@ export function CtxProvider({ children }) {
         updateAdminSidebarLinks,
         activeAdminTab,
         setAuthenticatedUser,
+        setActiveWaiterTab,
+        setWaiterSidebarLinks,
       }}
     >
       {children}

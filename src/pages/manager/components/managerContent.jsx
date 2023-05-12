@@ -7,6 +7,7 @@ import { ManagerCategory } from "./categories";
 import { Modal } from "../../../components/modal";
 import { ManagerItems } from "./items";
 import { Lobbies } from "./lobbies";
+import { ClockingSystem } from "./clockingsystem";
 export function ManagerContent() {
   const { activeTab, managerSidebarLinks, modalStatus } = useCtx();
 
@@ -28,6 +29,8 @@ export function ManagerContent() {
         return <ManagerItems />;
       case "Waiters":
         return <ManagersWaiterSection />;
+      case "Clocking System":
+        return <ClockingSystem />;
     }
   };
 
